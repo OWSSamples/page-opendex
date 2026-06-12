@@ -1,0 +1,4 @@
+interface:
+  display_name: "Opendex Elite UI"
+  short_description: "Elite UI/UX and motion design standards for Opendex."
+  default_prompt: "Apply the Opendex elite UI/UX and motion design requirements to this project."
