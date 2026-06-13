@@ -117,7 +117,7 @@ export default function Comunidad() {
             <div className="community-hologram-orbit community-hologram-orbit-a" aria-hidden />
             <div className="community-hologram-orbit community-hologram-orbit-b" aria-hidden />
             <div className="community-hologram-core">
-              <Image src="/assets/brand/opendex-mark.png" alt="" width={88} height={88} className="h-16 w-16 object-contain" aria-hidden />
+              <Image src="/logo.png" alt="" width={88} height={88} className="h-16 w-16 object-contain" aria-hidden />
               <span>Opendex</span>
             </div>
             {[

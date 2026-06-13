@@ -117,16 +117,19 @@ function writeStoredConsent(consent: ConsentState) {
 }
 
 function CookieOptionsModal({
-  initialConsent,
+  open,
   onClose,
 }: {
-  initialConsent: ConsentState;
+  open: boolean;
   onClose: () => void;
 }) {
-  const [consent, setConsent] = useState<ConsentState>(initialConsent);
+  const [consent, setConsent] = useState<ConsentState>(defaultConsent);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    if (!open) return;
+
+    setConsent(readStoredConsent());
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
@@ -137,7 +140,9 @@ function CookieOptionsModal({
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onClose]);
+  }, [open, onClose]);
+
+  if (!open) return null;
 
   const saveAndClose = (nextConsent: ConsentState) => {
     setConsent(nextConsent);
@@ -336,7 +341,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="group flex items-center gap-3">
               <img
-                src="/assets/brand/opendex-mark.png"
+                src="/logo.png"
                 alt="Opendex"
                 className="h-9 w-9 object-contain"
               />
@@ -409,7 +414,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 text-left text-[#d4d4d8] transition hover:text-white"
               >
                 <img
-                  src="/assets/utility/cookie-preferences.svg"
+                  src="/cookies.svg"
                   alt=""
                   aria-hidden
                   className="h-4 w-7 object-contain"
@@ -421,12 +426,10 @@ export default function Footer() {
         </div>
       </div>
       </footer>
-      {cookieOptionsOpen ? (
-        <CookieOptionsModal
-          initialConsent={readStoredConsent()}
-          onClose={() => setCookieOptionsOpen(false)}
-        />
-      ) : null}
+      <CookieOptionsModal
+        open={cookieOptionsOpen}
+        onClose={() => setCookieOptionsOpen(false)}
+      />
     </>
   );
 }

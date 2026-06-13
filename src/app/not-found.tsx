@@ -83,7 +83,7 @@ export default function NotFound() {
               className="absolute left-1/2 top-1/2 h-[68%] w-[76%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/36 blur-2xl"
             />
             <Image
-              src="/assets/utility/error-not-found.png"
+              src="/error-404.png"
               alt="Ilustración de página no encontrada"
               width={980}
               height={760}

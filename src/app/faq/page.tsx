@@ -384,7 +384,7 @@ export default function FaqPage() {
         .faq-trae .hero h1 .ac { color: var(--trae-accent); }
         .faq-trae .hero .sub {
           color: var(--trae-text-muted);
-          font-family: var(--font-geist-sans);
+          font-family: var(--font-geist-mono);
           font-size: 15px; line-height: 26px;
           max-width: 560px; margin: 0 auto;
         }
@@ -538,11 +538,11 @@ export default function FaqPage() {
         .faq-trae .answer {
           padding-top: 14px;
           border-top: 1px solid var(--trae-card-border);
-          font-family: var(--font-geist-sans);
+          font-family: var(--font-geist-mono);
           font-size: 15px; line-height: 28px;
           color: var(--trae-text-muted);
         }
-        .faq-trae .answer p { margin: 0 0 8px; font-family: var(--font-geist-sans); font-size: 15px; line-height: 28px; }
+        .faq-trae .answer p { margin: 0 0 8px; font-family: var(--font-geist-mono); font-size: 15px; line-height: 28px; }
         .faq-trae .answer p:last-child { margin-bottom: 0; }
         .faq-trae .answer ul { margin: 8px 0; padding-left: 20px; }
         .faq-trae .answer ul li { margin: 4px 0; }
@@ -569,7 +569,7 @@ export default function FaqPage() {
         }
         .faq-trae .empty span {
           color: var(--trae-text-muted);
-          font-family: var(--font-geist-sans);
+          font-family: var(--font-geist-mono);
           font-size: 14px;
         }
         .faq-trae .cta {
@@ -626,7 +626,7 @@ export default function FaqPage() {
         .faq-trae .cta p {
           color: var(--trae-text-muted);
           margin: 0 0 24px;
-          font-family: var(--font-geist-sans);
+          font-family: var(--font-geist-mono);
           font-size: 15px; line-height: 26px;
           max-width: 520px;
         }

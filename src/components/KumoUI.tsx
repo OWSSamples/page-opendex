@@ -12,7 +12,7 @@ type Variant = "primary" | "outline" | "secondary";
 type Size = "sm" | "base" | "lg";
 
 const buttonBase =
-  "opx-notched-btn inline-flex items-center justify-center gap-2 font-semibold transition select-none whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-iris-500/60 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition select-none whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-iris-500/60 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
 const sizeMap: Record<Size, string> = {
   sm: "h-9 px-3.5 text-[13px]",
@@ -22,11 +22,11 @@ const sizeMap: Record<Size, string> = {
 
 const variantMap: Record<Variant, string> = {
   primary:
-    "opx-notched-btn-filled",
+    "bg-gradient-to-b from-iris-600 to-iris-700 text-white shadow-lg shadow-iris-600/25 hover:from-iris-500 hover:to-iris-600 hover:shadow-iris-600/40 ring-1 ring-iris-500/40",
   outline:
-    "opx-notched-btn-outline backdrop-blur",
+    "bg-white/90 text-ink-900 ring-1 ring-ink-200 hover:bg-white hover:ring-ink-300 backdrop-blur",
   secondary:
-    "opx-notched-btn-outline bg-ink-100",
+    "bg-ink-100 text-ink-800 hover:bg-ink-200 ring-1 ring-ink-200",
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

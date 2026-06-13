@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LanguageSelector from "@/components/LanguageSelector";
-import { GlowEffect } from "@/components/ui/glow-effect";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { type CommonLabelKey } from "@/i18n/commonLabels";
 import {
@@ -155,11 +154,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      setOpen(false);
-      setActiveMenu(null);
-    }, 0);
-    return () => window.clearTimeout(id);
+    setOpen(false);
+    setActiveMenu(null);
   }, [pathname]);
 
   const isActive = (href?: string) => {
@@ -170,81 +166,77 @@ export default function Navbar() {
   const openMenu = (label: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     if (label && previousMenu.current && previousMenu.current !== label) {
-      setMenuVersion((v) => v + 1);
+      setMenuVersion((version) => version + 1);
     }
     if (label) previousMenu.current = label;
     setActiveMenu(label);
   };
-
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setActiveMenu(null), 120);
   };
 
   return (
-    <header className="opx-site-header sticky top-0 z-50">
-
-      {/* ══════════ UTILITY BAR ══════════ */}
-      <div className="opx-utility-bar relative bg-[#0b0b0e] text-[#a1a1aa]">
-        {/* Hairline gradiente en el borde inferior */}
+    <header className="sticky top-0 z-50">
+      {/* ============== TOP UTILITY BAR (Auth0 style — dark) ============== */}
+      <div className="relative bg-[#0b0b0e] text-[#d4d4d8]">
+        {/* gradient hairline */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(122,162,247,0.4) 25%, rgba(246,130,31,0.55) 50%, rgba(139,92,246,0.4) 75%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgba(122,162,247,0.5) 20%, rgba(246,130,31,0.6) 50%, rgba(139,92,246,0.5) 80%, transparent 100%)",
           }}
         />
-        <div className="opx-utility-inner mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-5 py-1.5 text-[12px] md:px-8">
-          {/* Izquierda: anuncio + contacto */}
-          <div className="flex items-center gap-3">
-            <span className="hidden font-medium sm:inline leading-none">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-5 py-2.5 text-[13px] md:px-8">
+          <div className="flex items-center gap-4">
+            <span className="hidden font-medium text-white sm:inline">
               {localeCopy.announcement}
             </span>
             <Link
               href="/contacto"
-              className="group inline-flex items-center gap-1 underline decoration-current/45 decoration-1 underline-offset-4 transition-opacity duration-150 hover:opacity-85"
+              className="group inline-flex items-center gap-1.5 text-[#d4d4d8] underline decoration-[#52525b] decoration-1 underline-offset-[5px] transition hover:text-white hover:decoration-white"
             >
               {localeCopy.contact}
-              <ArrowRight className="h-2.5 w-2.5 transition-transform duration-150 group-hover:translate-x-0.5" aria-hidden />
+              <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" aria-hidden />
             </Link>
           </div>
-          {/* Derecha: solo idioma */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-5">
+            <Link
+              href="/login"
+              className="text-[#d4d4d8] transition hover:text-white"
+            >
+              {localeCopy.login}
+            </Link>
             <LanguageSelector variant="dark" />
           </div>
         </div>
       </div>
 
-      {/* ══════════ MAIN NAV ══════════ */}
+      {/* ============== MAIN NAV ============== */}
       <div
-        className={`bg-[#fafaf9] transition-shadow duration-300 ${
-          scrolled ? "shadow-[0_4px_20px_-8px_rgba(29,29,27,0.18)]" : ""
+        className={`bg-[#faf8f4] transition-shadow duration-300 ${
+          scrolled
+            ? "shadow-[0_6px_24px_-18px_rgba(29,29,27,0.25)]"
+            : ""
         }`}
         onMouseLeave={scheduleClose}
       >
-        <div className="mx-auto flex h-[60px] max-w-[1200px] items-center gap-6 px-5 md:px-8">
-
+        <div className="mx-auto flex h-[68px] max-w-[1200px] items-center gap-8 px-5 md:px-8">
           {/* Logo */}
-          <Link
-            href="/"
-            aria-label="Ir al inicio"
-            className="group flex shrink-0 items-center gap-2.5 transition-opacity duration-150 hover:opacity-70"
-          >
+          <Link href="/" aria-label="Ir al inicio" className="group flex shrink-0 items-center">
             <img
-              src="/assets/brand/opendex-mark.png"
+              src="/logo.png"
               alt="Opendex"
-              className="h-7 w-7 object-contain"
+              className="h-8 w-8 object-contain"
             />
           </Link>
 
-          {/* Nav desktop */}
-          <nav className="hidden flex-1 items-center gap-0.5 md:flex">
+          {/* Desktop nav */}
+          <nav className="hidden flex-1 items-center gap-1 md:flex">
             {flatNav.map((item) => {
-              const itemLabel = navLabelMap[item.label]
-                ? t(navLabelMap[item.label])
-                : item.label;
-
+              const itemLabel = navLabelMap[item.label] ? t(navLabelMap[item.label]) : item.label;
               if ("hasMenu" in item) {
                 const sections = menus[item.label] ?? [];
                 const isOpen = activeMenu === item.label;
@@ -257,110 +249,97 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => openMenu(isOpen ? "" : item.label)}
-                      aria-expanded={isOpen}
-                      className={`inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-[13.5px] font-medium transition-colors duration-150 ${
+                      className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-[14.5px] font-medium transition ${
                         isOpen
-                          ? "bg-[#f1f0ed] text-[#1a1a18]"
-                          : "text-[#52524e] hover:bg-[#f1f0ed] hover:text-[#1a1a18]"
+                          ? "text-[#1d1d1b]"
+                          : "text-[#3d3d3a] hover:text-[#1d1d1b]"
                       }`}
+                      aria-expanded={isOpen}
                     >
                       {itemLabel}
                       <ChevronDown
-                        className={`h-3 w-3 opacity-50 transition-transform duration-200 ${
+                        className={`h-3.5 w-3.5 opacity-70 transition ${
                           isOpen ? "rotate-180" : ""
                         }`}
                         aria-hidden
                       />
                     </button>
-
-                    {/* Dropdown */}
                     {isOpen && (
                       <div
                         className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
                         onMouseEnter={() => openMenu(item.label)}
                         onMouseLeave={scheduleClose}
                       >
-                        {/* Bridge invisible para no perder el hover */}
-                        <div className="absolute -top-3 left-0 right-0 h-3" />
-
-                        <div className="w-[600px] overflow-hidden rounded-[18px] border border-[#e8e6e0] bg-white shadow-[0_20px_60px_-20px_rgba(29,29,27,0.22),0_0_0_1px_rgba(29,29,27,0.04),inset_0_1px_0_#fff]">
-                          {/* Glow naranja sutil en la parte alta */}
-                          <div
-                            aria-hidden
-                            className="pointer-events-none absolute inset-x-0 top-0 h-20 rounded-t-[18px]"
-                            style={{
-                              background:
-                                "radial-gradient(ellipse at 50% -10%, rgba(246,130,31,0.07) 0%, transparent 65%)",
-                            }}
-                          />
-
-                          <div
-                            key={`${item.label}-${menuVersion}`}
-                            className="relative grid gap-0 p-2 md:grid-cols-2"
-                          >
-                            {sections.map((section, sIdx) => (
-                              <div
-                                key={section.title}
-                                className={`p-1.5 ${sIdx > 0 ? "md:border-l md:border-[#ede9e2]" : ""}`}
-                              >
-                                {/* Título de sección */}
-                                <div className="mb-1.5 flex items-center gap-2 px-2.5 pt-0.5">
-                                  <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#b0ada6]">
+                        <div className="cf-dropdown-menu w-[620px] overflow-hidden rounded-[16px] border border-white/60 bg-white/95 backdrop-blur-2xl shadow-[0_32px_90px_-44px_rgba(29,29,27,0.28),0_0_0_1px_rgba(246,130,31,0.08),inset_0_1px_0_rgba(255,255,255,0.9)]">
+                          {/* Ambient glow top */}
+                          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#fff3e0]/38 to-transparent" />
+                          <div key={`dust-${menuVersion}`} className="cf-dropdown-dust" aria-hidden />
+                          
+                          <div key={`${item.label}-${menuVersion}`} className="cf-dropdown-content relative grid gap-2 p-2.5 md:grid-cols-2">
+                            {sections.map((section, sectionIdx) => (
+                              <div key={section.title} className={sectionIdx > 0 ? "md:border-l md:border-[#e7e4dc] md:pl-2.5" : ""}>
+                                <div className="mb-2 flex items-center gap-2 px-2.5">
+                                  <span className="h-px flex-1 bg-gradient-to-r from-[#f6821f]/20 to-transparent" />
+                                  <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#9a9a93]">
                                     {section.title}
                                   </span>
-                                  <span className="h-px flex-1 bg-[#ede9e2]" />
+                                  <span className="h-px flex-1 bg-gradient-to-l from-[#f6821f]/20 to-transparent" />
                                 </div>
-
-                                <div className="space-y-px">
+                                <div className="space-y-0.5">
                                   {section.items.map((sub) => (
                                     <Link
                                       key={sub.href}
                                       href={sub.href}
-                                      className="group/sub flex items-center gap-3 rounded-xl p-2.5 transition-colors duration-150 hover:bg-[#faf8f4]"
+                                      className="cf-menu-item group/sub relative flex items-start gap-3 rounded-[12px] p-2.5 transition-all duration-200"
                                     >
-                                      {/* Ícono */}
-                                      {sub.Icon && (
-                                        <span
-                                          className="grid h-8 w-8 shrink-0 place-items-center rounded-[10px] border transition-all duration-150 group-hover/sub:scale-[1.04]"
-                                          style={{
-                                            color: sub.color ?? "#f6821f",
-                                            background: `${sub.color ?? "#f6821f"}10`,
-                                            borderColor: `${sub.color ?? "#f6821f"}22`,
-                                          }}
-                                        >
-                                          <sub.Icon className="h-3.5 w-3.5" aria-hidden />
-                                        </span>
-                                      )}
-
-                                      {/* Texto */}
-                                      <div className="min-w-0 flex-1">
+                                      {/* Hover gradient background */}
+                                      <div className="pointer-events-none absolute inset-0 rounded-[12px] bg-gradient-to-br from-[#faf8f4] via-white to-[#fffcf8] opacity-0 transition-opacity duration-200 group-hover/sub:opacity-100" />
+                                      
+                                      {/* Hover border glow */}
+                                      <div className="pointer-events-none absolute inset-0 rounded-[12px] opacity-0 shadow-[inset_0_0_0_1px_rgba(246,130,31,0.15)] transition-opacity duration-200 group-hover/sub:opacity-100" />
+                                      
+                                      {sub.Icon ? (
+                                        <div className="relative z-10 mt-0.5">
+                                          <div className="absolute inset-0 rounded-[11px] bg-gradient-to-br opacity-0 blur-md transition-opacity duration-200 group-hover/sub:opacity-55"
+                                               style={{ backgroundColor: sub.color ?? "#f6821f" }} />
+                                          <span
+                                            className="relative grid h-9 w-9 shrink-0 place-items-center rounded-[11px] border transition-all duration-200 group-hover/sub:scale-105 group-hover/sub:shadow-md"
+                                            style={{
+                                              color: sub.color ?? "#f6821f",
+                                              background: `linear-gradient(135deg, ${sub.color ?? "#f6821f"}12 0%, ${sub.color ?? "#f6821f"}06 100%)`,
+                                              borderColor: `${sub.color ?? "#f6821f"}30`,
+                                              boxShadow: `0 2px 8px ${sub.color ?? "#f6821f"}15`,
+                                            }}
+                                          >
+                                            <sub.Icon className="h-4 w-4 transition-transform duration-200 group-hover/sub:scale-105" aria-hidden />
+                                          </span>
+                                        </div>
+                                      ) : null}
+                                      
+                                      <div className="relative z-10 min-w-0 flex-1">
                                         <div className="flex items-center gap-2">
-                                          <span className="text-[13px] font-semibold text-[#1a1a18] transition-colors duration-150 group-hover/sub:text-[#f6821f]">
+                                          <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#1d1d1b] transition-colors duration-200 group-hover/sub:text-[#f6821f]">
                                             {sub.label}
                                           </span>
-                                          {sub.badge && (
-                                            <span
-                                              className="rounded-full px-1.5 py-px text-[8px] font-bold uppercase tracking-[0.06em]"
-                                              style={{
-                                                color: sub.color ?? "#f6821f",
-                                                background: `${sub.color ?? "#f6821f"}12`,
-                                                border: `1px solid ${sub.color ?? "#f6821f"}28`,
-                                              }}
-                                            >
+                                          {sub.badge ? (
+                                            <span className="rounded-full border bg-white px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.06em] shadow-sm transition-all duration-200 group-hover/sub:border-[#f6821f]/30 group-hover/sub:bg-[#fff3e0]"
+                                                  style={{ 
+                                                    borderColor: `${sub.color ?? "#f6821f"}25`,
+                                                    color: sub.color ?? "#6b6b66" 
+                                                  }}>
                                               {sub.badge}
                                             </span>
-                                          )}
+                                          ) : null}
                                         </div>
-                                        {sub.desc && (
-                                          <p className="mt-0.5 text-[11px] leading-snug text-[#9a9890] transition-colors duration-150 group-hover/sub:text-[#6b6862]">
+                                        {sub.desc ? (
+                                          <p className="mt-1 text-[11.5px] leading-[1.4] text-[#6b6b66] transition-colors duration-200 group-hover/sub:text-[#4a4a47]">
                                             {sub.desc}
                                           </p>
-                                        )}
+                                        ) : null}
                                       </div>
-
-                                      {/* Flecha */}
+                                      
                                       <ArrowRight
-                                        className="h-3 w-3 shrink-0 opacity-0 transition-all duration-150 group-hover/sub:translate-x-0.5 group-hover/sub:opacity-100"
+                                        className="relative z-10 mt-2.5 h-3.5 w-3.5 shrink-0 text-[#9a9a93] opacity-0 transition-all duration-200 group-hover/sub:translate-x-1 group-hover/sub:opacity-100"
                                         style={{ color: sub.color ?? "#f6821f" }}
                                         aria-hidden
                                       />
@@ -370,33 +349,28 @@ export default function Navbar() {
                               </div>
                             ))}
                           </div>
-
-                          {/* Footer strip */}
-                          <div className="flex items-center justify-between border-t border-[#ede9e2] bg-[#faf8f4] px-4 py-2.5">
-                            <p className="text-[11px] text-[#9a9890]">
-                              {item.label === "Producto"
-                                ? "Consulta disponibilidad antes de planear una integración."
-                                : item.label === "Desarrolladores"
-                                  ? "Revisa contratos y habla con el equipo técnico."
-                                  : "Explora rutas y resuelve dudas con contexto."}
-                            </p>
-                            <Link
-                              href={
-                                item.label === "Producto"
-                                  ? "/status"
-                                  : item.label === "Desarrolladores"
-                                    ? "/documentacion"
-                                    : "/contacto"
-                              }
-                              className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#1a1a18] px-3 py-1.5 text-[11.5px] font-semibold text-white transition-colors duration-150 hover:bg-[#2e2e2b]"
-                            >
-                              {item.label === "Producto"
-                                ? t("viewStatus", "Ver status")
-                                : item.label === "Desarrolladores"
-                                  ? t("viewDocs", "Ir a docs")
-                                  : t("contactUs", "Contactar")}
-                              <ArrowRight className="h-2.5 w-2.5" aria-hidden />
-                            </Link>
+                          <div className="relative border-t border-[#e7e4dc] bg-[#faf8f4]/80 px-4 py-3">
+                            <div className="flex items-center justify-between gap-4">
+                              <div>
+                                <div className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#9a9a93]">
+                                  {item.label === "Producto" ? "Estado real" : item.label === "Desarrolladores" ? "Builders" : item.label}
+                                </div>
+                                <p className="mt-0.5 text-[11.5px] text-[#6b6b66]">
+                                  {item.label === "Producto"
+                                    ? "Consulta disponibilidad antes de planear una integración."
+                                    : item.label === "Desarrolladores"
+                                      ? "Revisa contratos y habla con el equipo técnico."
+                                      : "Explora rutas relacionadas y resuelve dudas con contexto."}
+                                </p>
+                              </div>
+                              <Link
+                                href={item.label === "Producto" ? "/status" : item.label === "Desarrolladores" ? "/documentacion" : "/contacto"}
+                                className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#1d1d1b] px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-black"
+                              >
+                                {item.label === "Producto" ? t("viewStatus", "Ver status") : item.label === "Desarrolladores" ? t("viewDocs", "Ir a docs") : t("contactUs", "Contactar")}
+                                <ArrowRight className="h-3 w-3" aria-hidden />
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -404,15 +378,14 @@ export default function Navbar() {
                   </div>
                 );
               }
-
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`rounded-md px-3 py-1.5 text-[13.5px] font-medium transition-colors duration-150 ${
+                  className={`rounded-md px-3 py-2 text-[14.5px] font-medium transition ${
                     isActive(item.href)
-                      ? "text-[#1a1a18]"
-                      : "text-[#52524e] hover:bg-[#f1f0ed] hover:text-[#1a1a18]"
+                      ? "text-[#1d1d1b]"
+                      : "text-[#3d3d3a] hover:text-[#1d1d1b]"
                   }`}
                 >
                   {itemLabel}
@@ -421,85 +394,60 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* CTAs derecha */}
-          <div className="ml-auto flex shrink-0 items-center gap-2">
-            {/* Register — outlined */}
-            <Link
-              href="/contacto"
-              className="hidden h-8 items-center justify-center rounded-md border border-[#d4d1ca] px-4 text-[13px] font-medium text-[#1a1a18] transition-all duration-150 hover:border-[#1a1a18] hover:bg-[#f1f0ed] md:inline-flex"
-            >
+          {/* Right CTAs */}
+          <div className="ml-auto flex shrink-0 items-center gap-2.5">
+              <Link
+                href="/contacto"
+                className="hidden h-10 items-center justify-center rounded-md border border-[#1d1d1b] bg-transparent px-4 text-[14px] font-medium text-[#1d1d1b] transition hover:bg-[#1d1d1b] hover:text-white md:inline-flex"
+              >
               {t("register")}
-            </Link>
-
-            {/* Sign In — filled con GlowEffect */}
-            <div className="relative hidden md:block">
-              <GlowEffect
-                colors={['#f6821f', '#ff500a', '#ffb347', '#f6821f']}
-                mode="colorShift"
-                blur="soft"
-                duration={3}
-                scale={0.9}
-              />
+              </Link>
               <Link
                 href="/login"
-                className="relative inline-flex h-8 items-center justify-center rounded-md bg-[#1a1a18] px-4 text-[13px] font-medium text-white outline outline-1 outline-white/10 transition-opacity duration-150 hover:opacity-90"
+                className="hidden h-10 items-center justify-center rounded-md bg-[#1d1d1b] px-4 text-[14px] font-medium text-white transition hover:bg-black md:inline-flex"
               >
-                {t("connect")}
+              {t("connect")}
               </Link>
-            </div>
-
-            {/* Hamburger */}
             <button
               type="button"
               aria-label="Menú"
-              onClick={() => setOpen((v) => !v)}
-              className="grid h-8 w-8 place-items-center rounded-md border border-[#ddd9d2] bg-white text-[#52524e] transition-colors duration-150 hover:bg-[#f1f0ed] hover:text-[#1a1a18] md:hidden"
+              onClick={() => setOpen((value) => !value)}
+              className="grid h-10 w-10 place-items-center rounded-md border border-[#e7e4dc] bg-white text-[#1d1d1b] transition hover:bg-[#faf8f4] md:hidden"
             >
-              {open ? <X className="h-3.5 w-3.5" /> : <Menu className="h-3.5 w-3.5" />}
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
           </div>
         </div>
 
-        {/* Hairline divisor inferior */}
-        <div className="mx-auto h-px max-w-[1200px] bg-[#e8e6e0]" />
+        {/* hairline divider */}
+        <div className="mx-auto h-px max-w-[1200px] bg-[#e7e4dc]" />
       </div>
 
-      {/* ══════════ MOBILE PANEL ══════════ */}
+      {/* ============== MOBILE PANEL ============== */}
       {open && (
-        <div className="border-b border-[#e8e6e0] bg-[#fafaf9] md:hidden">
-          <nav className="mx-auto flex max-w-[1200px] flex-col gap-1 px-5 py-4">
+        <div className="border-b border-[#e7e4dc] bg-[#faf8f4] md:hidden">
+          <nav className="mx-auto flex max-w-[1200px] flex-col gap-1 px-5 py-5">
             {flatNav.map((item) => {
               if ("hasMenu" in item) {
                 const sections = menus[item.label] ?? [];
                 return (
-                  <div
-                    key={item.label}
-                    className="rounded-xl border border-[#e8e6e0] bg-white p-3"
-                  >
-                    <div className="px-1 pb-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#b0ada6]">
+                  <div key={item.label} className="rounded-lg border border-[#e7e4dc] bg-white/70 p-3">
+                    <div className="px-1 pb-2 text-[13px] font-semibold text-[#1d1d1b]">
                       {item.label}
                     </div>
-                    <div className="space-y-px">
-                      {sections
-                        .flatMap((s) => s.items)
-                        .slice(0, 6)
-                        .map((sub) => (
-                          <Link
-                            key={`${item.label}-${sub.href}-${sub.label}`}
-                            href={sub.href}
-                            className="flex items-center justify-between rounded-lg px-2.5 py-2 text-[13.5px] text-[#52524e] transition-colors duration-150 hover:bg-[#faf8f4] hover:text-[#1a1a18]"
-                          >
-                            <span>{sub.label}</span>
-                            {sub.badge && (
-                              <span
-                                className="text-[10px] font-bold uppercase"
-                                style={{ color: sub.color ?? "#f6821f" }}
-                              >
-                                {sub.badge}
-                              </span>
-                            )}
-                          </Link>
-                        ))}
+                    <div className="grid gap-1">
+                      {sections.flatMap((section) => section.items).slice(0, 6).map((sub) => (
+                        <Link
+                          key={`${item.label}-${sub.href}-${sub.label}`}
+                          href={sub.href}
+                          className="flex items-center justify-between rounded-md px-2.5 py-2 text-[14px] text-[#4a4a47] hover:bg-[#faf8f4] hover:text-[#1d1d1b]"
+                        >
+                          <span>{sub.label}</span>
+                          {sub.badge ? (
+                            <span className="text-[10px] font-semibold uppercase text-[#f6821f]">{sub.badge}</span>
+                          ) : null}
+                        </Link>
+                      ))}
                     </div>
                   </div>
                 );
@@ -508,35 +456,32 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="rounded-xl px-3 py-2.5 text-[14px] font-medium text-[#52524e] transition-colors duration-150 hover:bg-[#f1f0ed] hover:text-[#1a1a18]"
+                  className="rounded-lg px-3 py-2.5 text-[15px] font-medium text-[#3d3d3a] hover:bg-white hover:text-[#1d1d1b]"
                 >
                   {item.label}
                 </Link>
               );
             })}
-
-            <div className="my-2 h-px bg-[#e8e6e0]" />
-
+            <div className="my-3 h-px bg-[#e7e4dc]" />
             <div className="flex gap-2">
               <Link
                 href="/contacto"
-                className="flex h-10 flex-1 items-center justify-center rounded-xl border border-[#d4d1ca] text-[13.5px] font-medium text-[#1a1a18]"
+                className="flex h-11 flex-1 items-center justify-center rounded-md border border-[#1d1d1b] text-[14px] font-medium text-[#1d1d1b]"
               >
                 {t("register")}
               </Link>
               <Link
                 href="/login"
-                className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#1a1a18] text-[13.5px] font-medium text-white"
+                className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-md bg-[#1d1d1b] text-[14px] font-medium text-white"
               >
                 {t("connect")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             </div>
-
             <Link
               href="/empresa"
-              className="mt-3 inline-flex items-center gap-2 px-2 text-[12px] text-[#9a9890]"
+              className="mt-4 inline-flex items-center gap-2 px-3 text-[13px] text-[#6b6b66]"
             >
-              <Sparkles className="h-3 w-3 text-[#f6821f]" aria-hidden />
+              <Sparkles className="h-3.5 w-3.5 text-[#f6821f]" aria-hidden />
               Roadmap de Opendex Web Services
             </Link>
           </nav>

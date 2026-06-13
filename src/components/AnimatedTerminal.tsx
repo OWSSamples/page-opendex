@@ -36,11 +36,15 @@ const metrics = [
 ];
 
 function useTypedText(text: string, enabled: boolean) {
-  const [visible, setVisible] = useState("");
+  const [visible, setVisible] = useState(enabled ? "" : text);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      setVisible(text);
+      return;
+    }
 
+    setVisible("");
     let index = 0;
     const interval = window.setInterval(() => {
       index += 1;
@@ -51,8 +55,7 @@ function useTypedText(text: string, enabled: boolean) {
     return () => window.clearInterval(interval);
   }, [enabled, text]);
 
-  if (!enabled) return text;
-  return text.startsWith(visible) ? visible : "";
+  return visible;
 }
 
 export default function AnimatedTerminal() {
