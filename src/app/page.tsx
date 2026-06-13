@@ -35,7 +35,7 @@ import {
 import AnimatedTerminal from "../components/AnimatedTerminal";
 import BlueprintCapabilityMap from "../components/BlueprintCapabilityMap";
 import TechCard from "../components/TechCard";
-import DataCenterBlueprint from "../components/DataCenterBlueprint";
+import DataCenterBlueprint from "../components/DataCenterBlueprintClient";
 import OpendexEcosystem3D from "../components/three/OpendexEcosystem3DClient";
 import LocalizedLabel from "@/components/LocalizedLabel";
 
