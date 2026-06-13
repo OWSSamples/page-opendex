@@ -16,9 +16,9 @@
     "@react-three/fiber": "^9.6.1",
     "framer-motion": "^12.40.0",
     "gsap": "^3.15.0",
-    "next": "^16.2.7",
-    "react": "19",
-    "react-dom": "19",
+    "next": "16.2.7",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
     "three": "^0.184.0"
   },
   "devDependencies": {
@@ -27,7 +27,7 @@
     "@types/react": "19.2.15",
     "@types/three": "^0.184.1",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.7",
+    "eslint-config-next": "16.2.7",
     "postcss": "^8.4.24",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.4.5"
