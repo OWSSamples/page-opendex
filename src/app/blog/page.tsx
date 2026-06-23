@@ -115,7 +115,7 @@ export default function Blog() {
               <span className="blog-paper blog-paper-a" />
               <span className="blog-paper blog-paper-b" />
               <span className="blog-paper blog-paper-c" />
-              <BookOpen className="absolute left-8 top-8 h-8 w-8 text-[#f6821f]" aria-hidden />
+              <BookOpen className="absolute left-8 top-8 h-8 w-8 text-[#5B21B6]" aria-hidden />
             </div>
             <div className="p-7 sm:p-9">
               <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-iris-700">
@@ -178,7 +178,7 @@ export default function Blog() {
             {articles.map(({ Icon, category, title, desc, meta }) => (
               <article key={title} className="blog-article-card card min-h-[330px] p-6">
                 <div className="blog-article-visual" aria-hidden>
-                  <Icon className="absolute left-5 top-5 h-6 w-6 text-[#f6821f]" aria-hidden />
+                  <Icon className="absolute left-5 top-5 h-6 w-6 text-[#5B21B6]" aria-hidden />
                   <span>{category}</span>
                 </div>
                 <div className="mt-6 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-iris-700">

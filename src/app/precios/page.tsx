@@ -1,88 +1,100 @@
-import Link from "next/link";
-import { ArrowRight, Fingerprint, Receipt, Store, ShieldCheck } from "@/components/icons";
-import LocalizedPageHeader from "@/components/LocalizedPageHeader";
-import LocalizedLabel from "@/components/LocalizedLabel";
+import CorporateButton from "@/components/ui/corporate/Button";
+import CorporateCard from "@/components/ui/corporate/Card";
+import CorporateSection from "@/components/ui/corporate/Section";
+import CorporateContainer from "@/components/ui/corporate/Container";
+import { ArrowRight } from "@/components/icons";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata = { title: "Precios" };
+export const metadata = createMetadata({
+  title: "Precios de Opendex",
+  description:
+    "Modelo comercial en preparacion por producto, basado en disponibilidad real, volumen, soporte y alcance confirmado.",
+  path: "/precios",
+  keywords: ["precios SaaS", "cotizacion software", "planes empresariales"],
+});
 
-const models = [
+const pricingInfo = [
   {
     title: "Identity Platform",
-    state: "Criterio por usuarios activos",
-    desc: "Se evaluara por volumen de usuarios, conexiones SSO, retencion de auditoria y soporte requerido.",
-    Icon: Fingerprint,
+    description: "Autenticación con passkeys, SSO y MFA. Escalable para miles de usuarios.",
   },
   {
     title: "Factur Workspaces",
-    state: "Criterio por operacion fiscal",
-    desc: "El modelo se definira alrededor de documentos, validaciones, volumen operativo y soporte administrativo.",
-    Icon: Receipt,
+    description: "Facturación CFDI 4.0 automatizada. Timbrado, cancelación y contabilidad integrada.",
   },
   {
     title: "Kiosko Workspaces",
-    state: "Criterio por sucursal",
-    desc: "La evaluacion considera terminales, sucursales, inventario, usuarios operativos y reportes.",
-    Icon: Store,
+    description: "Punto de venta moderno con inventario, pagos y reportes en tiempo real.",
   },
 ];
 
-const principles = [
-  "No publicar planes finales antes de disponibilidad real.",
-  "Separar producto, soporte, volumen y compromisos enterprise.",
-  "Evitar descuentos o beneficios que no existan como programa publico.",
-  "Actualizar precios solo cuando cada producto tenga alcance confirmado.",
+const commercialPrinciples = [
+  "Sin planes publicados antes de disponibilidad real",
+  "Separación clara entre producto, soporte y volumen",
+  "Precios basados en métricas reales, no en promesas",
+  "Actualización transparente cuando el producto está listo",
 ];
 
 export default function Precios() {
   return (
     <>
-      <LocalizedPageHeader pageKey="pricing">
-        <Link href="/contacto" className="btn btn-primary">
-          <LocalizedLabel labelKey="requestInfo" /> <ArrowRight className="h-4 w-4" aria-hidden />
-        </Link>
-      </LocalizedPageHeader>
+      {/* HEADER */}
+      <CorporateSection light maxWidth="xl">
+        <CorporateContainer narrow>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-6">Precios</h1>
+            <p className="text-lg text-gray-600 mb-8">
+              Cada producto tiene su propio modelo basado en métricas reales.
+            </p>
+            <CorporateButton
+              href="/contacto"
+              variant="primary"
+              icon={<ArrowRight className="h-5 w-5" />}
+              iconPosition="end"
+            >
+              Solicitar información
+            </CorporateButton>
+          </div>
+        </CorporateContainer>
+      </CorporateSection>
 
-      <section className="border-b border-[#e7e4dc] bg-[#faf8f4]">
-        <div className="mx-auto max-w-[1200px] px-5 py-20 md:px-8">
-          <div className="grid gap-px border border-[#e7e4dc] bg-[#e7e4dc] lg:grid-cols-3">
-            {models.map(({ title, state, desc, Icon }) => (
-              <article key={title} className="bg-white p-7">
-                <span className="grid h-11 w-11 place-items-center border border-[#e7e4dc] bg-[#faf8f4]">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
-                <h2 className="mt-6 text-[20px] font-semibold text-[#1d1d1b]">{title}</h2>
-                <div className="mt-2 text-[13px] font-semibold text-[#f6821f]">{state}</div>
-                <p className="mt-3 text-[14px] leading-6 text-[#4a4a47]">{desc}</p>
-              </article>
+      {/* PRODUCTS */}
+      <CorporateSection maxWidth="xl">
+        <CorporateContainer>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pricingInfo.map((item, index) => (
+              <CorporateCard
+                key={index}
+                title={item.title}
+                subtitle={item.description}
+                className="border-gray-200"
+                hover
+              />
             ))}
           </div>
-        </div>
-      </section>
+        </CorporateContainer>
+      </CorporateSection>
 
-      <section className="bg-white">
-        <div className="mx-auto max-w-[900px] px-5 py-20 md:px-8">
-          <div className="flex items-start gap-4 border border-[#e7e4dc] bg-[#faf8f4] p-7">
-            <span className="grid h-10 w-10 shrink-0 place-items-center border border-[#e7e4dc] bg-white">
-              <ShieldCheck className="h-5 w-5" aria-hidden />
-            </span>
-            <div>
-              <h2 className="text-[24px] font-semibold text-[#1d1d1b]">Principios comerciales</h2>
-              <p className="mt-3 text-[15px] leading-7 text-[#4a4a47]">
-                La funcion actual de esta pagina es dar contexto, no simular una
-                tienda de planes. Cada producto tendra precios cuando alcance un
-                nivel de disponibilidad y soporte suficiente.
+      {/* PRINCIPLES */}
+      <CorporateSection light maxWidth="lg">
+        <CorporateContainer narrow>
+          <CorporateCard className="border-gray-200" hover={false}>
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Principios comerciales</h3>
+              <p className="text-gray-600">
+                La transparencia es clave. Cada precio se basa en métricas reales y disponibilidad confirmada.
               </p>
-              <ul className="mt-6 grid gap-3">
-                {principles.map((item) => (
-                  <li key={item} className="border-t border-[#e7e4dc] pt-3 text-[14px] text-[#3d3d3a]">
-                    {item}
+              <ul className="space-y-3 mt-6">
+                {commercialPrinciples.map((principle, index) => (
+                  <li key={index} className="border-t border-gray-200 pt-3 text-gray-700">
+                    {principle}
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
+          </CorporateCard>
+        </CorporateContainer>
+      </CorporateSection>
     </>
   );
 }

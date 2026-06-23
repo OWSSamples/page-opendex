@@ -16,7 +16,6 @@ export default function LanguageSelector({
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const activeLanguage = languages.find((language) => language.code === locale) ?? languages[0];
-  const isDark = variant === "dark";
 
   useEffect(() => {
     const onPointerDown = (event: PointerEvent) => {
@@ -40,32 +39,26 @@ export default function LanguageSelector({
   };
 
   return (
-    <div ref={rootRef} className={`relative ${className}`}>
+    <div ref={rootRef} className={`opx-language-selector ${className}`} data-tone={variant}>
       <button
         type="button"
         aria-label={dictionary.language.aria}
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={() => setOpen((current) => !current)}
-        className={
-          isDark
-            ? "inline-flex min-h-10 items-center gap-2 rounded-md border border-white/10 bg-white/[0.02] px-3 text-[13px] text-[#d4d4d8] transition hover:border-white/25 hover:bg-white/[0.05] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0b0e]"
-            : "inline-flex min-h-10 items-center gap-2 rounded-md border border-[#e7e4dc] bg-white px-3 text-[13px] text-[#3d3d3a] transition hover:border-[#d8d4c8] hover:bg-[#fffaf3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f] focus-visible:ring-offset-2"
-        }
+        className="opx-language-trigger"
       >
-        <Globe className="h-3.5 w-3.5" aria-hidden />
-        <span>{activeLanguage.nativeLabel}</span>
-        <ChevronDown className={`h-3 w-3 opacity-60 transition ${open ? "rotate-180" : ""}`} aria-hidden />
+        <Globe className="opx-language-icon" aria-hidden />
+        <span className="opx-language-label">{activeLanguage.nativeLabel}</span>
+        <span className="opx-language-code">{activeLanguage.code}</span>
+        <ChevronDown className="opx-language-chevron" data-open={open ? "true" : undefined} aria-hidden />
       </button>
 
       {open ? (
         <div
           role="menu"
-          className={
-            isDark
-              ? "absolute left-0 z-50 mt-2 w-60 overflow-hidden rounded-lg border border-white/10 bg-[#111114] p-1.5 shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-              : "absolute right-0 z-50 mt-2 w-60 overflow-hidden rounded-lg border border-[#e7e4dc] bg-white p-1.5 shadow-[0_24px_70px_-36px_rgba(29,29,27,0.45)]"
-          }
+          aria-label={dictionary.language.aria}
+          className="opx-language-menu"
         >
           {languages.map((language) => {
             const selected = language.code === locale;
@@ -76,24 +69,21 @@ export default function LanguageSelector({
                 role="menuitemradio"
                 aria-checked={selected}
                 onClick={() => chooseLocale(language.code)}
-                className={
-                  isDark
-                    ? "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-[13px] text-[#d4d4d8] transition hover:bg-white/[0.06] hover:text-white"
-                    : "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-[13px] text-[#3d3d3a] transition hover:bg-[#fffaf3]"
-                }
+                className="opx-language-option"
+                data-selected={selected ? "true" : undefined}
               >
-                <span className="grid h-5 w-5 place-items-center">
-                  {selected ? <Check className="h-3.5 w-3.5 text-[#f6821f]" aria-hidden /> : null}
+                <span className="opx-language-check">
+                  {selected ? <Check className="h-3.5 w-3.5" aria-hidden /> : null}
                 </span>
-                <span className="min-w-0 flex-1">
-                  <span className={isDark ? "block font-semibold text-white" : "block font-semibold text-[#1d1d1b]"}>
+                <span className="opx-language-option-copy">
+                  <span className="opx-language-option-title">
                     {language.nativeLabel}
                   </span>
-                  <span className={isDark ? "block text-[11.5px] text-[#8f8f94]" : "block text-[11.5px] text-[#9a9a93]"}>
+                  <span className="opx-language-option-meta">
                     {selected ? dictionary.language.current : language.label}
                   </span>
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] opacity-50">
+                <span className="opx-language-option-code">
                   {language.code}
                 </span>
               </button>

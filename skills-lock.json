@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "ux-ui-premium-direction-style-selector": {
+      "source": "Luispitik/ux-ui-premium-direction-style-selector",
+      "sourceType": "github",
+      "skillPath": "ux-ui-premium-direction-style-selector/SKILL.md",
+      "computedHash": "4f0bfd6155a22189bf997dfd12e00bb5024e57cbf54ddfd9f2253ffc4e285faf"
+    }
+  }
+}

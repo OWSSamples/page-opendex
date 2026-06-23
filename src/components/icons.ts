@@ -96,6 +96,7 @@ export const MessageCircle = PeopleRegular;
 export const Minus = SubtractRegular;
 export const Network = FlowRegular;
 export const Package = BoxRegular;
+export const Phone = HeadsetRegular;
 export const Plus = AddRegular;
 export const RadioTower = PulseRegular;
 export const Receipt = ReceiptRegular;

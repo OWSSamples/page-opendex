@@ -24,7 +24,7 @@ export default function Status() {
                   <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden />
                   {name}
                 </div>
-                <div className="text-[14px] text-[#f6821f]">{state}</div>
+                <div className="text-[14px] text-[#5B21B6]">{state}</div>
                 <div className="text-[14px] text-[#4a4a47]">{note}</div>
               </div>
             ))}

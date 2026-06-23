@@ -13,8 +13,16 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import { Reveal } from "@/components/Motion";
 import AuthFlow3D from "@/components/three/AuthFlow3DClient";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
 
-export const metadata = { title: "Opendex Identity Platform" };
+export const metadata = createMetadata({
+  title: "Opendex Identity Platform",
+  description:
+    "Autenticacion empresarial con passkeys, SSO, MFA, sesiones y auditoria para productos SaaS modernos.",
+  path: "/productos/auth",
+  keywords: ["passkeys", "SSO", "MFA", "autenticacion SaaS", "identity platform"],
+});
 
 const features = [
   { Icon: Fingerprint, title: "Autenticacion sin contrasenas", desc: "Flujos pensados para passkeys, magic links y recuperacion segura sin depender de passwords fragiles." },
@@ -42,6 +50,22 @@ export async function middleware(req: Request) {
 export default function Auth() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Inicio", path: "/" },
+            { name: "Productos", path: "/productos" },
+            { name: "Opendex Identity Platform", path: "/productos/auth" },
+          ]),
+          productJsonLd({
+            name: "Opendex Identity Platform",
+            description:
+              "Autenticacion empresarial con passkeys, SSO, MFA, sesiones y auditoria para productos SaaS modernos.",
+            path: "/productos/auth",
+            category: "SecurityApplication",
+          }),
+        ]}
+      />
       <LocalizedPageHeader pageKey="productAuth">
         <Link href="/contacto" className="btn btn-primary">
           <LocalizedLabel labelKey="requestInfo" /> <ArrowRight className="h-4 w-4" aria-hidden />

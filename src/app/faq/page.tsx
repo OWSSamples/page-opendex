@@ -351,7 +351,7 @@ export default function FaqPage() {
           --trae-bg: #faf8f4;
           --trae-text: #1d1d1b;
           --trae-text-muted: #5f5f5a;
-          --trae-accent: #f6821f;
+          --trae-accent: #5B21B6;
           --trae-accent-hover: #d96714;
           --trae-card-border: #e1ded5;
           --trae-card-bg: rgba(255, 255, 255, 0.78);

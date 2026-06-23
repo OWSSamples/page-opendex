@@ -13,8 +13,16 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import { Reveal } from "@/components/Motion";
 import KioskoFlow3D from "@/components/three/KioskoFlow3DClient";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
 
-export const metadata = { title: "Opendex Kiosko Workspaces" };
+export const metadata = createMetadata({
+  title: "Opendex Kiosko Workspaces",
+  description:
+    "Punto de venta para retail con inventario, caja, tickets, cortes y lectura operativa por sucursal.",
+  path: "/productos/kiosko",
+  keywords: ["punto de venta", "POS retail", "inventario sucursal", "software retail"],
+});
 
 const features = [
   { Icon: Package, title: "Inventario por sucursal", desc: "Control de existencias, movimientos, ajustes y diferencias operativas por punto de venta." },
@@ -28,6 +36,22 @@ const features = [
 export default function Kiosko() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Inicio", path: "/" },
+            { name: "Productos", path: "/productos" },
+            { name: "Opendex Kiosko Workspaces", path: "/productos/kiosko" },
+          ]),
+          productJsonLd({
+            name: "Opendex Kiosko Workspaces",
+            description:
+              "Punto de venta para retail con inventario, caja, tickets, cortes y lectura operativa por sucursal.",
+            path: "/productos/kiosko",
+            category: "BusinessApplication",
+          }),
+        ]}
+      />
       <LocalizedPageHeader pageKey="productKiosko">
         <span className="badge badge-soon self-center">
           <LocalizedLabel labelKey="isolatedBetaBadge" />

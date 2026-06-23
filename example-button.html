@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System Button Example</title>
+    <style>
+        /* Theme Variables - Default (New York) Theme */
+        :root {
+            /* Light mode colors */
+            --background: oklch(1 0 0);
+            --foreground: oklch(0.145 0 0);
+            --primary: oklch(0.205 0 0);
+            --primary-foreground: oklch(0.985 0 0);
+            --secondary: oklch(0.97 0 0);
+            --secondary-foreground: oklch(0.205 0 0);
+            --destructive: oklch(0.577 0.245 27.325);
+            --destructive-foreground: oklch(0.985 0 0);
+            --muted: oklch(0.97 0 0);
+            --muted-foreground: oklch(0.556 0 0);
+            --border: oklch(0.922 0 0);
+            --ring: oklch(0.708 0 0);
+            --radius: 0.625rem;
+        }
+
+        /* Dark mode theme */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: oklch(0.145 0 0);
+                --foreground: oklch(0.985 0 0);
+                --primary: oklch(0.922 0 0);
+                --primary-foreground: oklch(0.205 0 0);
+                --secondary: oklch(0.269 0 0);
+                --secondary-foreground: oklch(0.985 0 0);
+                --destructive: oklch(0.704 0.191 22.216);
+                --destructive-foreground: oklch(0.985 0 0);
+                --muted: oklch(0.269 0 0);
+                --muted-foreground: oklch(0.708 0 0);
+                --border: oklch(1 0 0 / 10%);
+                --ring: oklch(0.556 0 0);
+            }
+        }
+
+        /* Base styles */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            padding: 3rem;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        /* Button Component - Following Design System Rules */
+        /* Rule #1: Uses CSS variables only - no hardcoded colors */
+        /* Rule #4: Supports both light and dark modes automatically */
+        /* Rule #5: WCAG 2.2 compliant with focus states */
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            border-radius: var(--radius);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 150ms ease-in-out;
+            outline: none;
+        }
+
+        /* Focus state - WCAG 2.2 compliance */
+        .btn:focus-visible {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        /* Disabled state */
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Primary variant */
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+
+        /* Secondary variant */
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+            border-color: var(--border);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            opacity: 0.8;
+        }
+
+        /* Destructive variant */
+        .btn-destructive {
+            background-color: var(--destructive);
+            color: var(--destructive-foreground);
+        }
+
+        .btn-destructive:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+
+        /* Ghost variant */
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--foreground);
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background-color: var(--muted);
+        }
+
+        /* Size variants */
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-lg {
+            padding: 0.625rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--foreground);
+        }
+
+        .code-block {
+            background-color: var(--muted);
+            padding: 1rem;
+            border-radius: var(--radius);
+            font-family: monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Design System Button Example</h1>
+
+        <div class="section">
+            <div class="section-title">Button Variants</div>
+            <div class="button-group">
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-destructive">Destructive</button>
+                <button class="btn btn-ghost">Ghost</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Button Sizes</div>
+            <div class="button-group">
+                <button class="btn btn-primary btn-sm">Small</button>
+                <button class="btn btn-primary">Default</button>
+                <button class="btn btn-primary btn-lg">Large</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Button States</div>
+            <div class="button-group">
+                <button class="btn btn-primary">Normal</button>
+                <button class="btn btn-primary" disabled>Disabled</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">✅ Design System Compliance</div>
+            <ul>
+                <li>✅ Uses CSS variables only (no hardcoded colors)</li>
+                <li>✅ Supports both light and dark modes automatically</li>
+                <li>✅ WCAG 2.2 compliant with proper focus states</li>
+                <li>✅ Keyboard accessible (Tab + Enter/Space to activate)</li>
+                <li>✅ Disabled state clearly indicated</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <div class="section-title">💡 Try This</div>
+            <p>1. Click the buttons to test interaction</p>
+            <p>2. Press Tab to navigate between buttons and see focus states</p>
+            <p>3. Toggle your system's dark/light mode to see theme switching</p>
+            <p>4. Try pressing Enter or Space while a button is focused</p>
+        </div>
+    </div>
+</body>
+</html>

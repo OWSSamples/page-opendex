@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Mail } from "@/components/icons";
 import LanguageSelector from "@/components/LanguageSelector";
 import LocalizedLabel from "@/components/LocalizedLabel";
@@ -123,13 +124,12 @@ function CookieOptionsModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const [consent, setConsent] = useState<ConsentState>(defaultConsent);
+  const [consent, setConsent] = useState<ConsentState>(() => readStoredConsent());
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (!open) return;
 
-    setConsent(readStoredConsent());
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
@@ -339,12 +339,16 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1fr_3fr]">
           {/* Brand column */}
           <div>
-            <Link href="/" className="group flex items-center gap-3">
-              <img
+            <Link href="/" className="opx-brand-frame opx-brand-frame-footer group">
+              <span className="opx-brand-frame-grid" aria-hidden />
+              <Image
                 src="/logo.png"
                 alt="Opendex"
-                className="h-9 w-9 object-contain"
+                width={40}
+                height={40}
+                className="opx-brand-frame-logo"
               />
+              <span className="opx-brand-word">Opendex</span>
             </Link>
             <p className="mt-6 max-w-xs text-[13px] leading-6 text-[#8b8b94]">
               {footerCopy.description}
@@ -413,10 +417,12 @@ export default function Footer() {
                 onClick={() => setCookieOptionsOpen(true)}
                 className="inline-flex items-center gap-2 text-left text-[#d4d4d8] transition hover:text-white"
               >
-                <img
+                <Image
                   src="/cookies.svg"
                   alt=""
                   aria-hidden
+                  width={28}
+                  height={16}
                   className="h-4 w-7 object-contain"
                 />
                 <LocalizedLabel labelKey="privacyOptions" />

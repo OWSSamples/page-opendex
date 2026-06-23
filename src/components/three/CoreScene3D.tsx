@@ -43,7 +43,7 @@ function Core() {
   );
 }
 
-function OrbitingNode({ angle, color, label }: { angle: number; color: string; label: string }) {
+function OrbitingNode({ angle, color }: { angle: number; color: string }) {
   const ref = useRef<THREE.Group>(null);
   const dataRef = useRef<THREE.Mesh>(null);
   const radius = 3.2;
@@ -71,12 +71,12 @@ function OrbitingNode({ angle, color, label }: { angle: number; color: string; l
         <sphereGeometry args={[1, 16, 16]} />
         <meshBasicMaterial color={color} transparent opacity={0.7} />
       </mesh>
-      <Label text={label} color={color} />
+      <Label color={color} />
     </group>
   );
 }
 
-function Label({ text, color }: { text: string; color: string }) {
+function Label({ color }: { color: string }) {
   return (
     <mesh position={[0, -0.7, 0]}>
       <planeGeometry args={[1.2, 0.3]} />
@@ -190,7 +190,7 @@ export default function CoreScene3D({ height = 480 }: { height?: number }) {
         <ConnectionLines />
         <DataPackets />
         {PRODUCTS.map((p) => (
-          <OrbitingNode key={p.name} angle={p.angle} color={p.color} label={p.name} />
+          <OrbitingNode key={p.name} angle={p.angle} color={p.color} />
         ))}
         <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>

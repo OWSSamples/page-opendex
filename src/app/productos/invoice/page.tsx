@@ -13,8 +13,16 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import { Reveal } from "@/components/Motion";
 import InvoiceFlow3D from "@/components/three/InvoiceFlow3DClient";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
 
-export const metadata = { title: "Factur Workspaces" };
+export const metadata = createMetadata({
+  title: "Factur Workspaces",
+  description:
+    "Workspace fiscal para ordenar documentos, estados, validaciones y seguimiento administrativo de CFDI 4.0.",
+  path: "/productos/invoice",
+  keywords: ["CFDI 4.0", "facturacion Mexico", "workspace fiscal", "documentos fiscales"],
+});
 
 const features = [
   { Icon: FileCheck, title: "Estados fiscales claros", desc: "Separacion entre borrador, validado, emitido, observado y cancelado para reducir ambiguedad operativa." },
@@ -28,6 +36,22 @@ const features = [
 export default function Invoice() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Inicio", path: "/" },
+            { name: "Productos", path: "/productos" },
+            { name: "Factur Workspaces", path: "/productos/invoice" },
+          ]),
+          productJsonLd({
+            name: "Factur Workspaces",
+            description:
+              "Workspace fiscal para ordenar documentos, estados, validaciones y seguimiento administrativo de CFDI 4.0.",
+            path: "/productos/invoice",
+            category: "BusinessApplication",
+          }),
+        ]}
+      />
       <LocalizedPageHeader pageKey="productInvoice">
         <span className="badge badge-soon self-center">
           <LocalizedLabel labelKey="unavailableBadge" />

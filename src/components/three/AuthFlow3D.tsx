@@ -10,13 +10,11 @@ function FlowStage({
   position,
   color,
   shape,
-  label,
   phase,
 }: {
   position: [number, number, number];
   color: string;
   shape: "device" | "key" | "token" | "session";
-  label: string;
   phase: number;
 }) {
   const ref = useRef<THREE.Group>(null);
@@ -94,13 +92,12 @@ export default function AuthFlow3D({ height = 320 }: { height?: number }) {
     pos: [number, number, number];
     color: string;
     shape: "device" | "key" | "token" | "session";
-    label: string;
     phase: number;
   }> = [
-    { pos: [-3, 0, 0], color: "#a78bfa", shape: "device", label: "Cliente", phase: 0 },
-    { pos: [-1, 0, 0], color: "#7c3aed", shape: "key", label: "Passkey", phase: 0.5 },
-    { pos: [1, 0, 0], color: "#06b6d4", shape: "token", label: "JWT", phase: 1 },
-    { pos: [3, 0, 0], color: "#10b981", shape: "session", label: "Sesión", phase: 1.5 },
+    { pos: [-3, 0, 0], color: "#a78bfa", shape: "device", phase: 0 },
+    { pos: [-1, 0, 0], color: "#7c3aed", shape: "key", phase: 0.5 },
+    { pos: [1, 0, 0], color: "#06b6d4", shape: "token", phase: 1 },
+    { pos: [3, 0, 0], color: "#10b981", shape: "session", phase: 1.5 },
   ];
 
   return (
@@ -111,7 +108,7 @@ export default function AuthFlow3D({ height = 320 }: { height?: number }) {
         <pointLight position={[-3, -2, 3]} intensity={0.6} color="#06b6d4" />
         <Float floatIntensity={0.3} rotationIntensity={0.1} speed={1.2}>
           {stages.map((s, i) => (
-            <FlowStage key={i} position={s.pos} color={s.color} shape={s.shape} label={s.label} phase={s.phase} />
+            <FlowStage key={i} position={s.pos} color={s.color} shape={s.shape} phase={s.phase} />
           ))}
         </Float>
         {stages.slice(0, -1).map((s, i) => (

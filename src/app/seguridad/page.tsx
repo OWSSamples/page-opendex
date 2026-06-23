@@ -26,7 +26,7 @@ export default function Seguridad() {
             const Icon = index === 0 ? KeyRound : index === 1 ? FileCheck : ShieldCheck;
             return (
               <article key={title} className="bg-white p-7">
-                <Icon className="h-5 w-5 text-[#f6821f]" aria-hidden />
+                <Icon className="h-5 w-5 text-[#5B21B6]" aria-hidden />
                 <h2 className="mt-5 text-[20px] font-semibold text-[#1d1d1b]">{title}</h2>
                 <p className="mt-2 text-[14px] leading-6 text-[#4a4a47]">{desc}</p>
               </article>

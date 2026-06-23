@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import LanguageSelector from "@/components/LanguageSelector";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { type CommonLabelKey } from "@/i18n/commonLabels";
 import {
@@ -36,8 +36,8 @@ type MenuItem = {
 
 type MenuSection = { title: string; items: MenuItem[] };
 type NavItem =
-  | { label: keyof typeof menus; hasMenu: true }
-  | { label: string; href: string };
+  | { label: keyof typeof menus; displayLabel?: string; hasMenu: true }
+  | { label: string; displayLabel?: string; href: string };
 
 const navLabelMap: Record<string, CommonLabelKey> = {
   Desarrolladores: "navDevelopers",
@@ -105,6 +105,26 @@ const menus: Record<string, MenuSection[]> = {
       ],
     },
   ],
+  Changelog: [
+    {
+      title: "Actualizaciones",
+      items: [
+        { label: "Notas del producto", href: "/blog", desc: "Cambios, mejoras y decisiones de plataforma", Icon: Sparkles },
+        { label: "Status público", href: "/status", desc: "Disponibilidad y preparación por línea", Icon: ShieldCheck },
+        { label: "Roadmap", href: "/empresa", desc: "Prioridades y dirección del producto", Icon: Compass },
+      ],
+    },
+  ],
+  Empresa: [
+    {
+      title: "Compañía",
+      items: [
+        { label: "Sobre Opendex", href: "/empresa", desc: "Visión, operación y enfoque empresarial", Icon: Layers },
+        { label: "Contacto", href: "/contacto", desc: "Hablar con el equipo sobre un caso real", Icon: Users },
+        { label: "Seguridad", href: "/seguridad", desc: "Prácticas de seguridad y operación responsable", Icon: ShieldCheck },
+      ],
+    },
+  ],
   Documentación: [
     {
       title: "Empezar",
@@ -127,18 +147,36 @@ const menus: Record<string, MenuSection[]> = {
 };
 
 const flatNav: NavItem[] = [
-  { label: "Desarrolladores", hasMenu: true },
-  { label: "Documentación", hasMenu: true },
-  { label: "Producto", hasMenu: true },
-  { label: "Soluciones", hasMenu: true },
-  { label: "Blog", href: "/blog" },
-  { label: "Precios", href: "/precios" },
+  { label: "Producto", displayLabel: "Products", hasMenu: true },
+  { label: "Documentación", displayLabel: "Docs", hasMenu: true },
+  { label: "Changelog", displayLabel: "Changelog", hasMenu: true },
+  { label: "Empresa", displayLabel: "Company", hasMenu: true },
+  { label: "Pricing", href: "/precios" },
 ];
+
+function StartButtonArrow({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className={className}
+      viewBox="0 0 10 10"
+    >
+      <path
+        fill="currentColor"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="m7.25 5-3.5-2.25v4.5z"
+      />
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { dictionary, t } = useI18n();
-  const localeCopy = dictionary.navbar;
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -154,8 +192,12 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setOpen(false);
-    setActiveMenu(null);
+    const closeNavigation = window.setTimeout(() => {
+      setOpen(false);
+      setActiveMenu(null);
+    }, 0);
+
+    return () => window.clearTimeout(closeNavigation);
   }, [pathname]);
 
   const isActive = (href?: string) => {
@@ -177,66 +219,27 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50">
-      {/* ============== TOP UTILITY BAR (Auth0 style — dark) ============== */}
-      <div className="relative bg-[#0b0b0e] text-[#d4d4d8]">
-        {/* gradient hairline */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, rgba(122,162,247,0.5) 20%, rgba(246,130,31,0.6) 50%, rgba(139,92,246,0.5) 80%, transparent 100%)",
-          }}
-        />
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-5 py-2.5 text-[13px] md:px-8">
-          <div className="flex items-center gap-4">
-            <span className="hidden font-medium text-white sm:inline">
-              {localeCopy.announcement}
-            </span>
-            <Link
-              href="/contacto"
-              className="group inline-flex items-center gap-1.5 text-[#d4d4d8] underline decoration-[#52525b] decoration-1 underline-offset-[5px] transition hover:text-white hover:decoration-white"
-            >
-              {localeCopy.contact}
-              <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" aria-hidden />
-            </Link>
-          </div>
-          <div className="flex items-center gap-5">
-            <Link
-              href="/login"
-              className="text-[#d4d4d8] transition hover:text-white"
-            >
-              {localeCopy.login}
-            </Link>
-            <LanguageSelector variant="dark" />
-          </div>
-        </div>
-      </div>
-
-      {/* ============== MAIN NAV ============== */}
+    <header className="opx-clerk-header sticky top-0 z-50">
       <div
-        className={`bg-[#faf8f4] transition-shadow duration-300 ${
-          scrolled
-            ? "shadow-[0_6px_24px_-18px_rgba(29,29,27,0.25)]"
-            : ""
-        }`}
+        className={`opx-clerk-shell ${scrolled ? "opx-clerk-shell-scrolled" : ""}`}
         onMouseLeave={scheduleClose}
       >
-        <div className="mx-auto flex h-[68px] max-w-[1200px] items-center gap-8 px-5 md:px-8">
-          {/* Logo */}
-          <Link href="/" aria-label="Ir al inicio" className="group flex shrink-0 items-center">
-            <img
+        <div className="opx-clerk-main-row">
+          <Link href="/" aria-label="Ir al inicio" className="opx-brand-frame opx-brand-frame-nav group">
+            <span className="opx-brand-frame-grid" aria-hidden />
+            <Image
               src="/logo.png"
               alt="Opendex"
-              className="h-8 w-8 object-contain"
+              width={40}
+              height={40}
+              className="opx-brand-frame-logo"
             />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden flex-1 items-center gap-1 md:flex">
+          <nav className="opx-clerk-nav hidden flex-1 items-center gap-1 md:flex">
             {flatNav.map((item) => {
-              const itemLabel = navLabelMap[item.label] ? t(navLabelMap[item.label]) : item.label;
+              const itemLabel = item.displayLabel ?? (navLabelMap[item.label] ? t(navLabelMap[item.label]) : item.label);
               if ("hasMenu" in item) {
                 const sections = menus[item.label] ?? [];
                 const isOpen = activeMenu === item.label;
@@ -249,10 +252,10 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => openMenu(isOpen ? "" : item.label)}
-                      className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-[14.5px] font-medium transition ${
+                      className={`opx-clerk-nav-link inline-flex items-center gap-1 ${
                         isOpen
-                          ? "text-[#1d1d1b]"
-                          : "text-[#3d3d3a] hover:text-[#1d1d1b]"
+                          ? "opx-clerk-nav-link-active"
+                          : ""
                       }`}
                       aria-expanded={isOpen}
                     >
@@ -290,56 +293,46 @@ export default function Navbar() {
                                     <Link
                                       key={sub.href}
                                       href={sub.href}
-                                      className="cf-menu-item group/sub relative flex items-start gap-3 rounded-[12px] p-2.5 transition-all duration-200"
+                                      className="cf-menu-item group/sub relative flex items-start gap-3 rounded-[12px] border border-transparent px-2.5 py-2.5 transition-all duration-200 hover:border-[#e7e4dc] hover:bg-white/70"
                                     >
-                                      {/* Hover gradient background */}
-                                      <div className="pointer-events-none absolute inset-0 rounded-[12px] bg-gradient-to-br from-[#faf8f4] via-white to-[#fffcf8] opacity-0 transition-opacity duration-200 group-hover/sub:opacity-100" />
-                                      
-                                      {/* Hover border glow */}
-                                      <div className="pointer-events-none absolute inset-0 rounded-[12px] opacity-0 shadow-[inset_0_0_0_1px_rgba(246,130,31,0.15)] transition-opacity duration-200 group-hover/sub:opacity-100" />
-                                      
+                                      <span
+                                        className="absolute bottom-2 left-0 top-2 w-px scale-y-50 rounded-full opacity-0 transition-all duration-200 group-hover/sub:scale-y-100 group-hover/sub:opacity-100"
+                                        style={{ backgroundColor: sub.color ?? "#f6821f" }}
+                                        aria-hidden
+                                      />
                                       {sub.Icon ? (
-                                        <div className="relative z-10 mt-0.5">
-                                          <div className="absolute inset-0 rounded-[11px] bg-gradient-to-br opacity-0 blur-md transition-opacity duration-200 group-hover/sub:opacity-55"
-                                               style={{ backgroundColor: sub.color ?? "#f6821f" }} />
-                                          <span
-                                            className="relative grid h-9 w-9 shrink-0 place-items-center rounded-[11px] border transition-all duration-200 group-hover/sub:scale-105 group-hover/sub:shadow-md"
-                                            style={{
-                                              color: sub.color ?? "#f6821f",
-                                              background: `linear-gradient(135deg, ${sub.color ?? "#f6821f"}12 0%, ${sub.color ?? "#f6821f"}06 100%)`,
-                                              borderColor: `${sub.color ?? "#f6821f"}30`,
-                                              boxShadow: `0 2px 8px ${sub.color ?? "#f6821f"}15`,
-                                            }}
-                                          >
-                                            <sub.Icon className="h-4 w-4 transition-transform duration-200 group-hover/sub:scale-105" aria-hidden />
-                                          </span>
+                                        <div
+                                          className="relative z-10 mt-1 flex h-5 w-5 shrink-0 items-center justify-center transition-transform duration-200 group-hover/sub:translate-x-[1px]"
+                                          style={{ color: sub.color ?? "#f6821f" }}
+                                        >
+                                          <sub.Icon className="h-4 w-4" aria-hidden />
                                         </div>
                                       ) : null}
-                                      
+
                                       <div className="relative z-10 min-w-0 flex-1">
-                                        <div className="flex items-center gap-2">
-                                          <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#1d1d1b] transition-colors duration-200 group-hover/sub:text-[#f6821f]">
+                                        <div className="flex items-start gap-2">
+                                          <span className="text-[13.5px] font-semibold leading-[1.25] tracking-[0] text-[#1d1d1b] transition-colors duration-200 group-hover/sub:text-[#20201d]">
                                             {sub.label}
                                           </span>
                                           {sub.badge ? (
-                                            <span className="rounded-full border bg-white px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.06em] shadow-sm transition-all duration-200 group-hover/sub:border-[#f6821f]/30 group-hover/sub:bg-[#fff3e0]"
-                                                  style={{ 
+                                            <span className="rounded-full border border-[#e6ddd0] bg-[#fbf7ef] px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.06em] text-[#6f4b2d] transition-colors duration-200 group-hover/sub:border-[#d6c9b7] group-hover/sub:bg-white"
+                                                  style={{
                                                     borderColor: `${sub.color ?? "#f6821f"}25`,
-                                                    color: sub.color ?? "#6b6b66" 
+                                                    color: "#6f4b2d"
                                                   }}>
                                               {sub.badge}
                                             </span>
                                           ) : null}
                                         </div>
                                         {sub.desc ? (
-                                          <p className="mt-1 text-[11.5px] leading-[1.4] text-[#6b6b66] transition-colors duration-200 group-hover/sub:text-[#4a4a47]">
+                                          <p className="mt-1 text-[11.5px] leading-[1.55] text-[#6b6b66] transition-colors duration-200 group-hover/sub:text-[#524f48]">
                                             {sub.desc}
                                           </p>
                                         ) : null}
                                       </div>
                                       
                                       <ArrowRight
-                                        className="relative z-10 mt-2.5 h-3.5 w-3.5 shrink-0 text-[#9a9a93] opacity-0 transition-all duration-200 group-hover/sub:translate-x-1 group-hover/sub:opacity-100"
+                                        className="relative z-10 mt-2.5 h-3.5 w-3.5 shrink-0 text-[#9a9a93] opacity-0 transition-all duration-200 group-hover/sub:translate-x-0.5 group-hover/sub:opacity-100"
                                         style={{ color: sub.color ?? "#f6821f" }}
                                         aria-hidden
                                       />
@@ -382,10 +375,11 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`rounded-md px-3 py-2 text-[14.5px] font-medium transition ${
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={`opx-clerk-nav-link ${
                     isActive(item.href)
-                      ? "text-[#1d1d1b]"
-                      : "text-[#3d3d3a] hover:text-[#1d1d1b]"
+                      ? "opx-clerk-nav-link-active"
+                      : ""
                   }`}
                 >
                   {itemLabel}
@@ -395,19 +389,26 @@ export default function Navbar() {
           </nav>
 
           {/* Right CTAs */}
-          <div className="ml-auto flex shrink-0 items-center gap-2.5">
-              <Link
-                href="/contacto"
-                className="hidden h-10 items-center justify-center rounded-md border border-[#1d1d1b] bg-transparent px-4 text-[14px] font-medium text-[#1d1d1b] transition hover:bg-[#1d1d1b] hover:text-white md:inline-flex"
-              >
-              {t("register")}
-              </Link>
-              <Link
-                href="/login"
-                className="hidden h-10 items-center justify-center rounded-md bg-[#1d1d1b] px-4 text-[14px] font-medium text-white transition hover:bg-black md:inline-flex"
-              >
-              {t("connect")}
-              </Link>
+          <div className="opx-clerk-actions ml-auto flex shrink-0 items-center gap-2.5">
+            <Link
+              href="/login"
+              className="opx-clerk-signin hidden md:inline-flex"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/contacto"
+              className="opx-clerk-start group hidden md:inline-flex"
+            >
+              Start building
+              <span className="opx-clerk-start-icon-viewport" aria-hidden="true">
+                <span className="opx-clerk-start-icon-track">
+                  <StartButtonArrow className="opx-clerk-start-icon" />
+                  <StartButtonArrow className="opx-clerk-start-icon" />
+                  <StartButtonArrow className="opx-clerk-start-icon" />
+                </span>
+              </span>
+            </Link>
             <button
               type="button"
               aria-label="Menú"
@@ -419,8 +420,36 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* hairline divider */}
-        <div className="mx-auto h-px max-w-[1200px] bg-[#e7e4dc]" />
+        <div className="opx-clerk-sub-row">
+          <div className="opx-clerk-sub-left">
+            <Link href="/productos/auth" className="opx-clerk-sub-link opx-clerk-sub-link-active">
+              <Fingerprint className="h-3.5 w-3.5" aria-hidden />
+              User Authentication
+            </Link>
+            <Link href="/productos/invoice" className="opx-clerk-sub-link">
+              <Users className="h-3.5 w-3.5" aria-hidden />
+              B2B Authentication
+            </Link>
+            <Link href="/productos/kiosko" className="opx-clerk-sub-link">
+              <Receipt className="h-3.5 w-3.5" aria-hidden />
+              Billing
+            </Link>
+            <Link href="/status" className="opx-clerk-sub-link">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              Waitlist
+            </Link>
+          </div>
+          <div className="opx-clerk-sub-right">
+            <Link href="/documentacion" className="opx-clerk-sub-link">
+              Components
+              <ChevronDown className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+            <Link href="/documentacion" className="opx-clerk-sub-link">
+              Docs
+              <ChevronDown className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* ============== MOBILE PANEL ============== */}
@@ -456,6 +485,7 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
                   className="rounded-lg px-3 py-2.5 text-[15px] font-medium text-[#3d3d3a] hover:bg-white hover:text-[#1d1d1b]"
                 >
                   {item.label}

@@ -1,38 +1,49 @@
 import "../styles/globals.css";
+import "./home.css";
+import "./enterprise-system.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import JsonLd from "../components/JsonLd";
 import { LanguageProvider } from "../i18n/LanguageProvider";
+import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
+const opendexBody = localFont({
+  src: "../../public/fonts/Inter-Regular.woff2",
+  variable: "--font-opendex-body",
+  weight: "400",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
+const opendexUi = localFont({
+  src: "../../public/fonts/Inter-Medium.woff2",
+  variable: "--font-opendex-ui",
+  weight: "500",
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Opendex Web Services — Auth, Invoice y POS para SaaS modernos",
-    template: "%s · Opendex Web Services",
-  },
+const opendexDisplay = localFont({
+  src: "../../public/fonts/SpaceGrotesk-Medium.woff2",
+  variable: "--font-opendex-display",
+  weight: "500",
+  display: "swap",
+});
+
+export const metadata: Metadata = createMetadata({
+  title: "Opendex Web Services - Auth, Invoice y POS para SaaS modernos",
   description:
-    "Infraestructura para productos SaaS: autenticación con passkeys, facturación CFDI 4.0 México y punto de venta moderno. Lista para producción.",
-};
+    "Infraestructura para productos SaaS: autenticacion con passkeys, facturacion CFDI 4.0 Mexico y punto de venta moderno. Lista para produccion.",
+  path: "/",
+});
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="es" className={`${opendexBody.variable} ${opendexUi.variable} ${opendexDisplay.variable}`}>
       <body
         suppressHydrationWarning
-        className="relative overflow-x-hidden bg-[#faf8f4] text-[#1d1d1b] antialiased"
+        className="relative overflow-x-hidden bg-[var(--corp-bg,#FFFFFF)] text-[var(--corp-fg,#0F1923)] antialiased"
       >
         {/* Marco global tipo blueprint: guias laterales, nodos y conectores sutiles. */}
         <div aria-hidden className="cf-frame-overlay">
@@ -92,6 +103,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
         <LanguageProvider>
+          <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
           <Navbar />
           <main className="min-h-[calc(100vh-4rem)]">{children}</main>
           <Footer />

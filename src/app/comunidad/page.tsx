@@ -158,7 +158,7 @@ export default function Comunidad() {
               <article key={title} className="card group min-h-[260px] p-6">
                 <div className="relative h-24 overflow-hidden border border-ink-200 bg-ink-50">
                   <div className="community-card-image" aria-hidden />
-                  <Icon className="absolute left-5 top-5 h-7 w-7 text-[#f6821f]" aria-hidden />
+                  <Icon className="absolute left-5 top-5 h-7 w-7 text-[#5B21B6]" aria-hidden />
                   <span className="absolute bottom-4 left-5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-500">
                     {signal}
                   </span>
@@ -198,7 +198,7 @@ export default function Comunidad() {
                   <ul className="grid content-start gap-3">
                     {items.map((item) => (
                       <li key={item} className="flex items-center gap-3 border-b border-ink-200 pb-3 text-[13.5px] text-ink-700 last:border-b-0">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#f6821f]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5B21B6]" />
                         {item}
                       </li>
                     ))}
@@ -243,7 +243,7 @@ export default function Comunidad() {
               <ul className="mt-6 space-y-3">
                 {principles.map((item) => (
                   <li key={item} className="flex gap-3 text-[13.5px] leading-6 text-ink-700">
-                    <Heart className="mt-1 h-4 w-4 shrink-0 text-[#f6821f]" aria-hidden />
+                    <Heart className="mt-1 h-4 w-4 shrink-0 text-[#5B21B6]" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -257,7 +257,7 @@ export default function Comunidad() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:px-8">
           <div>
             <div className="inline-flex items-center gap-2 border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/60">
-              <Globe2 className="h-3.5 w-3.5 text-[#f6821f]" aria-hidden />
+              <Globe2 className="h-3.5 w-3.5 text-[#5B21B6]" aria-hidden />
               Comunidad privada en preparacion
             </div>
             <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
