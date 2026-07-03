@@ -67,9 +67,9 @@ export const faqContent: Record<
       description:
         "Para responder mejor, incluye producto de interés, etapa de tu proyecto, volumen esperado y si buscas contexto técnico, comercial o de disponibilidad.",
       contact: "Contactar equipo",
-      docs: "Revisar documentación",
+      docs: "Solicitar contexto técnico",
       routes: "Rutas recomendadas",
-      routeItems: [["Estado de productos", "/status"], ["Integración técnica", "/docs"], ["Contacto directo", "/contacto"]],
+      routeItems: [["Estado de productos", "/status"], ["Integración técnica", "/contacto"], ["Contacto directo", "/contacto"]],
     },
     faqs: [],
   },
@@ -96,9 +96,9 @@ export const faqContent: Record<
       description:
         "To respond better, include the product, project stage, expected volume and whether you need technical, commercial or availability context.",
       contact: "Contact team",
-      docs: "Review documentation",
+      docs: "Request technical context",
       routes: "Recommended routes",
-      routeItems: [["Product status", "/status"], ["Technical integration", "/docs"], ["Direct contact", "/contacto"]],
+      routeItems: [["Product status", "/status"], ["Technical integration", "/contacto"], ["Direct contact", "/contacto"]],
     },
     faqs: [
       { cat: "general", q: "What is Opendex Web Services?", a: "Opendex Web Services is the parent company building its own digital infrastructure products for identity, fiscal workflows and retail operations." },
@@ -115,7 +115,7 @@ export const faqContent: Record<
     header: { eyebrow: "Central de ajuda", titleStart: "Perguntas", titleAccent: "frequentes", description: "Respostas claras sobre Opendex Web Services, status dos produtos, privacidade, acesso, documentação e integração técnica." },
     search: { placeholder: "Busque: passkeys, CFDI, webhooks, conta, privacidade...", aria: "Buscar nas perguntas frequentes", clear: "Limpar busca", filtersAria: "Filtrar por categoria", emptyTitle: "Nenhum resultado encontrado", emptyDescription: "Tente outra palavra ou altere o filtro." },
     filters: { all: "Todas", general: "Geral", facturacion: "Produtos", cuenta: "Conta", tecnico: "Técnico" },
-    cta: { kicker: "Suporte contextual", title: "Conte-nos o que você está tentando construir.", description: "Para responder melhor, inclua produto de interesse, etapa do projeto, volume esperado e se busca contexto técnico, comercial ou de disponibilidade.", contact: "Contatar equipe", docs: "Revisar documentação", routes: "Rotas recomendadas", routeItems: [["Status dos produtos", "/status"], ["Integração técnica", "/docs"], ["Contato direto", "/contacto"]] },
+    cta: { kicker: "Suporte contextual", title: "Conte-nos o que você está tentando construir.", description: "Para responder melhor, inclua produto de interesse, etapa do projeto, volume esperado e se busca contexto técnico, comercial ou de disponibilidade.", contact: "Contatar equipe", docs: "Solicitar contexto técnico", routes: "Rotas recomendadas", routeItems: [["Status dos produtos", "/status"], ["Integração técnica", "/contacto"], ["Contato direto", "/contacto"]] },
     faqs: [
       { cat: "general", q: "O que é Opendex Web Services?", a: "É a empresa matriz que constrói produtos próprios de infraestrutura digital para identidade, fluxos fiscais e operações de varejo." },
       { cat: "general", q: "Há datas públicas de lançamento?", a: "Não. Cada produto comunica seu estágio real e datas públicas só serão compartilhadas quando houver uma superfície pronta." },
@@ -131,7 +131,7 @@ export const faqContent: Record<
     header: { eyebrow: "Centre d'aide", titleStart: "Questions", titleAccent: "fréquentes", description: "Réponses claires sur Opendex Web Services, le statut des produits, la confidentialité, l'accès, la documentation et l'intégration technique." },
     search: { placeholder: "Rechercher : passkeys, CFDI, webhooks, compte, confidentialité...", aria: "Rechercher dans les questions fréquentes", clear: "Effacer la recherche", filtersAria: "Filtrer par catégorie", emptyTitle: "Aucun résultat trouvé", emptyDescription: "Essayez un autre mot ou changez le filtre." },
     filters: { all: "Toutes", general: "Général", facturacion: "Produits", cuenta: "Compte", tecnico: "Technique" },
-    cta: { kicker: "Support contextuel", title: "Dites-nous ce que vous essayez de construire.", description: "Pour mieux répondre, incluez le produit, l'étape du projet, le volume attendu et le type de contexte recherché.", contact: "Contacter l'équipe", docs: "Voir la documentation", routes: "Routes recommandées", routeItems: [["Statut des produits", "/status"], ["Intégration technique", "/docs"], ["Contact direct", "/contacto"]] },
+    cta: { kicker: "Support contextuel", title: "Dites-nous ce que vous essayez de construire.", description: "Pour mieux répondre, incluez le produit, l'étape du projet, le volume attendu et le type de contexte recherché.", contact: "Contacter l'équipe", docs: "Demander le contexte technique", routes: "Routes recommandées", routeItems: [["Statut des produits", "/status"], ["Intégration technique", "/contacto"], ["Contact direct", "/contacto"]] },
     faqs: [
       { cat: "general", q: "Qu'est-ce qu'Opendex Web Services ?", a: "C'est l'entreprise mère qui construit des produits d'infrastructure numérique pour l'identité, les flux fiscaux et les opérations retail." },
       { cat: "general", q: "Existe-t-il des dates publiques de lancement ?", a: "Non. Chaque produit communique son étape réelle et les dates publiques ne seront partagées que lorsqu'une surface sera prête." },
@@ -147,7 +147,7 @@ export const faqContent: Record<
     header: { eyebrow: "帮助中心", titleStart: "常见", titleAccent: "问题", description: "关于 Opendex Web Services、产品状态、隐私、访问、文档和技术集成的清晰回答。" },
     search: { placeholder: "搜索：passkeys、CFDI、webhooks、账户、隐私...", aria: "搜索常见问题", clear: "清除搜索", filtersAria: "按类别筛选", emptyTitle: "未找到结果", emptyDescription: "请尝试其他关键词或更换筛选条件。" },
     filters: { all: "全部", general: "常规", facturacion: "产品", cuenta: "账户", tecnico: "技术" },
-    cta: { kicker: "上下文支持", title: "告诉我们你正在尝试构建什么。", description: "为了更好回复，请包含感兴趣的产品、项目阶段、预期规模，以及你需要技术、商业还是可用性背景。", contact: "联系团队", docs: "查看文档", routes: "推荐路径", routeItems: [["产品状态", "/status"], ["技术集成", "/docs"], ["直接联系", "/contacto"]] },
+    cta: { kicker: "上下文支持", title: "告诉我们你正在尝试构建什么。", description: "为了更好回复，请包含感兴趣的产品、项目阶段、预期规模，以及你需要技术、商业还是可用性背景。", contact: "联系团队", docs: "请求技术背景", routes: "推荐路径", routeItems: [["产品状态", "/status"], ["技术集成", "/contacto"], ["直接联系", "/contacto"]] },
     faqs: [
       { cat: "general", q: "什么是 Opendex Web Services？", a: "它是母公司，正在构建面向身份、财税流程和零售运营的数字基础设施产品。" },
       { cat: "general", q: "有公开发布日期吗？", a: "没有。每个产品只沟通真实阶段，只有当公开能力准备好时才会共享日期。" },

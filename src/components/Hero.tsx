@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowRight, Check, Fingerprint, LockKeyhole, ShieldCheck } from "@/components/icons";
+import IdentityIcon from "@/components/IdentityIcon";
+import { ArrowRight, Check } from "@/components/icons";
 import { useEffect, useState } from "react";
 
 const metrics = [
@@ -86,9 +87,7 @@ export default function Hero() {
             <div className="overflow-hidden border border-white/10 bg-[#0c101a] shadow-[0_34px_120px_-50px_rgba(0,0,0,0.9)]">
               <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <div className="grid h-8 w-8 place-items-center bg-[#4f46e5]">
-                    <Fingerprint className="h-4 w-4" aria-hidden />
-                  </div>
+                  <IdentityIcon name="identity" size={32} className="h-8 w-8 object-contain" />
                   <div>
                     <div className="text-[13px] font-semibold text-white">Auth Gateway</div>
                     <div className="text-[11px] text-white/42">production / global edge</div>
@@ -138,7 +137,7 @@ export default function Hero() {
 
                 <div className="border-t border-white/10 bg-black/18 p-5 lg:border-l lg:border-t-0">
                   <div className="flex items-center gap-2 text-[12px] font-semibold text-white">
-                    <ShieldCheck className="h-4 w-4 text-emerald-300" aria-hidden />
+                    <IdentityIcon name="policy" size={20} className="h-5 w-5 object-contain" />
                     Policy decision
                   </div>
                   <div className="mt-5 space-y-4">
@@ -156,7 +155,7 @@ export default function Hero() {
                     </div>
                     <div className="border border-white/8 bg-white/[0.03] p-3">
                       <div className="flex items-center gap-2 text-[12px] text-white/76">
-                        <LockKeyhole className="h-3.5 w-3.5 text-atoll-300" aria-hidden />
+                        <IdentityIcon name="lock" size={18} className="h-[18px] w-[18px] object-contain" />
                         MFA {stage === 2 ? "required" : "not required"}
                       </div>
                       <p className="mt-2 text-[12px] leading-5 text-white/48">

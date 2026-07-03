@@ -1,37 +1,37 @@
-import { Activity, Database, Fingerprint, Globe2, KeyRound, ShieldCheck } from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 
 const controls = [
   {
-    Icon: Fingerprint,
+    iconName: "identity",
     title: "Passwordless first",
     copy: "Passkeys WebAuthn, magic links y login social sin degradar la seguridad base.",
   },
   {
-    Icon: ShieldCheck,
+    iconName: "policy",
     title: "Adaptive policy",
     copy: "Reglas por dispositivo, region, tenant y riesgo antes de emitir la sesion.",
   },
   {
-    Icon: KeyRound,
+    iconName: "session",
     title: "Session hardening",
     copy: "Rotacion, revocacion instantanea, cookies httpOnly y scopes por app.",
   },
   {
-    Icon: Activity,
+    iconName: "audit",
     title: "Event stream",
     copy: "Logs exportables, webhooks y trazabilidad para auditoria y soporte.",
   },
   {
-    Icon: Globe2,
+    iconName: "workspace",
     title: "Regional control",
     copy: "Residencia de datos por proyecto con edge en Mexico, US y EU.",
   },
   {
-    Icon: Database,
+    iconName: "organization",
     title: "Tenant model",
     copy: "Workspaces, roles y separacion operativa para equipos internos y clientes.",
   },
-];
+] satisfies Array<{ iconName: IdentityIconName; title: string; copy: string }>;
 
 const layers = [
   ["Client", "Passkey challenge", "Device trust"],
@@ -80,7 +80,7 @@ export default function Features() {
         </div>
 
         <div className="mt-10 grid border border-ink-200 bg-white md:grid-cols-2 lg:grid-cols-3">
-          {controls.map(({ Icon, title, copy }, index) => (
+          {controls.map(({ iconName, title, copy }, index) => (
             <article
               key={title}
               className={`p-6 ${index > 0 ? "border-t border-ink-200 md:border-t-0" : ""} ${
@@ -88,9 +88,7 @@ export default function Features() {
               } ${index > 2 ? "lg:border-t" : ""} ${index % 3 !== 0 ? "lg:border-l" : "lg:border-l-0"} border-ink-200`}
             >
               <div className="flex items-center gap-3">
-                <span className="grid h-9 w-9 place-items-center border border-ink-200 bg-ink-50 text-ink-800">
-                  <Icon className="h-4 w-4" aria-hidden />
-                </span>
+                <IdentityIcon name={iconName} size={34} className="h-[34px] w-[34px] object-contain" />
                 <h3 className="font-heading text-[17px] font-semibold text-ink-950">
                   {title}
                 </h3>

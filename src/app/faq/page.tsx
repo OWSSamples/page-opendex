@@ -799,7 +799,7 @@ export default function FaqPage() {
                 <Mail width={16} height={16} style={{ marginRight: 8 }} />
                 {copy.cta.contact}
               </Link>
-              <Link href="/documentacion" className="trae-btn-secondary">
+              <Link href="/contacto" className="trae-btn-secondary">
                 {copy.cta.docs}
               </Link>
             </div>

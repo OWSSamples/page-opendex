@@ -1,25 +1,19 @@
 import {
-  Activity,
   BellRing,
   ChevronRight,
-  Fingerprint,
-  Globe2,
-  KeyRound,
-  LockKeyhole,
   Search,
-  ShieldCheck,
-  Workflow,
 } from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 
 const nav = [
-  { Icon: Activity, label: "Overview", active: true },
-  { Icon: Fingerprint, label: "Users", badge: "18.2k" },
-  { Icon: LockKeyhole, label: "Sessions" },
-  { Icon: ShieldCheck, label: "Risk policies", badge: "3" },
-  { Icon: Globe2, label: "SSO connections" },
-  { Icon: Workflow, label: "Webhooks" },
-  { Icon: KeyRound, label: "API keys" },
-];
+  { iconName: "audit", label: "Overview", active: true },
+  { iconName: "identity", label: "Users", badge: "18.2k" },
+  { iconName: "session", label: "Sessions" },
+  { iconName: "policy", label: "Risk policies", badge: "3" },
+  { iconName: "workspace", label: "SSO connections" },
+  { iconName: "integration", label: "Webhooks" },
+  { iconName: "access", label: "API keys" },
+] satisfies Array<{ iconName: IdentityIconName; label: string; active?: boolean; badge?: string }>;
 
 const kpis = [
   { label: "Active users", value: "18,240", note: "+8.4% this week" },
@@ -106,7 +100,7 @@ export default function Dashboard() {
               <div className="mb-3 px-2 text-[10px] font-bold uppercase text-white/35">
                 Identity
               </div>
-              {nav.map(({ Icon, label, active, badge }) => (
+              {nav.map(({ iconName, label, active, badge }) => (
                 <button
                   key={label}
                   type="button"
@@ -115,7 +109,7 @@ export default function Dashboard() {
                   }`}
                 >
                   <span className="flex items-center gap-2.5">
-                    <Icon className="h-4 w-4" aria-hidden />
+                    <IdentityIcon name={iconName} size={20} className="h-5 w-5 object-contain" />
                     {label}
                   </span>
                   {badge ? (

@@ -1,9 +1,14 @@
 "use client";
 
 import { useI18n } from "@/i18n/LanguageProvider";
-import { type CommonLabelKey } from "@/i18n/commonLabels";
 
-export default function LocalizedLabel({ labelKey }: { labelKey: CommonLabelKey }) {
+export default function LocalizedLabel({
+  labelKey,
+  fallback,
+}: {
+  labelKey: string;
+  fallback?: string;
+}) {
   const { t } = useI18n();
-  return t(labelKey);
+  return t(labelKey, fallback ?? labelKey);
 }

@@ -1,27 +1,19 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Building2,
-  Code2,
-  Compass,
-  Globe2,
-  Heart,
-  ShieldCheck,
-  Target,
-} from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
+import { ArrowRight } from "@/components/icons";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 
 export const metadata = { title: "Empresa" };
 
 const values = [
-  { Icon: Compass, title: "Transparencia desde temprano", desc: "Preferimos decir en que etapa estamos antes que vender una imagen artificial de madurez." },
-  { Icon: Target, title: "Alcance claro", desc: "Cada linea de producto debe resolver un problema concreto: identidad, documentos u operacion." },
-  { Icon: Heart, title: "Cercania con el cliente", desc: "Queremos construir con conversaciones reales, entendiendo operaciones mexicanas y equipos que empiezan a escalar." },
-  { Icon: ShieldCheck, title: "Confianza tecnica", desc: "La calidad no se improvisa al final: seguridad, auditoria y trazabilidad se diseñan desde la base." },
-  { Icon: Code2, title: "Producto antes que ruido", desc: "Nos importa mas construir una plataforma util que publicar promesas vacias o fechas poco realistas." },
-  { Icon: Globe2, title: "Ambicion global desde Mexico", desc: "Nacemos en Mexico, pero diseñamos con estandares de producto que puedan competir fuera del pais." },
-];
+  { iconName: "audit", title: "Transparencia desde temprano", desc: "Preferimos decir en que etapa estamos antes que vender una imagen artificial de madurez." },
+  { iconName: "document", title: "Alcance claro", desc: "Cada linea de producto debe resolver un problema concreto: identidad, documentos u operacion." },
+  { iconName: "identity", title: "Cercania con el cliente", desc: "Queremos construir con conversaciones reales, entendiendo operaciones mexicanas y equipos que empiezan a escalar." },
+  { iconName: "shield", title: "Confianza tecnica", desc: "La calidad no se improvisa al final: seguridad, auditoria y trazabilidad se diseñan desde la base." },
+  { iconName: "config", title: "Producto antes que ruido", desc: "Nos importa mas construir una plataforma util que publicar promesas vacias o fechas poco realistas." },
+  { iconName: "workspace", title: "Ambicion global desde Mexico", desc: "Nacemos en Mexico, pero diseñamos con estandares de producto que puedan competir fuera del pais." },
+] satisfies Array<{ iconName: IdentityIconName; title: string; desc: string }>;
 
 const chapters = [
   {
@@ -116,11 +108,9 @@ export default function Empresa() {
           </div>
 
           <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {values.map(({ Icon, title, desc }) => (
+            {values.map(({ iconName, title, desc }) => (
               <div key={title} className="card p-6">
-                <span className="grid h-10 w-10 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
+                <IdentityIcon name={iconName} size={36} className="h-9 w-9 object-contain" />
                 <h3 className="mt-5 text-[15.5px] font-semibold text-ink-950">{title}</h3>
                 <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-600">{desc}</p>
               </div>
@@ -178,9 +168,7 @@ export default function Empresa() {
             </div>
             <div className="card p-6">
               <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                  <Building2 className="h-5 w-5" aria-hidden />
-                </span>
+                <IdentityIcon name="organization" size={40} className="h-10 w-10 object-contain" />
                 <div>
                   <div className="text-[15px] font-semibold text-ink-950">Opendex Web Services</div>
                   <div className="text-[12.5px] text-ink-500">Mexico · software de infraestructura</div>

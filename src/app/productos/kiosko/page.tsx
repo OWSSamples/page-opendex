@@ -1,14 +1,9 @@
 import Link from "next/link";
+import { Badge } from "@cloudflare/kumo/components/badge";
 import {
   ArrowRight,
-  Store,
-  Package,
-  CreditCard,
-  BarChart3,
-  WifiOff,
-  Users2,
-  ReceiptText,
 } from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import { Reveal } from "@/components/Motion";
@@ -25,13 +20,13 @@ export const metadata = createMetadata({
 });
 
 const features = [
-  { Icon: Package, title: "Inventario por sucursal", desc: "Control de existencias, movimientos, ajustes y diferencias operativas por punto de venta." },
-  { Icon: CreditCard, title: "Caja y metodos de cobro", desc: "Flujos para efectivo, tarjeta, transferencia y conciliacion al cierre de turno." },
-  { Icon: ReceiptText, title: "Tickets y cortes", desc: "Registro de ventas, devoluciones, cortes y evidencia para gerencia sin doble captura." },
-  { Icon: WifiOff, title: "Operacion con interrupciones", desc: "Pensado para escenarios donde la red falla y la tienda debe seguir atendiendo." },
-  { Icon: Users2, title: "Roles de tienda", desc: "Separacion entre cajero, supervisor, gerente y administrador con bitacora de acciones." },
-  { Icon: BarChart3, title: "Lectura operacional", desc: "Indicadores para entender ventas, inventario, margen y comportamiento por horario." },
-];
+  { iconName: "operations", title: "Inventario por sucursal", desc: "Control de existencias, movimientos, ajustes y diferencias operativas por punto de venta." },
+  { iconName: "payment", title: "Caja y metodos de cobro", desc: "Flujos para efectivo, tarjeta, transferencia y conciliacion al cierre de turno." },
+  { iconName: "document", title: "Tickets y cortes", desc: "Registro de ventas, devoluciones, cortes y evidencia para gerencia sin doble captura." },
+  { iconName: "shield", title: "Operacion con interrupciones", desc: "Pensado para escenarios donde la red falla y la tienda debe seguir atendiendo." },
+  { iconName: "organization", title: "Roles de tienda", desc: "Separacion entre cajero, supervisor, gerente y administrador con bitacora de acciones." },
+  { iconName: "audit", title: "Lectura operacional", desc: "Indicadores para entender ventas, inventario, margen y comportamiento por horario." },
+] satisfies Array<{ iconName: IdentityIconName; title: string; desc: string }>;
 
 export default function Kiosko() {
   return (
@@ -53,14 +48,17 @@ export default function Kiosko() {
         ]}
       />
       <LocalizedPageHeader pageKey="productKiosko">
-        <span className="badge badge-soon self-center">
+        <Badge
+          variant="beta"
+          className="self-center border border-dashed border-[#0055dc] bg-transparent text-[#0055dc]"
+        >
           <LocalizedLabel labelKey="isolatedBetaBadge" />
-        </span>
+        </Badge>
         <Link href="/contacto" className="btn btn-primary">
           <LocalizedLabel labelKey="requestInfo" /> <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
-        <Link href="/documentacion" className="btn btn-ghost">
-          <LocalizedLabel labelKey="interactiveDemo" />
+        <Link href="/status" className="btn btn-ghost">
+          <LocalizedLabel labelKey="publicStatus" />
         </Link>
       </LocalizedPageHeader>
 
@@ -97,10 +95,12 @@ export default function Kiosko() {
             <div className="card overflow-hidden p-0">
               <div className="flex items-center justify-between border-b border-ink-200 bg-ink-50/60 px-5 py-3">
                 <div className="flex items-center gap-2">
-                  <Store className="h-4 w-4 text-iris-700" aria-hidden />
+                  <IdentityIcon name="store" size={24} className="h-6 w-6 object-contain" />
                   <span className="text-[13px] font-semibold text-ink-950">Sucursal Roma Norte</span>
                 </div>
-                <span className="badge badge-live !text-[10.5px]">caja abierta · 09:42</span>
+                <Badge variant="success" className="!text-[10.5px]">
+                  caja abierta · 09:42
+                </Badge>
               </div>
               <div className="grid grid-cols-3 gap-2 p-5">
                 {[
@@ -171,11 +171,9 @@ export default function Kiosko() {
             </h2>
           </div>
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(({ Icon, title, desc }) => (
+            {features.map(({ iconName, title, desc }) => (
               <div key={title} className="card p-6">
-                <span className="grid h-10 w-10 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
+                <IdentityIcon name={iconName} size={36} className="h-9 w-9 object-contain" />
                 <h3 className="mt-5 text-[15.5px] font-semibold text-ink-950">{title}</h3>
                 <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-600">{desc}</p>
               </div>

@@ -20,22 +20,22 @@ interface ButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-[#0F1923] text-white hover:bg-[#1a2a3a] border-2 border-transparent shadow-sm hover:shadow transition-all duration-200',
-  secondary: 'bg-[#5B21B6] text-white hover:bg-[#4C1D95] border-2 border-transparent shadow-sm hover:shadow transition-all duration-200',
-  outline: 'bg-transparent text-[#0F1923] border-2 border-[#0F1923] hover:bg-[#0F1923] hover:text-white transition-all duration-200',
-  ghost: 'bg-transparent text-[#0F1923] hover:bg-[#F1F5F9] transition-all duration-200',
+  primary: 'bg-[#6d4df1] text-white hover:bg-[#7456f4] border border-[rgba(91,66,255,0.28)] shadow-sm hover:shadow transition-all duration-200',
+  secondary: 'bg-[#6d4df1] text-white hover:bg-[#7456f4] border border-[rgba(91,66,255,0.28)] shadow-sm hover:shadow transition-all duration-200',
+  outline: 'bg-transparent text-[#5f3df5] hover:bg-[rgba(109,77,241,0.06)] hover:text-[#4f2ee9] border border-[rgba(91,66,255,0.28)] transition-all duration-200',
+  ghost: 'bg-transparent text-[#5f3df5] hover:bg-[rgba(109,77,241,0.06)] hover:text-[#4f2ee9] border border-[rgba(91,66,255,0.28)] transition-all duration-200',
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-4 py-2 text-sm min-h-[36px] rounded',
-  md: 'px-6 py-3 text-sm min-h-[44px] rounded-lg',
-  lg: 'px-8 py-4 text-base min-h-[48px] rounded-lg',
+  sm: 'px-[14px] py-0 text-xs min-h-[30px] rounded-[7px]',
+  md: 'px-[14px] py-0 text-xs min-h-[30px] rounded-[7px]',
+  lg: 'px-[14px] py-0 text-xs min-h-[30px] rounded-[7px]',
 }
 
 const iconSizeMap = {
-  sm: 'h-4 w-4',
-  md: 'h-5 w-5',
-  lg: 'h-5 w-5',
+  sm: 'h-3 w-3',
+  md: 'h-3 w-3',
+  lg: 'h-3 w-3',
 }
 
 export default function CorporateButton({

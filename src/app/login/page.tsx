@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, LockKeyhole } from "@/components/icons";
+import IdentityIcon from "@/components/IdentityIcon";
+import { ArrowRight } from "@/components/icons";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 
@@ -16,7 +17,7 @@ export default function Login() {
       <section className="bg-[#faf8f4]">
         <div className="mx-auto max-w-[760px] px-5 py-20 md:px-8">
           <div className="border border-[#e7e4dc] bg-white p-7">
-            <LockKeyhole className="h-5 w-5 text-[#5B21B6]" aria-hidden />
+            <IdentityIcon name="lock" size={34} className="h-[34px] w-[34px] object-contain" />
             <h2 className="mt-5 text-[22px] font-semibold text-[#1d1d1b]">Acceso controlado</h2>
             <p className="mt-2 text-[14px] leading-6 text-[#4a4a47]">
               Cuando exista disponibilidad publica, esta pagina cambiara a un flujo de autenticacion real.

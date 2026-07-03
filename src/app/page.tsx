@@ -1,21 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import type { LucideIcon } from "@/components/icons";
 import {
   ArrowRight,
-  Compass,
-  Database,
-  FileCheck,
-  Fingerprint,
-  Globe2,
-  Network,
-  Server,
-  ShieldCheck,
 } from "@/components/icons";
 import { ButtonLink } from "@/components/Button";
 import Card from "@/components/Card";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import JsonLd from "@/components/JsonLd";
+import T from "@/components/LocalizedText";
+import StackedLogos from "@/components/ui/stacked-logos";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -29,7 +23,7 @@ export const metadata = createMetadata({
 type Capability = {
   title: string;
   body: string;
-  Icon: LucideIcon;
+  iconName: IdentityIconName;
 };
 
 type ProductCard = Capability & {
@@ -47,24 +41,6 @@ type PlatformCard = {
   visual: "orbit" | "stack" | "connect" | "shield";
 };
 
-const capabilities: Capability[] = [
-  {
-    title: "Operar cerca del contexto",
-    body: "Identidad, documentos y operación quedan cerca del usuario, del equipo y del dato que sostiene cada decisión.",
-    Icon: Compass,
-  },
-  {
-    title: "Conectar sin rehacer",
-    body: "Los módulos comparten eventos, permisos y estados para crecer sin duplicar procesos ni reconstruir contexto.",
-    Icon: Network,
-  },
-  {
-    title: "Escalar con control",
-    body: "Los accesos, revisiones y excepciones se gobiernan desde el flujo, no desde una lista de pendientes al final.",
-    Icon: ShieldCheck,
-  },
-];
-
 const products: ProductCard[] = [
   {
     title: "Identity Platform",
@@ -73,7 +49,7 @@ const products: ProductCard[] = [
     asset: "/protect-data-center.svg",
     assetAlt: "Centro de datos protegido por capas de identidad",
     label: "Acceso",
-    Icon: Fingerprint,
+    iconName: "identity",
   },
   {
     title: "Factur Workspaces",
@@ -82,7 +58,7 @@ const products: ProductCard[] = [
     asset: "/verify-down-up.svg",
     assetAlt: "Verificación documental para operación fiscal",
     label: "Documentos",
-    Icon: FileCheck,
+    iconName: "document",
   },
   {
     title: "Kiosko Workspaces",
@@ -91,7 +67,7 @@ const products: ProductCard[] = [
     asset: "/connect-extreme.svg",
     assetAlt: "Conexión de módulos operativos para punto de venta",
     label: "Operación",
-    Icon: Server,
+    iconName: "operations",
   },
 ];
 
@@ -126,24 +102,54 @@ const platformCards: PlatformCard[] = [
   },
 ];
 
-const trustSignals = [
-  "SaaS",
-  "Retail",
-  "Fintech",
-  "Operaciones",
-  "Soporte",
-  "Administración",
-  "Sucursales",
-  "Auditoría",
-  "Dirección",
-  "Producto",
-];
-
 const heroPartnerMarks = [
   "Identity",
   "Factur",
   "Kiosko",
   "Audit",
+  "Workspace",
+  "Ops",
+];
+
+const architectureNodes: Array<{
+  label: string;
+  x: string;
+  y: string;
+  mark: string;
+}> = [
+  { label: "X", x: "7.5%", y: "7%", mark: "x" },
+  { label: "Dropbox", x: "14.4%", y: "32%", mark: "dropbox" },
+  { label: "LinkedIn", x: "21.2%", y: "51%", mark: "linkedin" },
+  { label: "Discord", x: "28.9%", y: "66%", mark: "discord" },
+  { label: "Microsoft", x: "36.6%", y: "76%", mark: "microsoft" },
+  { label: "GitHub", x: "63.4%", y: "76%", mark: "github" },
+  { label: "Linear", x: "71.1%", y: "66%", mark: "linear" },
+  { label: "Notion", x: "78.8%", y: "51%", mark: "notion" },
+  { label: "Atlassian", x: "85.6%", y: "32%", mark: "atlassian" },
+  { label: "HubSpot", x: "92.5%", y: "7%", mark: "hubspot" },
+];
+
+const architectureFeatures: Capability[] = [
+  {
+    title: "Contexto conectado",
+    body: "Cada flujo conserva origen, responsable y estado para que la lectura no dependa de conversaciones externas.",
+    iconName: "integration",
+  },
+  {
+    title: "Integración directa",
+    body: "Los módulos comparten una base común para conectar identidad, documentos, eventos y operación sin rehacer pantallas.",
+    iconName: "config",
+  },
+  {
+    title: "Rutas verificables",
+    body: "Las decisiones importantes dejan evidencia clara y ordenada para revisión, continuidad y soporte interno.",
+    iconName: "audit",
+  },
+  {
+    title: "Acceso enlazado",
+    body: "Usuarios, permisos y sesiones se mantienen alineados con el trabajo real de cada equipo y espacio operativo.",
+    iconName: "access",
+  },
 ];
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -165,7 +171,7 @@ function Section({
 }
 
 function ProductCardView({ product }: { product: ProductCard }) {
-  const { Icon, asset, assetAlt, body, href, label, title } = product;
+  const { asset, assetAlt, body, href, iconName, label, title } = product;
 
   return (
     <Card density="none" className="opx-cf-product-card">
@@ -174,7 +180,7 @@ function ProductCardView({ product }: { product: ProductCard }) {
       </div>
       <div className="opx-cf-product-meta">
         <span>{label}</span>
-        <Icon className="h-5 w-5" aria-hidden />
+        <IdentityIcon name={iconName} size={24} className="h-6 w-6 object-contain" />
       </div>
       <h3>{title}</h3>
       <p>{body}</p>
@@ -204,12 +210,12 @@ function MultiTenancySection() {
     <Section className="opx-cf-multitenancy-section">
       <div className="opx-cf-multitenancy-shell">
         <div className="opx-cf-multitenancy-heading">
-          <h2>The easy solution to multi-tenancy</h2>
+          <h2><T id="home.multi.title" fallback="La solución simple para multi-tenancy" /></h2>
           <p>
-            Opendex reúne organizaciones, usuarios y permisos para operar productos B2B con equipos, roles y espacios de trabajo claramente separados.
+            <T id="home.multi.body" fallback="Opendex reúne organizaciones, usuarios y permisos para operar productos B2B con equipos, roles y espacios de trabajo claramente separados." />
           </p>
           <Link href="/productos/auth" className="opx-cf-multitenancy-link">
-            Explore B2B features
+            <T id="home.multi.cta" fallback="Explorar funciones B2B" />
             <span aria-hidden>&gt;</span>
           </Link>
         </div>
@@ -217,8 +223,8 @@ function MultiTenancySection() {
         <div className="opx-cf-multitenancy-grid" aria-label="Componentes de organización y multi-tenancy">
           <article className="opx-mt-card opx-mt-card-roles">
             <div className="opx-mt-copy">
-              <h3>Custom roles and permissions</h3>
-              <p>Powerful primitives to fully customize your app&apos;s authorization story.</p>
+              <h3><T id="home.multi.roles.title" fallback="Roles y permisos personalizados" /></h3>
+              <p><T id="home.multi.roles.body" fallback="Primitivas potentes para personalizar por completo la autorización de tu aplicación." /></p>
             </div>
 
             <div className="opx-mt-member-matrix" aria-hidden>
@@ -230,9 +236,9 @@ function MultiTenancySection() {
             </div>
 
             <div className="opx-mt-role-row" aria-label="Roles de organización">
-              {roleLabels.map((role) => (
+              {roleLabels.map((role, index) => (
                 <span key={role} className={role === "Administrator" ? "active" : undefined}>
-                  {role}
+                  <T id={`home.multi.role.${index}`} fallback={role} />
                 </span>
               ))}
             </div>
@@ -249,12 +255,12 @@ function MultiTenancySection() {
                 <span className="opx-mt-mini-avatar avatar-three" />
                 <span className="opx-mt-auto-pill">
                   <span>+</span>
-                  Auto-join
+                  <T id="home.multi.auto.title" fallback="Auto-unión" />
                 </span>
               </div>
               <div className="opx-mt-copy opx-mt-copy-bottom">
-                <h3>Auto-join</h3>
-                <p>Let users discover and join organizations based on their email domain.</p>
+                <h3><T id="home.multi.auto.title" fallback="Auto-unión" /></h3>
+                <p><T id="home.multi.auto.body" fallback="Permite que los usuarios descubran y se unan a organizaciones según su dominio de correo." /></p>
               </div>
             </article>
 
@@ -263,20 +269,20 @@ function MultiTenancySection() {
                 <span className="opx-mt-invite-line" />
                 <span className="opx-mt-invite-tip">
                   <span className="opx-mt-mail-icon" />
-                  Invite this person
+                  <T id="home.multi.invite.tip" fallback="Invitar a esta persona" />
                 </span>
               </div>
               <div className="opx-mt-copy opx-mt-copy-bottom">
-                <h3>Invitations</h3>
-                <p>Fuel your application&apos;s growth by making it simple for your customers to invite their team.</p>
+                <h3><T id="home.multi.invite.title" fallback="Invitaciones" /></h3>
+                <p><T id="home.multi.invite.body" fallback="Impulsa el crecimiento de tu aplicación facilitando que tus clientes inviten a su equipo." /></p>
               </div>
             </article>
           </div>
 
           <article className="opx-mt-card opx-mt-card-ui">
             <div className="opx-mt-copy">
-              <h3>Organization UI Components</h3>
-              <p>Turn-key components add simplicity to complex organization management tasks.</p>
+              <h3><T id="home.multi.ui.title" fallback="Componentes UI de organización" /></h3>
+              <p><T id="home.multi.ui.body" fallback="Componentes listos para simplificar tareas complejas de administración organizacional." /></p>
             </div>
             <div className="opx-mt-ui-preview" aria-hidden>
               <span className="opx-mt-org-switch">
@@ -294,6 +300,12 @@ function MultiTenancySection() {
 }
 
 export default function Home() {
+  const heroTrustLogoGroups = heroPartnerMarks.map((mark, index) => [
+    <span key={`${mark}-primary`}><T id={`home.hero.mark.${index}`} fallback={mark} /></span>,
+    <span key={`${mark}-signal`}><T id={`home.hero.trust.signal.${index}`} fallback={["Access", "Records", "Retail", "Review", "Teams", "Continuity"][index] ?? mark} /></span>,
+    <span key={`${mark}-system`}><T id={`home.hero.trust.system.${index}`} fallback={["Identity", "Evidence", "Operations", "Controls", "Workflow", "Readiness"][index] ?? mark} /></span>,
+  ]);
+
   return (
     <div className="opx-cf-home">
       <JsonLd data={breadcrumbJsonLd([{ name: "Inicio", path: "/" }])} />
@@ -314,91 +326,244 @@ export default function Home() {
               <span className="opx-cf-hero-mark opx-cf-hero-mark-builder">B</span>
             </div>
 
-            <h1>Opendex prepara la operación para equipos que crecen</h1>
+            <h1><T id="home.hero.title" fallback="Opendex prepara la operación para equipos que crecen" /></h1>
             <p>
-              Una base empresarial para conectar identidad, documentos y continuidad operativa sin convertir cada decisión en una revisión manual.
+              <T id="home.hero.description" fallback="Una base empresarial para conectar identidad, documentos y continuidad operativa sin convertir cada decisión en una revisión manual." />
             </p>
             <Link href="/contacto" className="opx-cf-hero-claim">
-              Solicitar acceso
+              <T id="home.hero.cta" fallback="Solicitar acceso" />
             </Link>
           </div>
         </div>
 
         <div className="opx-cf-hero-trust" aria-label="Áreas preparadas para operar con Opendex">
-          <div className="opx-cf-hero-trust-inner">
-            <p>Designed for teams building secure operations.</p>
-            {heroPartnerMarks.map((mark) => (
-              <span key={mark}>{mark}</span>
-            ))}
-          </div>
+          <StackedLogos
+            className="opx-cf-hero-trust-inner"
+            logoGroups={heroTrustLogoGroups}
+            duration={18}
+            logoWidth="210px"
+          />
         </div>
       </section>
 
-      <Section className="opx-cf-capability-band">
-        <div className="opx-cf-three">
-          {capabilities.map(({ Icon, body, title }) => (
-            <article key={title} className="opx-cf-capability">
-              <Icon className="h-6 w-6" aria-hidden />
-              <h2>{title}</h2>
-              <p>{body}</p>
+      <Section className="opx-context-defense-section">
+        <div className="opx-context-defense-shell">
+          <div className="opx-context-defense-rule" aria-hidden>
+            <span>+</span>
+          </div>
+
+          <div className="opx-context-defense-grid">
+            <div className="opx-context-defense-heading">
+              <p><T id="home.context.kicker" fallback="Contexto" /></p>
+              <h2><T id="home.context.title" fallback="La claridad operativa más fuerte empieza con contexto" /></h2>
+            </div>
+
+            <article className="opx-context-defense-copy">
+              <div className="opx-context-defense-icon" aria-hidden>
+                <IdentityIcon name="workspace" size={24} className="h-6 w-6 object-contain" />
+              </div>
+              <div>
+                <h3><T id="home.context.cardTitle" fallback="Opera cerca de la fuente" /></h3>
+                <p>
+                  <T id="home.context.body" fallback="Mantén identidad, documentos y trabajo diario cerca del usuario, equipo y dato que sostienen cada decisión." />
+                </p>
+                <Link href="/status" className="opx-context-defense-link">
+                  <T id="home.context.cta" fallback="Ver más" />
+                </Link>
+              </div>
             </article>
-          ))}
+          </div>
         </div>
       </Section>
 
       <Section className="opx-cf-trust-section">
-        <div className="opx-cf-trust-heading">
-          <h2>Equipos que coordinan operación sin perder contexto.</h2>
-          <p>Una misma base para áreas que necesitan operar, revisar y continuar con una lectura compartida.</p>
-        </div>
-        <div className="opx-cf-logo-rail" aria-label="Áreas y equipos compatibles">
-          {trustSignals.concat(trustSignals).map((signal, index) => (
-            <span key={`${signal}-${index}`}>{signal}</span>
-          ))}
-        </div>
-      </Section>
-
-      <Section>
-        <div className="opx-cf-section-heading">
-          <h2>Tres líneas de trabajo, una misma base operativa.</h2>
-          <p>
-            Identidad, documentos y operación comercial comparten permisos, eventos y estados para que el equipo no reconstruya contexto en cada flujo.
-          </p>
-        </div>
-
-        <div className="opx-cf-products-grid">
-          {products.map((product) => (
-            <ProductCardView key={product.title} product={product} />
-          ))}
-        </div>
-      </Section>
-
-      <Section className="opx-cf-section-split">
-        <div className="opx-cf-split-grid">
-          <div className="opx-cf-visual-card relative">
-            <Image
-              src="/opendex-3d-infrastructure.png"
-              alt="Infraestructura visual con capas de operación"
-              fill
-              sizes="(min-width: 1024px) 48vw, 100vw"
-              className="object-cover"
-            />
-            <div className="opx-cf-visual-overlay" aria-hidden />
-          </div>
-          <div className="opx-cf-split-copy">
-            <Globe2 className="h-8 w-8" aria-hidden />
-            <h2>Arquitectura visual para entender cómo se sostiene la operación.</h2>
-            <p>
-              El blueprint no debe ser decoración: debe ayudar a ver capas, responsabilidades y continuidad entre equipos.
-            </p>
-            <div className="opx-cf-actions">
-              <ButtonLink href="/soluciones/saas" variant="primary" size="md">
-                Ver soluciones
-              </ButtonLink>
-              <ButtonLink href="/seguridad" variant="secondary" size="md">
-                Revisar seguridad
-              </ButtonLink>
+        <div className="opx-trust-platform-shell">
+          <div className="opx-trust-platform-hero">
+            <div className="opx-trust-platform-copy">
+              <h2><T id="home.trust.title" fallback="La plataforma de seguridad operativa para equipos en crecimiento." /></h2>
+              <p>
+                <T id="home.trust.body" fallback="Impulsada por Opendex Context Graph, conectando cada usuario, documento, sucursal y flujo de trabajo con su origen, responsable y estado operativo. Una plataforma. Contexto completo. En cada entorno." />
+              </p>
             </div>
+
+            <div className="opx-trust-platform-map" aria-label="Mapa de entidades conectadas por Opendex">
+              <div className="opx-trust-platform-intro">
+                <span><T id="home.trust.introducing" fallback="Presentando" /></span>
+                <strong>
+                  <span className="opx-trust-platform-mark">O</span>
+                  opendex
+                </strong>
+              </div>
+
+              <div className="opx-trust-platform-stack">
+                <span className="opx-trust-bracket bracket-one" aria-hidden />
+                <span className="opx-trust-bracket bracket-two" aria-hidden />
+                <span className="opx-trust-bracket bracket-three" aria-hidden />
+                <span className="opx-trust-bracket bracket-four" aria-hidden />
+
+                <div className="opx-trust-platform-row">
+                  <IdentityIcon name="identity" size={22} className="h-5 w-5 object-contain" />
+                  <span><T id="home.trust.person" fallback="Persona" /></span>
+                  <strong>Opendex ID</strong>
+                </div>
+                <div className="opx-trust-platform-row">
+                  <IdentityIcon name="operations" size={22} className="h-5 w-5 object-contain" />
+                  <span><T id="home.trust.agent" fallback="Agente" /></span>
+                  <strong><T id="home.trust.workflows" fallback="Workflows" /></strong>
+                </div>
+                <div className="opx-trust-platform-row">
+                  <IdentityIcon name="integration" size={22} className="h-5 w-5 object-contain" />
+                  <span><T id="home.trust.tools" fallback="Herramientas" /></span>
+                  <strong>APIs</strong>
+                </div>
+                <div className="opx-trust-platform-row">
+                  <IdentityIcon name="access" size={22} className="h-5 w-5 object-contain" />
+                  <span><T id="home.trust.identities" fallback="Identidades" /></span>
+                  <strong><T id="home.trust.cloud" fallback="Cloud" /></strong>
+                </div>
+                <div className="opx-trust-platform-row is-wide">
+                  <IdentityIcon name="store" size={22} className="h-5 w-5 object-contain" />
+                  <span><T id="home.trust.resources" fallback="Recursos" /></span>
+                  <strong><T id="home.trust.branches" fallback="Sucursales" /></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="opx-trust-platform-banner">
+            <div className="opx-trust-platform-objects" aria-hidden>
+              <span className="object-one" />
+              <span className="object-two" />
+              <span className="object-three" />
+            </div>
+            <p>
+              <T id="home.trust.banner" fallback="Opendex proporciona visibilidad, gobierno y control operativo en identidades, documentos, workspaces y operaciones comerciales." />
+            </p>
+            <Link href="/productos" className="opx-trust-platform-action">
+              <T id="home.trust.cta" fallback="Opendex en acción" />
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="opx-workstreams-section">
+        <div className="opx-workstreams-shell">
+          <div className="opx-identifier-grid">
+            <article className="opx-identifier-main">
+              <div className="opx-identifier-card-top" aria-hidden>
+                <span className="opx-identifier-help">?</span>
+                <span className="opx-identifier-dash" />
+              </div>
+              <h2>
+                <T id="home.identifier.title" fallback="El identificador de contexto más preciso para la operación" />
+              </h2>
+              <p>
+                <T id="home.identifier.body" fallback="Claridad operativa persistente entre usuarios, documentos y eventos, incluso cuando los equipos cambian entre sucursales, dispositivos y flujos de trabajo." />
+              </p>
+              <Link href="/status" className="opx-identifier-button">
+                <T id="home.identifier.cta" fallback="Ver más" />
+              </Link>
+
+              <div className="opx-identifier-chart" aria-hidden>
+                <svg viewBox="0 0 760 210" preserveAspectRatio="none">
+                  <path className="opx-chart-gridline" d="M34 176H742" />
+                  <path className="opx-chart-axis" d="M34 26V176H742" />
+                  <path
+                    className="opx-chart-line opx-chart-line-orange"
+                    d="M0 34 L24 37 L52 34 L84 41 L116 38 L154 42 L190 47 L226 43 L260 47 L296 54 L332 48 L370 55 L408 60 L448 55 L488 70 L520 63 L558 72 L604 66 L642 75 L682 74 L724 63 L760 72"
+                  />
+                  <path
+                    className="opx-chart-line opx-chart-line-violet"
+                    d="M0 40 L24 45 L54 42 L84 48 L116 44 L154 49 L190 53 L226 50 L260 54 L292 62 L326 68 L360 128 L396 134 L430 134 L470 142 L510 148 L548 148 L588 156 L630 160 L676 162 L718 176 L760 177"
+                  />
+                </svg>
+                <div className="opx-chart-ticks">
+                  <span>0</span>
+                  <span>30</span>
+                  <span>60</span>
+                  <span>90</span>
+                  <span>120</span>
+                </div>
+                <div className="opx-chart-labels">
+                  <span><T id="home.identifier.chartLeft" fallback="Caída de precisión" /></span>
+                  <span><T id="home.identifier.chartRight" fallback="Días después de la identificación inicial" /></span>
+                </div>
+              </div>
+            </article>
+
+            <div className="opx-identifier-side" aria-label="Capacidades de identificación operativa">
+              <article className="opx-identifier-feature">
+                <span className="opx-identifier-icon">
+                  <IdentityIcon name="workspace" size={28} className="h-7 w-7 object-contain" />
+                </span>
+                <div>
+                  <h3><T id="home.identifier.feature.0.title" fallback="Cualquier equipo, cualquier dispositivo." /></h3>
+                  <p><T id="home.identifier.feature.0.body" fallback="Reconoce operadores recurrentes en navegadores, mostradores y flujos móviles con contexto consistente." /></p>
+                </div>
+              </article>
+
+              <article className="opx-identifier-pattern-card">
+                <div>
+                  <span className="opx-identifier-icon">
+                    <IdentityIcon name="identity" size={28} className="h-7 w-7 object-contain" />
+                  </span>
+                  <h3><T id="home.identifier.feature.1.title" fallback="Identifica cada traspaso operativo." /></h3>
+                  <p><T id="home.identifier.feature.1.body" fallback="Conecta brechas sospechosas, revisiones repetidas y cambios de responsable antes de que frenen la siguiente decisión." /></p>
+                </div>
+              </article>
+
+              <article className="opx-identifier-feature">
+                <span className="opx-identifier-icon">
+                  <IdentityIcon name="shield" size={28} className="h-7 w-7 object-contain" />
+                </span>
+                <div>
+                  <h3><T id="home.identifier.feature.2.title" fallback="Da continuidad a tus equipos confiables." /></h3>
+                  <p><T id="home.identifier.feature.2.body" fallback="Reduce verificación repetida y permite que usuarios aprobados continúen con menos fricción y evidencia más clara." /></p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="opx-cf-architecture-section">
+        <div className="opx-architecture-shell">
+          <div className="opx-architecture-heading">
+            <h2><T id="home.architecture.title" fallback="Arquitectura visual para conectar cada operación crítica" /></h2>
+            <p>
+              <T id="home.architecture.body" fallback="Cuando el sistema mantiene contexto, evidencia y acceso en una misma lectura, los equipos avanzan con menos fricción y mayor control." />
+            </p>
+          </div>
+
+          <div className="opx-architecture-orbit" aria-label="Capas conectadas de la arquitectura Opendex">
+            <div className="opx-architecture-arc" aria-hidden />
+            {architectureNodes.map((node) => (
+              <span
+                key={node.label}
+                className={`opx-architecture-node opx-architecture-node-${node.mark}`}
+                aria-hidden
+                style={{ "--x": node.x, "--y": node.y } as CSSProperties}
+              >
+                <span className="opx-architecture-node-mark" />
+              </span>
+            ))}
+            <Link href="/productos/auth" className="opx-architecture-signin">
+              <span className="opx-architecture-google-mark" aria-hidden />
+              <T id="home.architecture.signIn" fallback="Entrar con Opendex" />
+            </Link>
+          </div>
+
+          <div className="opx-architecture-features">
+            {architectureFeatures.map(({ iconName, title, body }, index) => (
+              <article key={title} className="opx-architecture-feature">
+                <IdentityIcon name={iconName} size={20} className="mt-0.5 h-5 w-5 object-contain" />
+                <div>
+                  <h3><T id={`home.architecture.feature.${index}.title`} fallback={title} /></h3>
+                  <p><T id={`home.architecture.feature.${index}.body`} fallback={body} /></p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </Section>
@@ -406,9 +571,9 @@ export default function Home() {
       <Section className="opx-cf-why-section">
         <div className="opx-platform-bento">
           <div className="opx-platform-bento-heading">
-            <h2>Opendex para plataformas operativas</h2>
+            <h2><T id="home.platform.title" fallback="Opendex para plataformas operativas" /></h2>
             <p>
-              Base empresarial para coordinar identidad, documentos y continuidad con una lectura preparada para equipos que crecen.
+              <T id="home.platform.body" fallback="Base empresarial para coordinar identidad, documentos y continuidad con una lectura preparada para equipos que crecen." />
             </p>
           </div>
 
@@ -421,9 +586,9 @@ export default function Home() {
                 <span className="opx-platform-line opx-platform-line-three" />
               </div>
               <div className="opx-platform-card-copy">
-                <h3>Provisionamiento programático</h3>
+                <h3><T id="home.platform.card.0.title" fallback="Provisionamiento programático" /></h3>
                 <p>
-                  Crea espacios de trabajo, reglas de acceso y módulos operativos desde una base preparada para cada cuenta.
+                  <T id="home.platform.card.0.body" fallback="Crea espacios de trabajo, reglas de acceso y módulos operativos desde una base preparada para cada cuenta." />
                 </p>
               </div>
             </article>
@@ -431,15 +596,15 @@ export default function Home() {
             <article className="opx-platform-card opx-platform-card-tall">
               <div className="opx-platform-dashboard-visual" aria-hidden>
                 <span className="opx-platform-session-pill">
-                  <span>Signed in</span>
+                  <span><T id="home.platform.signedIn" fallback="Sesión iniciada" /></span>
                   app.opendex.dev
                 </span>
                 <span className="opx-platform-dashboard-frame" />
               </div>
               <div className="opx-platform-card-copy">
-                <h3>Sesiones de operación administradas</h3>
+                <h3><T id="home.platform.card.1.title" fallback="Sesiones de operación administradas" /></h3>
                 <p>
-                  Mantén accesos, contexto y revisión dentro de flujos seguros sin exponer herramientas internas innecesarias.
+                  <T id="home.platform.card.1.body" fallback="Mantén accesos, contexto y revisión dentro de flujos seguros sin exponer herramientas internas innecesarias." />
                 </p>
               </div>
             </article>
@@ -449,9 +614,9 @@ export default function Home() {
                 <span>sk_live_51H8x...</span>
               </div>
               <div className="opx-platform-card-copy">
-                <h3>Aplicaciones reclamables</h3>
+                <h3><T id="home.platform.card.2.title" fallback="Aplicaciones reclamables" /></h3>
                 <p>
-                  Permite que cada equipo conserve propiedad sobre su operación, usuarios y configuración de cuenta.
+                  <T id="home.platform.card.2.body" fallback="Permite que cada equipo conserve propiedad sobre su operación, usuarios y configuración de cuenta." />
                 </p>
               </div>
             </article>
@@ -459,15 +624,15 @@ export default function Home() {
             <article className="opx-platform-card opx-platform-card-small">
               <div className="opx-platform-suite-visual" aria-hidden>
                 <span className="opx-platform-suite-pill">
-                  <Fingerprint className="h-5 w-5" />
-                  <FileCheck className="h-5 w-5" />
-                  <Database className="h-5 w-5" />
+                  <IdentityIcon name="identity" size={24} className="h-6 w-6 object-contain" />
+                  <IdentityIcon name="document" size={24} className="h-6 w-6 object-contain" />
+                  <IdentityIcon name="operations" size={24} className="h-6 w-6 object-contain" />
                 </span>
               </div>
               <div className="opx-platform-card-copy">
-                <h3>Una base de gestión operativa</h3>
+                <h3><T id="home.platform.card.3.title" fallback="Una base de gestión operativa" /></h3>
                 <p>
-                  Reúne autenticación, documentos, permisos y continuidad en una estructura coherente para crecer.
+                  <T id="home.platform.card.3.body" fallback="Reúne autenticación, documentos, permisos y continuidad en una estructura coherente para crecer." />
                 </p>
               </div>
             </article>
@@ -479,35 +644,35 @@ export default function Home() {
 
       <Section>
         <div className="opx-cf-section-heading opx-cf-section-heading-wide">
-          <h2>Powered by the Opendex platform</h2>
+          <h2><T id="home.mosaic.title" fallback="Impulsado por la plataforma Opendex" /></h2>
           <p>
-            Capas claras para sostener decisiones críticas, conectar sistemas y operar con control sin perder ritmo.
+            <T id="home.mosaic.body" fallback="Capas claras para sostener decisiones críticas, conectar sistemas y operar con control sin perder ritmo." />
           </p>
         </div>
         <div className="opx-platform-mosaic" aria-label="Capas de la plataforma Opendex">
-          {platformCards.map((card) => (
+          {platformCards.map((card, index) => (
             <article key={card.title} className={`opx-platform-tile opx-platform-tile-${card.theme}`}>
               <div className="opx-platform-tile-copy">
-                <div className="opx-platform-tile-eyebrow">{card.eyebrow}</div>
-                <h3>{card.title}</h3>
+                <div className="opx-platform-tile-eyebrow"><T id={`home.mosaic.${index}.eyebrow`} fallback={card.eyebrow} /></div>
+                <h3><T id={`home.mosaic.${index}.title`} fallback={card.title} /></h3>
               </div>
 
               <div className={`opx-platform-tile-visual opx-platform-tile-visual-${card.visual}`} aria-hidden>
                 {card.visual === "orbit" ? (
                   <>
                     <span className="opx-platform-orbit-path" />
-                    <span className="opx-platform-orbit-pill pill-top">Make my idea come true</span>
-                    <span className="opx-platform-orbit-pill pill-right">Publish</span>
-                    <span className="opx-platform-orbit-pill pill-bottom">Agent</span>
+                    <span className="opx-platform-orbit-pill pill-top"><T id="home.mosaic.0.pillTop" fallback="Haz realidad mi idea" /></span>
+                    <span className="opx-platform-orbit-pill pill-right"><T id="home.mosaic.0.pillRight" fallback="Publicar" /></span>
+                    <span className="opx-platform-orbit-pill pill-bottom"><T id="home.mosaic.0.pillBottom" fallback="Agente" /></span>
                   </>
                 ) : null}
 
                 {card.visual === "stack" ? (
                   <div className="opx-platform-stack-stack">
-                    <span>Authentication</span>
-                    <span>Database</span>
-                    <span>Hosting</span>
-                    <span>Monitoring</span>
+                    <span><T id="home.mosaic.1.stack.0" fallback="Autenticación" /></span>
+                    <span><T id="home.mosaic.1.stack.1" fallback="Base de datos" /></span>
+                    <span><T id="home.mosaic.1.stack.2" fallback="Hosting" /></span>
+                    <span><T id="home.mosaic.1.stack.3" fallback="Monitoreo" /></span>
                   </div>
                 ) : null}
 
@@ -529,7 +694,7 @@ export default function Home() {
                 ) : null}
               </div>
 
-              <p>{card.body}</p>
+              <p><T id={`home.mosaic.${index}.body`} fallback={card.body} /></p>
             </article>
           ))}
         </div>
@@ -537,20 +702,46 @@ export default function Home() {
 
       <Section className="opx-cf-final-section">
         <div className="opx-cf-final-cta">
-          <div>
-            <Database className="h-8 w-8" aria-hidden />
-            <h2>Ordenar la operación empieza por una base compartida.</h2>
+          <div className="opx-final-primary-copy">
+            <h2><T id="home.final.title" fallback="Ordenar la operación empieza por una base compartida." /></h2>
             <p>
-              Revisa las líneas de producto o agenda una conversación para evaluar qué parte del flujo debe conectarse primero.
+              <T id="home.final.body" fallback="Revisa las líneas de producto o agenda una conversación para evaluar qué parte del flujo debe conectarse primero." />
             </p>
+            <div className="opx-final-actions">
+              <Link href="/contacto" className="opx-final-button opx-final-button-primary">
+                <T id="home.final.primary" fallback="Empezar ahora" />
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link href="/productos" className="opx-final-button opx-final-button-secondary">
+                <T id="home.final.secondary" fallback="Comunícate con ventas" />
+              </Link>
+            </div>
           </div>
-          <div className="opx-cf-actions">
-            <ButtonLink href="/contacto" variant="inverse" size="lg" icon={<ArrowRight className="h-4 w-4" aria-hidden />}>
-              Hablar con ventas
-            </ButtonLink>
-            <ButtonLink href="/productos" variant="secondary" size="lg">
-              Ver productos
-            </ButtonLink>
+
+          <div className="opx-final-info-grid" aria-label="Siguientes pasos para ordenar la operación">
+            <article className="opx-final-info-card">
+              <span className="opx-final-info-icon" aria-hidden>
+                <IdentityIcon name="payment" size={40} className="opx-final-info-icon-image" />
+              </span>
+              <h3><T id="home.final.card.0.title" fallback="Ve lo que pagarás" /></h3>
+              <p><T id="home.final.card.0.body" fallback="Precios claros por módulo, equipo y nivel de operación sin costos ocultos." /></p>
+              <Link href="/precios">
+                <T id="home.final.card.0.link" fallback="Información sobre precios" />
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </article>
+
+            <article className="opx-final-info-card">
+              <span className="opx-final-info-icon" aria-hidden>
+                <IdentityIcon name="config" size={40} className="opx-final-info-icon-image" />
+              </span>
+              <h3><T id="home.final.card.1.title" fallback="Empieza a construir" /></h3>
+              <p><T id="home.final.card.1.body" fallback="Conecta identidad, documentos y operación en una base preparada desde el primer flujo." /></p>
+              <Link href="/contacto">
+                <T id="home.final.card.1.link" fallback="Opciones de integración" />
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </article>
           </div>
         </div>
       </Section>

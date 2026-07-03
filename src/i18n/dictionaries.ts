@@ -20,10 +20,10 @@ export const dictionaries = {
         {
           title: "Productos",
           links: [
-            ["Identity Platform", "/productos/auth"],
+            ["Opendex Identity Platform", "/productos/auth"],
             ["Factur Workspaces", "/productos/invoice"],
-            ["Kiosko Workspaces", "/productos/kiosko"],
-            ["Portafolio", "/productos"],
+            ["Opendex Kiosko Workspaces", "/productos/kiosko"],
+            ["Portafolio completo", "/productos"],
             ["Precios", "/precios"],
           ],
         },
@@ -34,17 +34,17 @@ export const dictionaries = {
             ["SaaS B2B", "/soluciones/saas"],
             ["Retail", "/soluciones/retail"],
             ["Empresas en México", "/empresa"],
+            ["Seguridad empresarial", "/seguridad"],
           ],
         },
         {
           title: "Recursos",
           links: [
             ["Documentación", "/documentacion"],
-            ["Guías", "/documentacion#guides"],
-            ["API", "/documentacion#api"],
-            ["SDKs", "/documentacion#sdks"],
             ["Blog", "/blog"],
-            ["FAQ", "/faq"],
+            ["Preguntas frecuentes", "/faq"],
+            ["Estado público", "/status"],
+            ["Contacto técnico", "/contacto"],
           ],
         },
         {
@@ -53,8 +53,8 @@ export const dictionaries = {
             ["Sobre Opendex", "/empresa"],
             ["Comunidad", "/comunidad"],
             ["Contacto", "/contacto"],
-            ["Status", "/status"],
             ["Blog", "/blog"],
+            ["Estado público", "/status"],
           ],
         },
         {
@@ -62,20 +62,81 @@ export const dictionaries = {
           links: [
             ["Principios", "/seguridad"],
             ["Privacidad", "/legal/privacidad"],
-            ["DPA", "/empresa#dpa"],
+            ["Cookies", "/legal/privacidad#cookies"],
+            ["Estado público", "/status"],
             ["Contacto técnico", "/contacto"],
           ],
         },
         {
           title: "Acceso",
           links: [
-            ["Login reservado", "/login"],
+            ["Inicio de sesión", "/login"],
             ["Solicitar información", "/contacto"],
             ["Soporte técnico", "/contacto"],
             ["Estado público", "/status"],
+            ["Comunidad", "/comunidad"],
+          ],
+        },
+        {
+          title: "Operación",
+          links: [
+            ["Identidad y acceso", "/productos/auth"],
+            ["Documentos fiscales", "/productos/invoice"],
+            ["Punto de venta", "/productos/kiosko"],
+            ["Continuidad", "/status"],
+            ["Evaluación", "/contacto"],
+          ],
+        },
+        {
+          title: "Legal",
+          links: [
+            ["Privacidad", "/legal/privacidad"],
+            ["Cookies", "/legal/privacidad#cookies"],
+            ["Seguridad", "/seguridad"],
+            ["Contacto legal", "/contacto"],
           ],
         },
       ] satisfies FooterColumn[],
+      legal: {
+        copyright:
+          "© 2026, Opendex Web Services. o sus empresas afiliadas. Todos los derechos reservados.",
+        contact: "Ponte en contacto con Opendex",
+        privacyOptions: "Tus opciones de privacidad",
+        links: [
+          ["Privacidad", "/legal/privacidad"],
+          ["Seguridad", "/seguridad"],
+          ["Contacto", "/contacto"],
+          ["Status", "/status"],
+        ] as [string, string][],
+      },
+      cookieModal: {
+        close: "Cerrar opciones de cookies",
+        title: "Opciones de privacidad",
+        description:
+          "Puedes elegir qué categorías aceptar para mejorar la experiencia del sitio. Las cookies necesarias se mantienen activas porque sostienen funciones básicas de seguridad, sesión y consentimiento.",
+        privacyLink: "Política de privacidad de Opendex",
+        acceptAll: "Aceptar todo",
+        rejectAll: "Rechazar todo",
+        confirm: "Confirmar preferencias",
+        preferencesTitle: "Preferencias de consentimiento",
+        alwaysActive: "Siempre activa",
+        enabled: "activadas",
+        disabled: "desactivadas",
+        rows: {
+          necessaryTitle: "Cookies estrictamente necesarias",
+          necessaryDescription:
+            "Necesarias para funciones básicas del sitio, seguridad, manejo de sesión y almacenamiento del consentimiento. No se pueden desactivar.",
+          functionalTitle: "Cookies funcionales",
+          functionalDescription:
+            "Recuerdan preferencias como idioma, región y ajustes de interfaz para que la experiencia sea consistente.",
+          performanceTitle: "Cookies de rendimiento",
+          performanceDescription:
+            "Ayudan a entender uso agregado y rendimiento para mejorar carga, navegación y estabilidad.",
+          targetingTitle: "Cookies de medición",
+          targetingDescription:
+            "Sirven para medir campañas y contenido sin cambiar el estado actual de los productos.",
+        },
+      },
     },
     productsPage: {
       eyebrow: "Portafolio operativo",
@@ -193,13 +254,55 @@ export const dictionaries = {
       description:
         "Critical infrastructure to build and scale products in LATAM: identity, fiscal workflows and retail operations under one platform.",
       columns: [
-        { title: "Products", links: [["Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Kiosko Workspaces", "/productos/kiosko"], ["Portfolio", "/productos"], ["Pricing", "/precios"]] },
-        { title: "Solutions", links: [["Fintech", "/soluciones/fintech"], ["B2B SaaS", "/soluciones/saas"], ["Retail", "/soluciones/retail"], ["Companies in Mexico", "/empresa"]] },
-        { title: "Resources", links: [["Documentation", "/documentacion"], ["Guides", "/documentacion#guides"], ["API", "/documentacion#api"], ["SDKs", "/documentacion#sdks"], ["Blog", "/blog"], ["FAQ", "/faq"]] },
-        { title: "Company", links: [["About Opendex", "/empresa"], ["Community", "/comunidad"], ["Contact", "/contacto"], ["Status", "/status"], ["Blog", "/blog"]] },
-        { title: "Security", links: [["Principles", "/seguridad"], ["Privacy", "/legal/privacidad"], ["DPA", "/empresa#dpa"], ["Technical contact", "/contacto"]] },
-        { title: "Access", links: [["Reserved login", "/login"], ["Request information", "/contacto"], ["Technical support", "/contacto"], ["Public status", "/status"]] },
+        { title: "Products", links: [["Opendex Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Opendex Kiosko Workspaces", "/productos/kiosko"], ["Full portfolio", "/productos"], ["Pricing", "/precios"]] },
+        { title: "Solutions", links: [["Fintech", "/soluciones/fintech"], ["B2B SaaS", "/soluciones/saas"], ["Retail", "/soluciones/retail"], ["Companies in Mexico", "/empresa"], ["Enterprise security", "/seguridad"]] },
+        { title: "Resources", links: [["Documentation", "/documentacion"], ["Blog", "/blog"], ["FAQ", "/faq"], ["Public status", "/status"], ["Technical contact", "/contacto"]] },
+        { title: "Company", links: [["About Opendex", "/empresa"], ["Community", "/comunidad"], ["Contact", "/contacto"], ["Blog", "/blog"], ["Public status", "/status"]] },
+        { title: "Security", links: [["Principles", "/seguridad"], ["Privacy", "/legal/privacidad"], ["Cookies", "/legal/privacidad#cookies"], ["Public status", "/status"], ["Technical contact", "/contacto"]] },
+        { title: "Access", links: [["Reserved login", "/login"], ["Request information", "/contacto"], ["Technical support", "/contacto"], ["Public status", "/status"], ["Community", "/comunidad"]] },
+        { title: "Operations", links: [["Identity and access", "/productos/auth"], ["Fiscal documents", "/productos/invoice"], ["Point of sale", "/productos/kiosko"], ["Continuity", "/status"], ["Evaluation", "/contacto"]] },
+        { title: "Legal", links: [["Privacy", "/legal/privacidad"], ["Cookies", "/legal/privacidad#cookies"], ["Security", "/seguridad"], ["Legal contact", "/contacto"]] },
       ] satisfies FooterColumn[],
+      legal: {
+        copyright:
+          "© 2026, Opendex Web Services, or its affiliates. All rights reserved.",
+        contact: "Contact Opendex",
+        privacyOptions: "Your privacy choices",
+        links: [
+          ["Privacy", "/legal/privacidad"],
+          ["Security", "/seguridad"],
+          ["Contact", "/contacto"],
+          ["Status", "/status"],
+        ] as [string, string][],
+      },
+      cookieModal: {
+        close: "Close cookie options",
+        title: "Privacy options",
+        description:
+          "Choose which categories to accept to improve the site experience. Necessary cookies stay active because they support security, session handling and consent storage.",
+        privacyLink: "Opendex Privacy Policy",
+        acceptAll: "Accept all",
+        rejectAll: "Reject all",
+        confirm: "Confirm preferences",
+        preferencesTitle: "Consent preferences",
+        alwaysActive: "Always active",
+        enabled: "enabled",
+        disabled: "disabled",
+        rows: {
+          necessaryTitle: "Strictly necessary cookies",
+          necessaryDescription:
+            "Required for basic site functions, security, session handling and consent storage. They cannot be disabled.",
+          functionalTitle: "Functional cookies",
+          functionalDescription:
+            "Remember preferences such as language, region and interface settings so the experience remains consistent.",
+          performanceTitle: "Performance cookies",
+          performanceDescription:
+            "Help us understand aggregate usage and performance to improve loading, navigation and stability.",
+          targetingTitle: "Measurement cookies",
+          targetingDescription:
+            "Help measure campaigns and content without changing the current product state.",
+        },
+      },
     },
     productsPage: {
       eyebrow: "Operational portfolio",
@@ -226,13 +329,55 @@ export const dictionaries = {
     footer: {
       description: "Infraestrutura crítica para criar e escalar produtos na LATAM: identidade, fiscal e varejo em uma só plataforma.",
       columns: [
-        { title: "Produtos", links: [["Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Kiosko Workspaces", "/productos/kiosko"], ["Portfólio", "/productos"], ["Preços", "/precios"]] },
-        { title: "Soluções", links: [["Fintech", "/soluciones/fintech"], ["SaaS B2B", "/soluciones/saas"], ["Varejo", "/soluciones/retail"], ["Empresas no México", "/empresa"]] },
-        { title: "Recursos", links: [["Documentação", "/documentacion"], ["Guias", "/documentacion#guides"], ["API", "/documentacion#api"], ["SDKs", "/documentacion#sdks"], ["Blog", "/blog"], ["FAQ", "/faq"]] },
-        { title: "Empresa", links: [["Sobre Opendex", "/empresa"], ["Comunidade", "/comunidad"], ["Contato", "/contacto"], ["Status", "/status"], ["Blog", "/blog"]] },
-        { title: "Segurança", links: [["Princípios", "/seguridad"], ["Privacidade", "/legal/privacidad"], ["DPA", "/empresa#dpa"], ["Contato técnico", "/contacto"]] },
-        { title: "Acesso", links: [["Login reservado", "/login"], ["Solicitar informações", "/contacto"], ["Suporte técnico", "/contacto"], ["Status público", "/status"]] },
+        { title: "Produtos", links: [["Opendex Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Opendex Kiosko Workspaces", "/productos/kiosko"], ["Portfólio completo", "/productos"], ["Preços", "/precios"]] },
+        { title: "Soluções", links: [["Fintech", "/soluciones/fintech"], ["SaaS B2B", "/soluciones/saas"], ["Varejo", "/soluciones/retail"], ["Empresas no México", "/empresa"], ["Segurança empresarial", "/seguridad"]] },
+        { title: "Recursos", links: [["Documentação", "/documentacion"], ["Blog", "/blog"], ["FAQ", "/faq"], ["Status público", "/status"], ["Contato técnico", "/contacto"]] },
+        { title: "Empresa", links: [["Sobre Opendex", "/empresa"], ["Comunidade", "/comunidad"], ["Contato", "/contacto"], ["Blog", "/blog"], ["Status público", "/status"]] },
+        { title: "Segurança", links: [["Princípios", "/seguridad"], ["Privacidade", "/legal/privacidad"], ["Cookies", "/legal/privacidad#cookies"], ["Status público", "/status"], ["Contato técnico", "/contacto"]] },
+        { title: "Acesso", links: [["Login reservado", "/login"], ["Solicitar informações", "/contacto"], ["Suporte técnico", "/contacto"], ["Status público", "/status"], ["Comunidade", "/comunidad"]] },
+        { title: "Operação", links: [["Identidade e acesso", "/productos/auth"], ["Documentos fiscais", "/productos/invoice"], ["Ponto de venda", "/productos/kiosko"], ["Continuidade", "/status"], ["Avaliação", "/contacto"]] },
+        { title: "Legal", links: [["Privacidade", "/legal/privacidad"], ["Cookies", "/legal/privacidad#cookies"], ["Segurança", "/seguridad"], ["Contato legal", "/contacto"]] },
       ] satisfies FooterColumn[],
+      legal: {
+        copyright:
+          "© 2026, Opendex Web Services ou suas afiliadas. Todos os direitos reservados.",
+        contact: "Entre em contato com a Opendex",
+        privacyOptions: "Suas opções de privacidade",
+        links: [
+          ["Privacidade", "/legal/privacidad"],
+          ["Segurança", "/seguridad"],
+          ["Contato", "/contacto"],
+          ["Status", "/status"],
+        ] as [string, string][],
+      },
+      cookieModal: {
+        close: "Fechar opções de cookies",
+        title: "Opções de privacidade",
+        description:
+          "Você pode escolher quais categorias aceitar para melhorar a experiência do site. Cookies necessários permanecem ativos porque sustentam segurança, sessão e consentimento.",
+        privacyLink: "Política de privacidade da Opendex",
+        acceptAll: "Aceitar tudo",
+        rejectAll: "Rejeitar tudo",
+        confirm: "Confirmar preferências",
+        preferencesTitle: "Preferências de consentimento",
+        alwaysActive: "Sempre ativa",
+        enabled: "ativadas",
+        disabled: "desativadas",
+        rows: {
+          necessaryTitle: "Cookies estritamente necessários",
+          necessaryDescription:
+            "Necessários para funções básicas do site, segurança, sessão e armazenamento do consentimento. Não podem ser desativados.",
+          functionalTitle: "Cookies funcionais",
+          functionalDescription:
+            "Lembram preferências como idioma, região e ajustes de interface para manter a experiência consistente.",
+          performanceTitle: "Cookies de desempenho",
+          performanceDescription:
+            "Ajudam a entender uso agregado e desempenho para melhorar carregamento, navegação e estabilidade.",
+          targetingTitle: "Cookies de medição",
+          targetingDescription:
+            "Ajudam a medir campanhas e conteúdo sem alterar o estado atual dos produtos.",
+        },
+      },
     },
     productsPage: {
       eyebrow: "Portfólio operacional",
@@ -258,13 +403,55 @@ export const dictionaries = {
     footer: {
       description: "Infrastructure critique pour créer et faire évoluer des produits en LATAM : identité, fiscalité et retail sur une seule plateforme.",
       columns: [
-        { title: "Produits", links: [["Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Kiosko Workspaces", "/productos/kiosko"], ["Portefeuille", "/productos"], ["Tarifs", "/precios"]] },
-        { title: "Solutions", links: [["Fintech", "/soluciones/fintech"], ["SaaS B2B", "/soluciones/saas"], ["Retail", "/soluciones/retail"], ["Entreprises au Mexique", "/empresa"]] },
-        { title: "Ressources", links: [["Documentation", "/documentacion"], ["Guides", "/documentacion#guides"], ["API", "/documentacion#api"], ["SDKs", "/documentacion#sdks"], ["Blog", "/blog"], ["FAQ", "/faq"]] },
-        { title: "Entreprise", links: [["À propos d'Opendex", "/empresa"], ["Communauté", "/comunidad"], ["Contact", "/contacto"], ["Status", "/status"], ["Blog", "/blog"]] },
-        { title: "Sécurité", links: [["Principes", "/seguridad"], ["Confidentialité", "/legal/privacidad"], ["DPA", "/empresa#dpa"], ["Contact technique", "/contacto"]] },
-        { title: "Accès", links: [["Connexion réservée", "/login"], ["Demander des informations", "/contacto"], ["Support technique", "/contacto"], ["Status public", "/status"]] },
+        { title: "Produits", links: [["Opendex Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Opendex Kiosko Workspaces", "/productos/kiosko"], ["Portefeuille complet", "/productos"], ["Tarifs", "/precios"]] },
+        { title: "Solutions", links: [["Fintech", "/soluciones/fintech"], ["SaaS B2B", "/soluciones/saas"], ["Retail", "/soluciones/retail"], ["Entreprises au Mexique", "/empresa"], ["Sécurité entreprise", "/seguridad"]] },
+        { title: "Ressources", links: [["Documentation", "/documentacion"], ["Blog", "/blog"], ["FAQ", "/faq"], ["Statut public", "/status"], ["Contact technique", "/contacto"]] },
+        { title: "Entreprise", links: [["À propos d'Opendex", "/empresa"], ["Communauté", "/comunidad"], ["Contact", "/contacto"], ["Blog", "/blog"], ["Statut public", "/status"]] },
+        { title: "Sécurité", links: [["Principes", "/seguridad"], ["Confidentialité", "/legal/privacidad"], ["Cookies", "/legal/privacidad#cookies"], ["Statut public", "/status"], ["Contact technique", "/contacto"]] },
+        { title: "Accès", links: [["Connexion réservée", "/login"], ["Demander des informations", "/contacto"], ["Support technique", "/contacto"], ["Statut public", "/status"], ["Communauté", "/comunidad"]] },
+        { title: "Opérations", links: [["Identité et accès", "/productos/auth"], ["Documents fiscaux", "/productos/invoice"], ["Point de vente", "/productos/kiosko"], ["Continuité", "/status"], ["Évaluation", "/contacto"]] },
+        { title: "Légal", links: [["Confidentialité", "/legal/privacidad"], ["Cookies", "/legal/privacidad#cookies"], ["Sécurité", "/seguridad"], ["Contact légal", "/contacto"]] },
       ] satisfies FooterColumn[],
+      legal: {
+        copyright:
+          "© 2026, Opendex Web Services ou ses sociétés affiliées. Tous droits réservés.",
+        contact: "Contacter Opendex",
+        privacyOptions: "Vos choix de confidentialité",
+        links: [
+          ["Confidentialité", "/legal/privacidad"],
+          ["Sécurité", "/seguridad"],
+          ["Contact", "/contacto"],
+          ["Status", "/status"],
+        ] as [string, string][],
+      },
+      cookieModal: {
+        close: "Fermer les options de cookies",
+        title: "Options de confidentialité",
+        description:
+          "Vous pouvez choisir les catégories à accepter pour améliorer l'expérience du site. Les cookies nécessaires restent actifs car ils soutiennent la sécurité, la session et le consentement.",
+        privacyLink: "Politique de confidentialité d'Opendex",
+        acceptAll: "Tout accepter",
+        rejectAll: "Tout refuser",
+        confirm: "Confirmer les préférences",
+        preferencesTitle: "Préférences de consentement",
+        alwaysActive: "Toujours active",
+        enabled: "activées",
+        disabled: "désactivées",
+        rows: {
+          necessaryTitle: "Cookies strictement nécessaires",
+          necessaryDescription:
+            "Nécessaires aux fonctions de base du site, à la sécurité, à la session et au stockage du consentement. Ils ne peuvent pas être désactivés.",
+          functionalTitle: "Cookies fonctionnels",
+          functionalDescription:
+            "Mémorisent les préférences comme la langue, la région et les réglages d'interface pour une expérience cohérente.",
+          performanceTitle: "Cookies de performance",
+          performanceDescription:
+            "Aident à comprendre l'usage agrégé et la performance pour améliorer le chargement, la navigation et la stabilité.",
+          targetingTitle: "Cookies de mesure",
+          targetingDescription:
+            "Servent à mesurer les campagnes et le contenu sans changer l'état actuel des produits.",
+        },
+      },
     },
     productsPage: {
       eyebrow: "Portefeuille opérationnel",
@@ -290,13 +477,54 @@ export const dictionaries = {
     footer: {
       description: "面向 LATAM 产品构建与扩展的关键基础设施：身份、财税流程与零售运营整合在同一平台下。",
       columns: [
-        { title: "产品", links: [["Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Kiosko Workspaces", "/productos/kiosko"], ["作品集", "/productos"], ["价格", "/precios"]] },
-        { title: "解决方案", links: [["金融科技", "/soluciones/fintech"], ["B2B SaaS", "/soluciones/saas"], ["零售", "/soluciones/retail"], ["墨西哥企业", "/empresa"]] },
-        { title: "资源", links: [["文档", "/documentacion"], ["指南", "/documentacion#guides"], ["API", "/documentacion#api"], ["SDK", "/documentacion#sdks"], ["博客", "/blog"], ["FAQ", "/faq"]] },
-        { title: "公司", links: [["关于 Opendex", "/empresa"], ["社区", "/comunidad"], ["联系", "/contacto"], ["状态", "/status"], ["博客", "/blog"]] },
-        { title: "安全", links: [["原则", "/seguridad"], ["隐私", "/legal/privacidad"], ["DPA", "/empresa#dpa"], ["技术联系", "/contacto"]] },
-        { title: "访问", links: [["保留登录", "/login"], ["索取信息", "/contacto"], ["技术支持", "/contacto"], ["公开状态", "/status"]] },
+        { title: "产品", links: [["Opendex Identity Platform", "/productos/auth"], ["Factur Workspaces", "/productos/invoice"], ["Opendex Kiosko Workspaces", "/productos/kiosko"], ["完整产品组合", "/productos"], ["价格", "/precios"]] },
+        { title: "解决方案", links: [["金融科技", "/soluciones/fintech"], ["B2B SaaS", "/soluciones/saas"], ["零售", "/soluciones/retail"], ["墨西哥企业", "/empresa"], ["企业安全", "/seguridad"]] },
+        { title: "资源", links: [["文档", "/documentacion"], ["博客", "/blog"], ["FAQ", "/faq"], ["公开状态", "/status"], ["技术联系", "/contacto"]] },
+        { title: "公司", links: [["关于 Opendex", "/empresa"], ["社区", "/comunidad"], ["联系", "/contacto"], ["博客", "/blog"], ["公开状态", "/status"]] },
+        { title: "安全", links: [["原则", "/seguridad"], ["隐私", "/legal/privacidad"], ["Cookie", "/legal/privacidad#cookies"], ["公开状态", "/status"], ["技术联系", "/contacto"]] },
+        { title: "访问", links: [["保留登录", "/login"], ["索取信息", "/contacto"], ["技术支持", "/contacto"], ["公开状态", "/status"], ["社区", "/comunidad"]] },
+        { title: "运营", links: [["身份与访问", "/productos/auth"], ["财税文档", "/productos/invoice"], ["销售点", "/productos/kiosko"], ["连续性", "/status"], ["评估", "/contacto"]] },
+        { title: "法律", links: [["隐私", "/legal/privacidad"], ["Cookie", "/legal/privacidad#cookies"], ["安全", "/seguridad"], ["法律联系", "/contacto"]] },
       ] satisfies FooterColumn[],
+      legal: {
+        copyright: "© 2026, Opendex Web Services 或其关联公司。保留所有权利。",
+        contact: "联系 Opendex",
+        privacyOptions: "你的隐私选项",
+        links: [
+          ["隐私", "/legal/privacidad"],
+          ["安全", "/seguridad"],
+          ["联系", "/contacto"],
+          ["状态", "/status"],
+        ] as [string, string][],
+      },
+      cookieModal: {
+        close: "关闭 Cookie 选项",
+        title: "隐私选项",
+        description:
+          "你可以选择接受哪些类别来改善网站体验。必要 Cookie 会保持启用，因为它们支持安全、会话和同意记录。",
+        privacyLink: "Opendex 隐私政策",
+        acceptAll: "全部接受",
+        rejectAll: "全部拒绝",
+        confirm: "确认偏好",
+        preferencesTitle: "同意偏好",
+        alwaysActive: "始终启用",
+        enabled: "已启用",
+        disabled: "已停用",
+        rows: {
+          necessaryTitle: "严格必要 Cookie",
+          necessaryDescription:
+            "用于网站基本功能、安全、会话处理和同意记录，不能停用。",
+          functionalTitle: "功能 Cookie",
+          functionalDescription:
+            "记住语言、地区和界面设置等偏好，让体验保持一致。",
+          performanceTitle: "性能 Cookie",
+          performanceDescription:
+            "帮助了解汇总使用情况和性能，以改善加载、导航和稳定性。",
+          targetingTitle: "衡量 Cookie",
+          targetingDescription:
+            "用于衡量活动和内容，不会改变当前产品状态。",
+        },
+      },
     },
     productsPage: {
       eyebrow: "运营作品集",

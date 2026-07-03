@@ -1,14 +1,6 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Fingerprint,
-  Shield,
-  KeyRound,
-  Globe2,
-  Zap,
-  Lock,
-  Activity,
-} from "@/components/icons";
+import { Badge } from "@cloudflare/kumo/components/badge";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import { Reveal } from "@/components/Motion";
@@ -25,13 +17,37 @@ export const metadata = createMetadata({
 });
 
 const features = [
-  { Icon: Fingerprint, title: "Autenticacion sin contrasenas", desc: "Flujos pensados para passkeys, magic links y recuperacion segura sin depender de passwords fragiles." },
-  { Icon: Shield, title: "Identidad empresarial", desc: "Conexiones SSO y reglas por workspace para separar clientes, equipos internos y administradores." },
-  { Icon: KeyRound, title: "Gobierno de sesiones", desc: "Politicas para expiracion, rotacion, revocacion y control de alcance por aplicacion." },
-  { Icon: Zap, title: "Integracion guiada", desc: "La prioridad no es prometer una linea de codigo, sino reducir decisiones peligrosas durante la implementacion." },
-  { Icon: Globe2, title: "Residencia por proyecto", desc: "Preparado para definir donde viven datos, logs y eventos segun el contexto del cliente." },
-  { Icon: Activity, title: "Auditoria operativa", desc: "Eventos de acceso, cambios de configuracion y decisiones de riesgo listos para trazabilidad." },
-];
+  {
+    iconName: "access",
+    title: "Autenticacion sin contrasenas",
+    desc: "Flujos pensados para passkeys, magic links y recuperacion segura sin depender de passwords fragiles.",
+  },
+  {
+    iconName: "identity",
+    title: "Identidad empresarial",
+    desc: "Conexiones SSO y reglas por workspace para separar clientes, equipos internos y administradores.",
+  },
+  {
+    iconName: "session",
+    title: "Gobierno de sesiones",
+    desc: "Politicas para expiracion, rotacion, revocacion y control de alcance por aplicacion.",
+  },
+  {
+    iconName: "config",
+    title: "Integracion guiada",
+    desc: "La prioridad no es prometer una linea de codigo, sino reducir decisiones peligrosas durante la implementacion.",
+  },
+  {
+    iconName: "integration",
+    title: "Residencia por proyecto",
+    desc: "Preparado para definir donde viven datos, logs y eventos segun el contexto del cliente.",
+  },
+  {
+    iconName: "audit",
+    title: "Auditoria operativa",
+    desc: "Eventos de acceso, cambios de configuracion y decisiones de riesgo listos para trazabilidad.",
+  },
+] satisfies Array<{ iconName: IdentityIconName; title: string; desc: string }>;
 
 const codeTS = `import { OpendexIdentity } from "@opendex/identity";
 
@@ -68,14 +84,14 @@ export default function Auth() {
       />
       <LocalizedPageHeader pageKey="productAuth">
         <Link href="/contacto" className="btn btn-primary">
-          <LocalizedLabel labelKey="requestInfo" /> <ArrowRight className="h-4 w-4" aria-hidden />
+          <LocalizedLabel labelKey="requestInfo" />
         </Link>
-        <Link href="/documentacion" className="btn btn-ghost">
-          <LocalizedLabel labelKey="viewDocs" />
+        <Link href="/status" className="btn btn-ghost">
+          <LocalizedLabel labelKey="publicStatus" />
         </Link>
-        <span className="badge badge-soon self-center">
+        <Badge variant="warning" className="self-center">
           <LocalizedLabel labelKey="prelaunchBadge" />
-        </span>
+        </Badge>
       </LocalizedPageHeader>
 
       {/* FLOW 3D */}
@@ -113,12 +129,10 @@ export default function Auth() {
             <div className="card flex flex-col p-7">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-iris-600 text-white">
-                    <Fingerprint className="h-4 w-4" aria-hidden />
-                  </span>
+                  <IdentityIcon name="identity" size={30} className="h-[30px] w-[30px] object-contain" />
                   <span className="text-[13.5px] font-semibold text-ink-950">Opendex Identity</span>
                 </div>
-                <span className="badge badge-soon">prelaunch</span>
+                <Badge variant="warning">prelaunch</Badge>
               </div>
               <h3 className="mt-7 text-[20px] font-semibold tracking-tight text-ink-950">
                 Inicia sesión
@@ -146,12 +160,13 @@ export default function Auth() {
                 className="w-full rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-[13.5px] text-ink-950 outline-none transition focus:border-iris-400 focus:ring-2 focus:ring-iris-200"
               />
               <button className="btn btn-iris mt-3 w-full">
-                <Fingerprint className="h-4 w-4" aria-hidden /> Continuar con passkey
+                Continuar con passkey
               </button>
 
               <div className="mt-5 flex items-center justify-between border-t border-ink-100 pt-4 text-[11px] text-ink-500">
                 <span className="flex items-center gap-1.5">
-                  <Lock className="h-3 w-3" aria-hidden /> Protegido por Opendex
+                  <IdentityIcon name="shield" size={16} className="h-4 w-4 object-contain" />
+                  Protegido por Opendex
                 </span>
                 <span>Entorno de prelanzamiento</span>
               </div>
@@ -201,11 +216,9 @@ export default function Auth() {
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(({ Icon, title, desc }) => (
+            {features.map(({ iconName, title, desc }) => (
               <div key={title} className="card p-6">
-                <span className="grid h-10 w-10 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
+                <IdentityIcon name={iconName} size={38} className="h-[38px] w-[38px] object-contain" />
                 <h3 className="mt-5 text-[15.5px] font-semibold text-ink-950">{title}</h3>
                 <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-600">{desc}</p>
               </div>
@@ -228,7 +241,7 @@ export default function Auth() {
             </div>
             <div className="flex gap-3">
               <Link href="/contacto" className="btn btn-primary">
-                Contactar <ArrowRight className="h-4 w-4" aria-hidden />
+                Contactar
               </Link>
               <Link href="/precios" className="btn btn-ghost">
                 Ver precios

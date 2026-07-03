@@ -50,8 +50,12 @@ export default function LanguageSelector({
       >
         <Globe className="opx-language-icon" aria-hidden />
         <span className="opx-language-label">{activeLanguage.nativeLabel}</span>
-        <span className="opx-language-code">{activeLanguage.code}</span>
-        <ChevronDown className="opx-language-chevron" data-open={open ? "true" : undefined} aria-hidden />
+        <ChevronDown
+          className="opx-language-chevron"
+          data-open={open ? "true" : undefined}
+          data-direction={open ? "up" : "down"}
+          aria-hidden
+        />
       </button>
 
       {open ? (
@@ -72,19 +76,11 @@ export default function LanguageSelector({
                 className="opx-language-option"
                 data-selected={selected ? "true" : undefined}
               >
+                <span className="opx-language-option-title">
+                  {language.nativeLabel}
+                </span>
                 <span className="opx-language-check">
                   {selected ? <Check className="h-3.5 w-3.5" aria-hidden /> : null}
-                </span>
-                <span className="opx-language-option-copy">
-                  <span className="opx-language-option-title">
-                    {language.nativeLabel}
-                  </span>
-                  <span className="opx-language-option-meta">
-                    {selected ? dictionary.language.current : language.label}
-                  </span>
-                </span>
-                <span className="opx-language-option-code">
-                  {language.code}
                 </span>
               </button>
             );

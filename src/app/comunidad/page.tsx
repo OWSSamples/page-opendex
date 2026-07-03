@@ -1,17 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  BookOpen,
-  Code2,
-  Compass,
-  Globe2,
-  Heart,
-  MessageCircle,
-  Rocket,
-  ShieldCheck,
-  Users,
-} from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
+import { ArrowRight } from "@/components/icons";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 
@@ -19,45 +9,45 @@ export const metadata = { title: "Comunidad" };
 
 const channels = [
   {
-    Icon: MessageCircle,
+    iconName: "identity",
     title: "Conversaciones de producto",
     desc: "Un canal directo para entender estados, roadmap, integraciones y oportunidades de validacion temprana.",
     signal: "Respuesta humana",
   },
   {
-    Icon: Code2,
+    iconName: "config",
     title: "Mesa tecnica",
     desc: "Espacio para revisar arquitectura, APIs, eventos, sesiones, seguridad y decisiones de integracion.",
     signal: "Builders first",
   },
   {
-    Icon: Users,
+    iconName: "organization",
     title: "Aliados iniciales",
     desc: "Relaciones con equipos, negocios y operadores que quieran probar Opendex con contexto real.",
     signal: "Privado",
   },
-];
+] satisfies Array<{ iconName: IdentityIconName; title: string; desc: string; signal: string }>;
 
 const programs = [
   {
-    Icon: Rocket,
+    iconName: "operations",
     name: "Early Circle",
     copy: "Grupo pequeño de personas y empresas que quieren seguir el avance de Opendex desde la etapa temprana.",
     items: ["Actualizaciones de producto", "Contexto del roadmap", "Invitaciones privadas"],
   },
   {
-    Icon: BookOpen,
+    iconName: "document",
     name: "Architecture Notes",
     copy: "Notas sobre identidad, facturacion, POS, auditoria y criterios tecnicos que guian la plataforma.",
     items: ["Decisiones de diseño", "Diagramas de sistema", "Lecciones del producto"],
   },
   {
-    Icon: ShieldCheck,
+    iconName: "shield",
     name: "Trust Sessions",
     copy: "Conversaciones enfocadas en seguridad, privacidad, acceso, trazabilidad y preparacion empresarial.",
     items: ["Riesgo y sesiones", "Auditoria y webhooks", "Privacidad desde Mexico"],
   },
-];
+] satisfies Array<{ iconName: IdentityIconName; name: string; copy: string; items: string[] }>;
 
 const timeline = [
   ["Fase 01", "Escucha privada", "Reunir señales de equipos mexicanos, negocios digitales y operadores que viven problemas reales."],
@@ -154,11 +144,11 @@ export default function Comunidad() {
           </div>
 
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {channels.map(({ Icon, title, desc, signal }) => (
+            {channels.map(({ iconName, title, desc, signal }) => (
               <article key={title} className="card group min-h-[260px] p-6">
                 <div className="relative h-24 overflow-hidden border border-ink-200 bg-ink-50">
                   <div className="community-card-image" aria-hidden />
-                  <Icon className="absolute left-5 top-5 h-7 w-7 text-[#5B21B6]" aria-hidden />
+                  <IdentityIcon name={iconName} size={36} className="absolute left-5 top-5 h-9 w-9 object-contain" />
                   <span className="absolute bottom-4 left-5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-500">
                     {signal}
                   </span>
@@ -186,12 +176,10 @@ export default function Comunidad() {
               </p>
             </div>
             <div className="grid gap-5">
-              {programs.map(({ Icon, name, copy, items }) => (
+              {programs.map(({ iconName, name, copy, items }) => (
                 <article key={name} className="card grid gap-6 p-6 md:grid-cols-[220px_minmax(0,1fr)]">
                   <div>
-                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                      <Icon className="h-5 w-5" aria-hidden />
-                    </span>
+                    <IdentityIcon name={iconName} size={40} className="h-10 w-10 object-contain" />
                     <h3 className="mt-5 text-[20px] font-semibold tracking-tight text-ink-950">{name}</h3>
                     <p className="mt-2 text-[13.5px] leading-6 text-ink-600">{copy}</p>
                   </div>
@@ -232,9 +220,7 @@ export default function Comunidad() {
             </div>
             <div className="card p-6">
               <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                  <Compass className="h-5 w-5" aria-hidden />
-                </span>
+                <IdentityIcon name="workspace" size={40} className="h-10 w-10 object-contain" />
                 <div>
                   <h3 className="text-[17px] font-semibold text-ink-950">Principios de comunidad</h3>
                   <p className="text-[12.5px] text-ink-500">Como se va a moderar el entorno inicial.</p>
@@ -243,7 +229,7 @@ export default function Comunidad() {
               <ul className="mt-6 space-y-3">
                 {principles.map((item) => (
                   <li key={item} className="flex gap-3 text-[13.5px] leading-6 text-ink-700">
-                    <Heart className="mt-1 h-4 w-4 shrink-0 text-[#5B21B6]" aria-hidden />
+                    <IdentityIcon name="shield" size={18} className="mt-1 h-[18px] w-[18px] shrink-0 object-contain" />
                     {item}
                   </li>
                 ))}
@@ -257,7 +243,7 @@ export default function Comunidad() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:px-8">
           <div>
             <div className="inline-flex items-center gap-2 border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/60">
-              <Globe2 className="h-3.5 w-3.5 text-[#5B21B6]" aria-hidden />
+              <IdentityIcon name="workspace" size={18} className="h-[18px] w-[18px] object-contain" />
               Comunidad privada en preparacion
             </div>
             <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl">

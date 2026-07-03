@@ -1,14 +1,9 @@
 import Link from "next/link";
+import { Badge } from "@cloudflare/kumo/components/badge";
 import {
   ArrowRight,
-  Receipt,
-  FileCheck,
-  Building2,
-  Layers,
-  Globe2,
-  ShieldCheck,
-  Clock,
 } from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import { Reveal } from "@/components/Motion";
@@ -25,13 +20,13 @@ export const metadata = createMetadata({
 });
 
 const features = [
-  { Icon: FileCheck, title: "Estados fiscales claros", desc: "Separacion entre borrador, validado, emitido, observado y cancelado para reducir ambiguedad operativa." },
-  { Icon: Layers, title: "Complementos por caso", desc: "El producto se organiza para activar complementos segun giro, documento y necesidad administrativa." },
-  { Icon: Building2, title: "Workspaces por empresa", desc: "Cada razon social puede operar reglas, permisos, folios y usuarios con separacion de contexto." },
-  { Icon: ShieldCheck, title: "Controles previos", desc: "Validaciones antes de emitir, bitacora de cambios y evidencia para revisar errores sin perder trazabilidad." },
-  { Icon: Globe2, title: "Operacion Mexico", desc: "El enfoque fiscal se centra en Mexico y en los documentos que requieren seguimiento administrativo." },
-  { Icon: Clock, title: "Procesos programados", desc: "Preparado para conciliaciones, recordatorios, reintentos y revisiones que no dependen de una sola pantalla." },
-];
+  { iconName: "document", title: "Estados fiscales claros", desc: "Separacion entre borrador, validado, emitido, observado y cancelado para reducir ambiguedad operativa." },
+  { iconName: "config", title: "Complementos por caso", desc: "El producto se organiza para activar complementos segun giro, documento y necesidad administrativa." },
+  { iconName: "organization", title: "Workspaces por empresa", desc: "Cada razon social puede operar reglas, permisos, folios y usuarios con separacion de contexto." },
+  { iconName: "shield", title: "Controles previos", desc: "Validaciones antes de emitir, bitacora de cambios y evidencia para revisar errores sin perder trazabilidad." },
+  { iconName: "workspace", title: "Operacion Mexico", desc: "El enfoque fiscal se centra en Mexico y en los documentos que requieren seguimiento administrativo." },
+  { iconName: "session", title: "Procesos programados", desc: "Preparado para conciliaciones, recordatorios, reintentos y revisiones que no dependen de una sola pantalla." },
+] satisfies Array<{ iconName: IdentityIconName; title: string; desc: string }>;
 
 export default function Invoice() {
   return (
@@ -53,14 +48,14 @@ export default function Invoice() {
         ]}
       />
       <LocalizedPageHeader pageKey="productInvoice">
-        <span className="badge badge-soon self-center">
+        <Badge variant="neutral" className="self-center">
           <LocalizedLabel labelKey="unavailableBadge" />
-        </span>
+        </Badge>
         <Link href="/contacto" className="btn btn-primary">
           <LocalizedLabel labelKey="requestInfo" /> <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
-        <Link href="/documentacion" className="btn btn-ghost">
-          <LocalizedLabel labelKey="viewSpec" />
+        <Link href="/status" className="btn btn-ghost">
+          <LocalizedLabel labelKey="publicStatus" />
         </Link>
       </LocalizedPageHeader>
 
@@ -124,7 +119,9 @@ export default function Invoice() {
             <div className="card overflow-hidden p-0">
               <div className="flex items-center justify-between border-b border-ink-200 bg-ink-50/60 px-5 py-3 text-[12px]">
                 <span className="font-mono text-ink-500">documento-fiscal-042.xml</span>
-                <span className="badge badge-live !text-[10.5px]">validacion</span>
+                <Badge variant="warning" className="!text-[10.5px]">
+                  validacion
+                </Badge>
               </div>
               <div className="p-6">
                 <div className="flex items-start justify-between">
@@ -133,7 +130,7 @@ export default function Invoice() {
                     <div className="mt-1 text-[14px] font-semibold text-ink-950">Acme México SA de CV</div>
                     <div className="text-[12px] text-ink-500">ACM240501ABC · Régimen 601</div>
                   </div>
-                  <Receipt className="h-7 w-7 text-iris-600" aria-hidden />
+                  <IdentityIcon name="document" size={32} className="h-8 w-8 object-contain" />
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-3 border-t border-ink-100 pt-5 text-[12.5px]">
                   <div>
@@ -173,11 +170,9 @@ export default function Invoice() {
             </h2>
           </div>
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(({ Icon, title, desc }) => (
+            {features.map(({ iconName, title, desc }) => (
               <div key={title} className="card p-6">
-                <span className="grid h-10 w-10 place-items-center rounded-lg bg-iris-100 text-iris-700">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
+                <IdentityIcon name={iconName} size={36} className="h-9 w-9 object-contain" />
                 <h3 className="mt-5 text-[15.5px] font-semibold text-ink-950">{title}</h3>
                 <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-600">{desc}</p>
               </div>

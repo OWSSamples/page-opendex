@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Compass } from "@/components/icons";
+import IdentityIcon from "@/components/IdentityIcon";
+import { ArrowRight } from "@/components/icons";
 
 export default function NotFound() {
   return (
@@ -34,7 +35,7 @@ export default function NotFound() {
               href="/"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#111114] px-6 text-[14px] font-semibold text-white shadow-[0_16px_38px_rgba(17,17,20,0.22)] transition hover:-translate-y-0.5 hover:bg-[#25252a]"
             >
-              <Compass className="h-4 w-4" aria-hidden />
+              <IdentityIcon name="workspace" size={20} className="h-5 w-5 object-contain" />
               Volver al inicio
             </Link>
             <Link

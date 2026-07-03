@@ -5,7 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/i18n/LanguageProvider";
+import { useUIText } from "@/i18n/useUIText";
 import { type CommonLabelKey } from "@/i18n/commonLabels";
+import { ButtonLink } from "@/components/Button";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import {
   ArrowRight,
   Book,
@@ -16,6 +19,7 @@ import {
   Layers,
   Menu,
   Receipt,
+  Search,
   ShieldCheck,
   Sparkles,
   Store,
@@ -35,13 +39,24 @@ type MenuItem = {
 };
 
 type MenuSection = { title: string; items: MenuItem[] };
+type MegaMenuMeta = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  statLabel: string;
+  statValue: string;
+  ctaLabel: string;
+  ctaHref: string;
+  promoTag: string;
+  promoTitle: string;
+  promoDescription: string;
+};
 type NavItem =
   | { label: keyof typeof menus; displayLabel?: string; hasMenu: true }
   | { label: string; displayLabel?: string; href: string };
 
 const navLabelMap: Record<string, CommonLabelKey> = {
   Desarrolladores: "navDevelopers",
-  Documentación: "navDocumentation",
   Producto: "navProduct",
   Soluciones: "navSolutions",
   Blog: "navBlog",
@@ -53,10 +68,10 @@ const menus: Record<string, MenuSection[]> = {
     {
       title: "Construir",
       items: [
-        { label: "Documentación", href: "/documentacion", desc: "Mapa técnico por producto, estados y contratos", Icon: Book },
-        { label: "API Reference", href: "/documentacion#api", desc: "Borradores de endpoints, eventos y objetos", Icon: Code2 },
-        { label: "SDKs y herramientas", href: "/documentacion#sdks", desc: "Patrones de integración en TypeScript, Python y Go", Icon: Terminal },
-        { label: "Webhooks", href: "/documentacion#webhooks", desc: "Eventos para sesiones, documentos, tickets y auditoría", Icon: Zap },
+        { label: "Estado público", href: "/status", desc: "Estado de preparación por línea", Icon: ShieldCheck },
+        { label: "Notas técnicas", href: "/blog", desc: "Decisiones, cambios y contexto de plataforma", Icon: Book },
+        { label: "Contacto técnico", href: "/contacto", desc: "Hablar con el equipo sobre integración", Icon: Terminal },
+        { label: "Solicitar contexto", href: "/contacto", desc: "Compartir caso, alcance y necesidades", Icon: Zap },
       ],
     },
     {
@@ -125,33 +140,114 @@ const menus: Record<string, MenuSection[]> = {
       ],
     },
   ],
-  Documentación: [
-    {
-      title: "Empezar",
-      items: [
-        { label: "Arquitectura", href: "/documentacion#quickstart", desc: "Modelo de workspaces y sesiones", Icon: Compass },
-        { label: "Guías", href: "/documentacion#guides", desc: "Patrones preparados por producto", Icon: Book },
-        { label: "API", href: "/documentacion#api", desc: "Contratos y recursos en preparación", Icon: Code2 },
-        { label: "SDKs", href: "/documentacion#sdks", desc: "Herramientas para integración futura", Icon: Terminal },
-      ],
-    },
-    {
-      title: "Referencia",
-      items: [
-        { label: "Status público", href: "/status", desc: "Estado de preparación por línea", Icon: ShieldCheck },
-        { label: "Preguntas frecuentes", href: "/faq", desc: "Respuestas sobre estado, acceso y privacidad", Icon: Book },
-        { label: "Contacto técnico", href: "/contacto", desc: "Resolver dudas con contexto de proyecto", Icon: Users },
-      ],
-    },
-  ],
 };
 
 const flatNav: NavItem[] = [
   { label: "Producto", displayLabel: "Products", hasMenu: true },
-  { label: "Documentación", displayLabel: "Docs", hasMenu: true },
-  { label: "Changelog", displayLabel: "Changelog", hasMenu: true },
+  { label: "Soluciones", displayLabel: "Solutions", hasMenu: true },
+  { label: "Desarrolladores", displayLabel: "Developers", hasMenu: true },
   { label: "Empresa", displayLabel: "Company", hasMenu: true },
   { label: "Pricing", href: "/precios" },
+];
+
+const megaMenuMeta: Record<string, MegaMenuMeta> = {
+  Producto: {
+    eyebrow: "Portfolio operativo",
+    title: "Estructura de productos para operar con claridad.",
+    description:
+      "Consulta qué está preparado, qué sigue en desarrollo y qué soporte existe hoy para cada línea antes de iniciar una integración.",
+    statLabel: "Estado real",
+    statValue: "Pre / Beta / No disponible",
+    ctaLabel: "Ver portafolio",
+    ctaHref: "/productos",
+    promoTag: "Opendex / Platform",
+    promoTitle: "Capas de identidad, fiscalidad y retail en un mismo marco.",
+    promoDescription:
+      "Organización, permisos, documentos y trazabilidad en una lectura más compacta para equipos técnicos y operativos.",
+  },
+  Desarrolladores: {
+    eyebrow: "Build guide",
+    title: "Recursos técnicos para integrar sin improvisar.",
+    description:
+      "Contexto técnico, estado público y contacto directo mientras la documentación global se prepara.",
+    statLabel: "Cobertura",
+    statValue: "Estado / Contacto / Notas",
+    ctaLabel: "Solicitar contexto",
+    ctaHref: "/contacto",
+    promoTag: "Opendex / Developers",
+    promoTitle: "Contratos y decisiones técnicas que reducen fricción.",
+    promoDescription:
+      "Patrones para equipos que necesitan leer el sistema, no solo consumir una lista de enlaces.",
+  },
+  Soluciones: {
+    eyebrow: "Use cases",
+    title: "Rutas por industria y por necesidad operativa.",
+    description:
+      "Agrupamos las piezas que más suelen repetirse en fintech, SaaS y retail para que la lectura sea más rápida.",
+    statLabel: "Cobertura",
+    statValue: "Industria / necesidad",
+    ctaLabel: "Explorar soluciones",
+    ctaHref: "/soluciones/fintech",
+    promoTag: "Opendex / Solutions",
+    promoTitle: "Contexto listo para equipos que comparan opciones.",
+    promoDescription:
+      "Una vista más cercana a plataformas de enterprise que a un catálogo genérico de marketing.",
+  },
+  Changelog: {
+    eyebrow: "Release notes",
+    title: "Cambios, estado y dirección del producto.",
+    description:
+      "Seguimiento de evolución pública con una lectura resumida de preparación y prioridades.",
+    statLabel: "Frecuencia",
+    statValue: "Actualizaciones públicas",
+    ctaLabel: "Ver changelog",
+    ctaHref: "/blog",
+    promoTag: "Opendex / Status",
+    promoTitle: "Una referencia visual simple para cambios recientes.",
+    promoDescription:
+      "Sirve para comunicar avance sin saturar la navegación con piezas aisladas.",
+  },
+  Empresa: {
+    eyebrow: "Company",
+    title: "Visión empresarial, enfoque y operación.",
+    description:
+      "Accede a la información central de la compañía, contacto y criterios de seguridad sin perder contexto.",
+    statLabel: "Enfoque",
+    statValue: "Producto / Seguridad",
+    ctaLabel: "Conocer la empresa",
+    ctaHref: "/empresa",
+    promoTag: "Opendex / Company",
+    promoTitle: "Una señal visual más sobria para la parte institucional.",
+    promoDescription:
+      "Mantiene consistencia entre producto, documentación y páginas corporativas.",
+  },
+};
+
+const megaMenuQuickLinks: Array<{
+  href: string;
+  labelKey: string;
+  fallback: string;
+  iconName: IdentityIconName;
+}> = [
+  { href: "/contacto", labelKey: "navbar.promo.quick.trial", fallback: "Free Trial", iconName: "shield" },
+  { href: "/precios", labelKey: "navbar.promo.quick.pricing", fallback: "Pricing", iconName: "payment" },
+  { href: "/blog", labelKey: "navbar.promo.quick.release", fallback: "Release Overview", iconName: "document" },
+  { href: "/productos", labelKey: "navbar.promo.quick.explore", fallback: "Explore All Solutions", iconName: "workspace" },
+];
+
+const platformPromoCards = [
+  {
+    title: "Opendex",
+    description: "Secure all your identities, documents and operational events inside a single control fabric.",
+    href: "/productos/auth",
+    tone: "cyan",
+  },
+  {
+    title: "Identity",
+    description: "Ship enterprise-grade customer and workforce access with clearer governance.",
+    href: "/seguridad",
+    tone: "dark",
+  },
 ];
 
 function StartButtonArrow({ className = "" }: { className?: string }) {
@@ -177,6 +273,7 @@ function StartButtonArrow({ className = "" }: { className?: string }) {
 export default function Navbar() {
   const pathname = usePathname();
   const { t } = useI18n();
+  const text = useUIText();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -204,6 +301,19 @@ export default function Navbar() {
     if (!href) return false;
     return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
   };
+  const activeNavItem = activeMenu
+    ? flatNav.find((item) => "hasMenu" in item && item.label === activeMenu)
+    : null;
+  const activeMenuVariant =
+    activeNavItem && "hasMenu" in activeNavItem
+      ? activeNavItem.label === "Producto"
+          ? "product"
+          : activeNavItem.label === "Desarrolladores"
+            ? "developers"
+            : activeNavItem.label === "Empresa"
+              ? "company"
+              : "story"
+      : "story";
 
   const openMenu = (label: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -225,8 +335,11 @@ export default function Navbar() {
         onMouseLeave={scheduleClose}
       >
         <div className="opx-clerk-main-row">
-          <Link href="/" aria-label="Ir al inicio" className="opx-brand-frame opx-brand-frame-nav group">
-            <span className="opx-brand-frame-grid" aria-hidden />
+          <Link
+            href="/"
+            aria-label={text("navbar.home", "Ir al inicio")}
+            className="opx-brand-frame opx-brand-frame-nav"
+          >
             <Image
               src="/logo.png"
               alt="Opendex"
@@ -239,9 +352,11 @@ export default function Navbar() {
           {/* Desktop nav */}
           <nav className="opx-clerk-nav hidden flex-1 items-center gap-1 md:flex">
             {flatNav.map((item) => {
-              const itemLabel = item.displayLabel ?? (navLabelMap[item.label] ? t(navLabelMap[item.label]) : item.label);
+              const itemLabel = text(
+                `navbar.nav.${item.label}`,
+                item.displayLabel ?? (navLabelMap[item.label] ? t(navLabelMap[item.label]) : item.label)
+              );
               if ("hasMenu" in item) {
-                const sections = menus[item.label] ?? [];
                 const isOpen = activeMenu === item.label;
                 return (
                   <div
@@ -267,107 +382,6 @@ export default function Navbar() {
                         aria-hidden
                       />
                     </button>
-                    {isOpen && (
-                      <div
-                        className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
-                        onMouseEnter={() => openMenu(item.label)}
-                        onMouseLeave={scheduleClose}
-                      >
-                        <div className="cf-dropdown-menu w-[620px] overflow-hidden rounded-[16px] border border-white/60 bg-white/95 backdrop-blur-2xl shadow-[0_32px_90px_-44px_rgba(29,29,27,0.28),0_0_0_1px_rgba(246,130,31,0.08),inset_0_1px_0_rgba(255,255,255,0.9)]">
-                          {/* Ambient glow top */}
-                          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#fff3e0]/38 to-transparent" />
-                          <div key={`dust-${menuVersion}`} className="cf-dropdown-dust" aria-hidden />
-                          
-                          <div key={`${item.label}-${menuVersion}`} className="cf-dropdown-content relative grid gap-2 p-2.5 md:grid-cols-2">
-                            {sections.map((section, sectionIdx) => (
-                              <div key={section.title} className={sectionIdx > 0 ? "md:border-l md:border-[#e7e4dc] md:pl-2.5" : ""}>
-                                <div className="mb-2 flex items-center gap-2 px-2.5">
-                                  <span className="h-px flex-1 bg-gradient-to-r from-[#f6821f]/20 to-transparent" />
-                                  <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#9a9a93]">
-                                    {section.title}
-                                  </span>
-                                  <span className="h-px flex-1 bg-gradient-to-l from-[#f6821f]/20 to-transparent" />
-                                </div>
-                                <div className="space-y-0.5">
-                                  {section.items.map((sub) => (
-                                    <Link
-                                      key={sub.href}
-                                      href={sub.href}
-                                      className="cf-menu-item group/sub relative flex items-start gap-3 rounded-[12px] border border-transparent px-2.5 py-2.5 transition-all duration-200 hover:border-[#e7e4dc] hover:bg-white/70"
-                                    >
-                                      <span
-                                        className="absolute bottom-2 left-0 top-2 w-px scale-y-50 rounded-full opacity-0 transition-all duration-200 group-hover/sub:scale-y-100 group-hover/sub:opacity-100"
-                                        style={{ backgroundColor: sub.color ?? "#f6821f" }}
-                                        aria-hidden
-                                      />
-                                      {sub.Icon ? (
-                                        <div
-                                          className="relative z-10 mt-1 flex h-5 w-5 shrink-0 items-center justify-center transition-transform duration-200 group-hover/sub:translate-x-[1px]"
-                                          style={{ color: sub.color ?? "#f6821f" }}
-                                        >
-                                          <sub.Icon className="h-4 w-4" aria-hidden />
-                                        </div>
-                                      ) : null}
-
-                                      <div className="relative z-10 min-w-0 flex-1">
-                                        <div className="flex items-start gap-2">
-                                          <span className="text-[13.5px] font-semibold leading-[1.25] tracking-[0] text-[#1d1d1b] transition-colors duration-200 group-hover/sub:text-[#20201d]">
-                                            {sub.label}
-                                          </span>
-                                          {sub.badge ? (
-                                            <span className="rounded-full border border-[#e6ddd0] bg-[#fbf7ef] px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.06em] text-[#6f4b2d] transition-colors duration-200 group-hover/sub:border-[#d6c9b7] group-hover/sub:bg-white"
-                                                  style={{
-                                                    borderColor: `${sub.color ?? "#f6821f"}25`,
-                                                    color: "#6f4b2d"
-                                                  }}>
-                                              {sub.badge}
-                                            </span>
-                                          ) : null}
-                                        </div>
-                                        {sub.desc ? (
-                                          <p className="mt-1 text-[11.5px] leading-[1.55] text-[#6b6b66] transition-colors duration-200 group-hover/sub:text-[#524f48]">
-                                            {sub.desc}
-                                          </p>
-                                        ) : null}
-                                      </div>
-                                      
-                                      <ArrowRight
-                                        className="relative z-10 mt-2.5 h-3.5 w-3.5 shrink-0 text-[#9a9a93] opacity-0 transition-all duration-200 group-hover/sub:translate-x-0.5 group-hover/sub:opacity-100"
-                                        style={{ color: sub.color ?? "#f6821f" }}
-                                        aria-hidden
-                                      />
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="relative border-t border-[#e7e4dc] bg-[#faf8f4]/80 px-4 py-3">
-                            <div className="flex items-center justify-between gap-4">
-                              <div>
-                                <div className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#9a9a93]">
-                                  {item.label === "Producto" ? "Estado real" : item.label === "Desarrolladores" ? "Builders" : item.label}
-                                </div>
-                                <p className="mt-0.5 text-[11.5px] text-[#6b6b66]">
-                                  {item.label === "Producto"
-                                    ? "Consulta disponibilidad antes de planear una integración."
-                                    : item.label === "Desarrolladores"
-                                      ? "Revisa contratos y habla con el equipo técnico."
-                                      : "Explora rutas relacionadas y resuelve dudas con contexto."}
-                                </p>
-                              </div>
-                              <Link
-                                href={item.label === "Producto" ? "/status" : item.label === "Desarrolladores" ? "/documentacion" : "/contacto"}
-                                className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#1d1d1b] px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-black"
-                              >
-                                {item.label === "Producto" ? t("viewStatus", "Ver status") : item.label === "Desarrolladores" ? t("viewDocs", "Ir a docs") : t("contactUs", "Contactar")}
-                                <ArrowRight className="h-3 w-3" aria-hidden />
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 );
               }
@@ -394,13 +408,13 @@ export default function Navbar() {
               href="/login"
               className="opx-clerk-signin hidden md:inline-flex"
             >
-              Sign in
+              {text("navbar.action.signIn", "Iniciar sesión")}
             </Link>
             <Link
               href="/contacto"
               className="opx-clerk-start group hidden md:inline-flex"
             >
-              Start building
+              {text("navbar.action.startBuilding", "Empezar")}
               <span className="opx-clerk-start-icon-viewport" aria-hidden="true">
                 <span className="opx-clerk-start-icon-track">
                   <StartButtonArrow className="opx-clerk-start-icon" />
@@ -411,7 +425,7 @@ export default function Navbar() {
             </Link>
             <button
               type="button"
-              aria-label="Menú"
+              aria-label={text("navbar.mobile.menu", "Menú")}
               onClick={() => setOpen((value) => !value)}
               className="grid h-10 w-10 place-items-center rounded-md border border-[#e7e4dc] bg-white text-[#1d1d1b] transition hover:bg-[#faf8f4] md:hidden"
             >
@@ -420,32 +434,311 @@ export default function Navbar() {
           </div>
         </div>
 
+        {activeMenu && activeNavItem && "hasMenu" in activeNavItem ? (
+          <div
+            className="absolute left-1/2 top-full z-40 -translate-x-1/2 pt-4"
+            onMouseEnter={() => openMenu(activeNavItem.label)}
+            onMouseLeave={scheduleClose}
+          >
+            <div
+              className="opx-mega-menu"
+              style={{ width: "min(1440px, calc(100vw - 24px))" }}
+            >
+              <div
+                key={`${activeNavItem.label}-${menuVersion}`}
+                className={`opx-mega-menu-panel opx-mega-menu-panel-${activeMenuVariant}`}
+              >
+                {(() => {
+                  const menuMeta = megaMenuMeta[activeNavItem.label] ?? megaMenuMeta.Producto;
+                  const sections = menus[activeNavItem.label] ?? [];
+                  const metaPath = `navbar.mega.${activeNavItem.label}`;
+                  if (activeNavItem.label === "Producto") {
+                    return (
+                      <>
+                        <aside className="opx-mega-menu-intro">
+                          <h3 className="opx-mega-menu-title">
+                            {text("navbar.nav.Producto", "Products")}
+                          </h3>
+                          <p className="opx-mega-menu-description">
+                            {text(`${metaPath}.description`, menuMeta.description)}
+                          </p>
+
+                          <nav
+                            className="opx-mega-menu-quick-links"
+                            aria-label={text("navbar.promo.quickAria", "Quick links")}
+                          >
+                            {megaMenuQuickLinks.slice(0, 4).map(({ href, labelKey, fallback, iconName }) => (
+                              <Link key={href} href={href} className="opx-mega-menu-quick-link">
+                                <IdentityIcon name={iconName} size={18} className="h-[18px] w-[18px] object-contain" />
+                                <span>{text(labelKey, fallback)}</span>
+                              </Link>
+                            ))}
+                          </nav>
+                        </aside>
+
+                        <div className="opx-mega-menu-content opx-mega-menu-content-product lg:grid-cols-2">
+                          {sections.map((section, sectionIndex) => (
+                            <div key={section.title} className="opx-mega-menu-section">
+                              <div className="opx-mega-menu-section-title">
+                                {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.title`, section.title)}
+                              </div>
+                              <div className="space-y-1">
+                                {section.items.map((sub, itemIndex) => (
+                                  <Link key={sub.href} href={sub.href} className="opx-mega-menu-item">
+                                    <span className="opx-mega-menu-item-label">
+                                      {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
+                                    </span>
+                                    {sub.badge ? (
+                                      <span className="opx-mega-menu-item-badge">
+                                        {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.badge`, sub.badge)}
+                                      </span>
+                                    ) : null}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <aside className="opx-mega-menu-platforms">
+                          <h3>{text("navbar.platforms.title", "Platforms")}</h3>
+                          {platformPromoCards.map((card) => (
+                            <Link
+                              key={card.title}
+                              href={card.href}
+                              className={`opx-mega-menu-platform-card opx-mega-menu-platform-card-${card.tone}`}
+                            >
+                              <span className="opx-mega-menu-platform-logo">O</span>
+                              <strong>{card.title}</strong>
+                              <span>{card.description}</span>
+                            </Link>
+                          ))}
+                        </aside>
+                      </>
+                    );
+                  }
+
+                  if (activeNavItem.label === "Desarrolladores") {
+                    return (
+                      <>
+                        <aside className="opx-mega-menu-intro">
+                          <h3 className="opx-mega-menu-title">
+                            {text("navbar.nav.Desarrolladores", "Developers")}
+                          </h3>
+                          <p className="opx-mega-menu-description">
+                            {text(`${metaPath}.description`, menuMeta.description)}
+                          </p>
+
+                          <nav
+                            className="opx-mega-menu-quick-links"
+                            aria-label={text("navbar.promo.quickAria", "Quick links")}
+                          >
+                            {megaMenuQuickLinks.slice(0, 4).map(({ href, labelKey, fallback, iconName }) => (
+                              <Link key={href} href={href} className="opx-mega-menu-quick-link">
+                                <IdentityIcon name={iconName} size={18} className="h-[18px] w-[18px] object-contain" />
+                                <span>{text(labelKey, fallback)}</span>
+                              </Link>
+                            ))}
+                          </nav>
+                        </aside>
+
+                        <div className="opx-mega-menu-content lg:grid-cols-2">
+                          {sections.map((section, sectionIndex) => (
+                            <div key={section.title} className="opx-mega-menu-section">
+                              <div className="opx-mega-menu-section-title">
+                                {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.title`, section.title)}
+                              </div>
+                              <div className="space-y-1">
+                                {section.items.map((sub, itemIndex) => (
+                                  <Link key={sub.href} href={sub.href} className="opx-mega-menu-item">
+                                    <span className="opx-mega-menu-item-label">
+                                      {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
+                                    </span>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <aside className="opx-mega-menu-release-card">
+                          <h3>{text("navbar.release.title", "Release Overview")}</h3>
+                          <div className="opx-mega-menu-release-art" aria-hidden>
+                            <span />
+                            <span />
+                            <span />
+                            <span />
+                          </div>
+                          <p>{text("navbar.release.copy", "Explore product releases, technical notes and platform updates.")}</p>
+                          <Link href="/blog">{text("navbar.release.link", "See the latest announcements")}</Link>
+                        </aside>
+                      </>
+                    );
+                  }
+
+                  if (activeNavItem.label === "Empresa") {
+                    return (
+                      <>
+                        <aside className="opx-mega-menu-intro opx-mega-menu-intro-company">
+                          <h3 className="opx-mega-menu-title">
+                            {text("navbar.nav.Empresa", "Company")}
+                          </h3>
+                          <p className="opx-mega-menu-description">
+                            {text(`${metaPath}.description`, menuMeta.description)}
+                          </p>
+                          <nav className="opx-mega-menu-quick-links" aria-label={text("navbar.company.quickAria", "Company links")}>
+                            <Link href="/contacto" className="opx-mega-menu-quick-link">
+                              <IdentityIcon name="identity" size={18} className="h-[18px] w-[18px] object-contain" />
+                              <span>{text("navbar.company.contact", "Contact Us")}</span>
+                            </Link>
+                          </nav>
+                        </aside>
+
+                        <div className="opx-mega-menu-content lg:grid-cols-2">
+                          {sections.map((section, sectionIndex) => (
+                            <div key={section.title} className="opx-mega-menu-section opx-mega-menu-section-company">
+                              <div className="opx-mega-menu-section-title">
+                                {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.title`, section.title)}
+                              </div>
+                              <div className="space-y-1">
+                                {section.items.map((sub, itemIndex) => (
+                                  <Link key={sub.href} href={sub.href} className="opx-mega-menu-item">
+                                    <span className="opx-mega-menu-item-label">
+                                      {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
+                                    </span>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                          <div className="opx-mega-menu-section opx-mega-menu-section-company">
+                            <div className="opx-mega-menu-section-title">{text("navbar.company.values", "Values & Impact")}</div>
+                            {["Responsabilidad", "Comunidad", "Confianza", "Accesibilidad", "Compromiso seguro"].map((item) => (
+                              <Link key={item} href="/empresa" className="opx-mega-menu-item">
+                                <span className="opx-mega-menu-item-label">{item}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+
+                        <aside className="opx-mega-menu-company-card">
+                          <ArrowRight className="h-4 w-4" aria-hidden />
+                          <strong>{text("navbar.company.card", "Discover our latest stories")}</strong>
+                        </aside>
+                      </>
+                    );
+                  }
+
+                  return (
+                    <>
+                      <aside className="opx-mega-menu-intro">
+                        <h3 className="opx-mega-menu-title">
+                          {activeNavItem.displayLabel ?? text(`navbar.nav.${activeNavItem.label}`, activeNavItem.label)}
+                        </h3>
+                        <p className="opx-mega-menu-description">{text(`${metaPath}.description`, menuMeta.description)}</p>
+
+                        <nav
+                          className="opx-mega-menu-quick-links"
+                          aria-label={text("navbar.promo.quickAria", "Quick links")}
+                        >
+                          {megaMenuQuickLinks.map(({ href, labelKey, fallback, iconName }) => (
+                            <Link key={href} href={href} className="opx-mega-menu-quick-link">
+                              <IdentityIcon name={iconName} size={18} className="h-[18px] w-[18px] object-contain" />
+                              <span>{text(labelKey, fallback)}</span>
+                            </Link>
+                          ))}
+                        </nav>
+                      </aside>
+
+                      <div className={`opx-mega-menu-content ${sections.length > 1 ? "lg:grid-cols-2" : "lg:grid-cols-1"}`}>
+                        {sections.map((section, sectionIndex) => (
+                          <div key={section.title} className="opx-mega-menu-section">
+                            <div className="opx-mega-menu-section-title">
+                              {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.title`, section.title)}
+                            </div>
+                            <div className="space-y-1">
+                              {section.items.map((sub, itemIndex) => (
+                                <Link
+                                  key={sub.href}
+                                  href={sub.href}
+                                  className="opx-mega-menu-item group/sub"
+                                >
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex items-start gap-2">
+                                      <span className="opx-mega-menu-item-label">
+                                        {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
+                                      </span>
+                                      {sub.badge ? (
+                                        <span className="opx-mega-menu-item-badge">
+                                          {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.badge`, sub.badge)}
+                                        </span>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <aside className="opx-mega-menu-promo">
+                        <h3 className="opx-mega-menu-story-title">
+                          {text("navbar.promo.story.title", "Customer Success Stories")}
+                        </h3>
+                        <div className="opx-mega-menu-story-media">
+                          <Image
+                            src="/opendex-3d-operations.png"
+                            alt=""
+                            width={520}
+                            height={300}
+                            className="opx-mega-menu-story-image"
+                          />
+                        </div>
+                        <p className="opx-mega-menu-story-copy">
+                          {text(
+                            "navbar.promo.story.copy",
+                            "Opendex helps teams organize identity, evidence and operating workflows in one reliable workspace.",
+                          )}
+                        </p>
+                        <Link href="/empresa" className="opx-mega-menu-story-link">
+                          {text("navbar.promo.story.link", "See full story")}
+                        </Link>
+                      </aside>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         <div className="opx-clerk-sub-row">
           <div className="opx-clerk-sub-left">
             <Link href="/productos/auth" className="opx-clerk-sub-link opx-clerk-sub-link-active">
-              <Fingerprint className="h-3.5 w-3.5" aria-hidden />
-              User Authentication
+              <IdentityIcon name="identity" size={18} className="h-[18px] w-[18px] object-contain" />
+              {text("navbar.sub.auth", "Autenticación de usuarios")}
             </Link>
             <Link href="/productos/invoice" className="opx-clerk-sub-link">
-              <Users className="h-3.5 w-3.5" aria-hidden />
-              B2B Authentication
+              <IdentityIcon name="organization" size={18} className="h-[18px] w-[18px] object-contain" />
+              {text("navbar.sub.b2b", "Autenticación B2B")}
             </Link>
             <Link href="/productos/kiosko" className="opx-clerk-sub-link">
-              <Receipt className="h-3.5 w-3.5" aria-hidden />
-              Billing
+              <IdentityIcon name="document" size={18} className="h-[18px] w-[18px] object-contain" />
+              {text("navbar.sub.billing", "Facturación")}
             </Link>
             <Link href="/status" className="opx-clerk-sub-link">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              Waitlist
+              <IdentityIcon name="session" size={18} className="h-[18px] w-[18px] object-contain" />
+              {text("navbar.sub.waitlist", "Lista de espera")}
             </Link>
           </div>
           <div className="opx-clerk-sub-right">
-            <Link href="/documentacion" className="opx-clerk-sub-link">
-              Components
+            <Link href="/status" className="opx-clerk-sub-link">
+              {text("navbar.sub.components", "Componentes")}
               <ChevronDown className="h-3.5 w-3.5" aria-hidden />
             </Link>
-            <Link href="/documentacion" className="opx-clerk-sub-link">
-              Docs
+            <Link href="/contacto" className="opx-clerk-sub-link">
+              {text("navbar.sub.docs", "Contacto")}
               <ChevronDown className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </div>
@@ -462,21 +755,25 @@ export default function Navbar() {
                 return (
                   <div key={item.label} className="rounded-lg border border-[#e7e4dc] bg-white/70 p-3">
                     <div className="px-1 pb-2 text-[13px] font-semibold text-[#1d1d1b]">
-                      {item.label}
+                      {text(`navbar.nav.${item.label}`, item.displayLabel ?? item.label)}
                     </div>
                     <div className="grid gap-1">
-                      {sections.flatMap((section) => section.items).slice(0, 6).map((sub) => (
-                        <Link
-                          key={`${item.label}-${sub.href}-${sub.label}`}
-                          href={sub.href}
-                          className="flex items-center justify-between rounded-md px-2.5 py-2 text-[14px] text-[#4a4a47] hover:bg-[#faf8f4] hover:text-[#1d1d1b]"
-                        >
-                          <span>{sub.label}</span>
-                          {sub.badge ? (
-                            <span className="text-[10px] font-semibold uppercase text-[#f6821f]">{sub.badge}</span>
-                          ) : null}
-                        </Link>
-                      ))}
+                      {sections.flatMap((section, sectionIndex) =>
+                        section.items.map((sub, itemIndex) => ({ sub, sectionIndex, itemIndex }))
+                      ).slice(0, 6).map(({ sub, sectionIndex, itemIndex }) => (
+                          <Link
+                            key={`${item.label}-${sub.href}-${sub.label}`}
+                            href={sub.href}
+                            className="flex items-center justify-between rounded-md px-2.5 py-2 text-[14px] text-[#4a4a47] hover:bg-[#faf8f4] hover:text-[#1d1d1b]"
+                          >
+                            <span>{text(`navbar.menu.${item.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}</span>
+                            {sub.badge ? (
+                              <span className="text-[10px] font-semibold uppercase text-[#f6821f]">
+                                {text(`navbar.menu.${item.label}.${sectionIndex}.${itemIndex}.badge`, sub.badge)}
+                              </span>
+                            ) : null}
+                          </Link>
+                        ))}
                     </div>
                   </div>
                 );
@@ -488,7 +785,7 @@ export default function Navbar() {
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className="rounded-lg px-3 py-2.5 text-[15px] font-medium text-[#3d3d3a] hover:bg-white hover:text-[#1d1d1b]"
                 >
-                  {item.label}
+                  {text(`navbar.nav.${item.label}`, item.displayLabel ?? item.label)}
                 </Link>
               );
             })}
@@ -498,21 +795,21 @@ export default function Navbar() {
                 href="/contacto"
                 className="flex h-11 flex-1 items-center justify-center rounded-md border border-[#1d1d1b] text-[14px] font-medium text-[#1d1d1b]"
               >
-                {t("register")}
+                {text("navbar.mobile.register", t("register"))}
               </Link>
               <Link
                 href="/login"
                 className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-md bg-[#1d1d1b] text-[14px] font-medium text-white"
               >
-                {t("connect")} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                {text("navbar.mobile.connect", t("connect"))} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             </div>
             <Link
               href="/empresa"
               className="mt-4 inline-flex items-center gap-2 px-3 text-[13px] text-[#6b6b66]"
             >
-              <Sparkles className="h-3.5 w-3.5 text-[#f6821f]" aria-hidden />
-              Roadmap de Opendex Web Services
+              <IdentityIcon name="workspace" size={18} className="h-[18px] w-[18px] object-contain" />
+              {text("navbar.mobile.roadmap", "Roadmap de Opendex Web Services")}
             </Link>
           </nav>
         </div>

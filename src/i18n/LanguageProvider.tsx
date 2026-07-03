@@ -12,6 +12,7 @@ import {
 import { defaultLocale, isLocale, localeStorageKey, type Locale } from "./config";
 import { commonLabels } from "./commonLabels";
 import { dictionaries, type Dictionary } from "./dictionaries";
+import { getUIText } from "./uiText";
 
 type LanguageContextValue = {
   locale: Locale;
@@ -77,8 +78,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       dictionary: dictionaries[locale],
       setLocale,
       t: (path, fallback = path) => {
-        const value = getByPath(dictionaries[locale], path) ?? getByPath(commonLabels[locale], path);
-        return typeof value === "string" ? value : fallback;
+        const dictionaryValue =
+          getByPath(dictionaries[locale], path) ??
+          getByPath(commonLabels[locale], path);
+        return typeof dictionaryValue === "string"
+          ? dictionaryValue
+          : getUIText(locale, path, fallback);
       },
     }),
     [locale, setLocale]

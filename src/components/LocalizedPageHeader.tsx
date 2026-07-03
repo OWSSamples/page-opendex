@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import PageHeader from "@/components/PageHeader";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { pageHeaders, type PageHeaderKey } from "@/i18n/pageHeaders";
+import { useUIText } from "@/i18n/useUIText";
 
 const pageHeaderVisuals: Record<PageHeaderKey, { alt: string; label: string; src: string }> = {
   blog: {
@@ -91,6 +92,7 @@ export default function LocalizedPageHeader({
   children?: ReactNode;
 }) {
   const { locale } = useI18n();
+  const text = useUIText();
   const copy = pageHeaders[locale][pageKey];
   const visual = pageHeaderVisuals[pageKey];
 
@@ -99,8 +101,9 @@ export default function LocalizedPageHeader({
       eyebrow={copy.eyebrow}
       title={copy.title}
       description={copy.description}
-      visualAlt={visual.alt}
-      visualLabel={visual.label}
+      variant={pageKey === "security" ? "security" : "default"}
+      visualAlt={text(`pageHeader.${pageKey}.visualAlt`, visual.alt)}
+      visualLabel={text(`pageHeader.${pageKey}.visualLabel`, visual.label)}
       visualSrc={visual.src}
     >
       {children}

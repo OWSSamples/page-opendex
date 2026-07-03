@@ -1,4 +1,5 @@
-import { ArrowRight, Fingerprint, Receipt, Store } from "@/components/icons";
+import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
+import { ArrowRight } from "@/components/icons";
 
 const products = [
   {
@@ -6,23 +7,29 @@ const products = [
     status: "Prelanzamiento",
     description: "Identidad, passkeys, SSO, MFA y sesiones seguras en preparacion responsable.",
     capabilities: ["Passkeys", "SAML / OIDC", "Audit logs", "Webhooks"],
-    Icon: Fingerprint,
+    iconName: "identity",
   },
   {
     name: "Factur Workspaces",
     status: "No disponible",
     description: "Workspace fiscal preparado para CFDI 4.0, pendiente de mejoras finales.",
     capabilities: ["CFDI 4.0", "PAC", "Addendas", "Control fiscal"],
-    Icon: Receipt,
+    iconName: "document",
   },
   {
     name: "Opendex Kiosko Workspaces",
     status: "Beta aislada",
     description: "Workspaces de operacion retail en entorno aislado, sin fecha publica.",
     capabilities: ["POS", "Inventario", "Reportes", "Multi-sucursal"],
-    Icon: Store,
+    iconName: "store",
   },
-];
+] satisfies Array<{
+  name: string;
+  status: string;
+  description: string;
+  capabilities: string[];
+  iconName: IdentityIconName;
+}>;
 
 const lifecycle = [
   ["01", "Prelanzamiento", "Identity Platform se prepara sin fecha publica de salida."],
@@ -52,15 +59,15 @@ export default function Services() {
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_360px]">
           <div className="border border-ink-200 bg-white">
-            {products.map(({ name, status, description, capabilities, Icon }, index) => (
+            {products.map(({ name, status, description, capabilities, iconName }, index) => (
               <article
                 key={name}
                 className={`grid gap-5 p-6 transition hover:bg-ink-50/70 lg:grid-cols-[52px_1fr_140px] ${
                   index > 0 ? "border-t border-ink-200" : ""
                 }`}
               >
-                <div className="grid h-11 w-11 place-items-center border border-ink-200 bg-white text-ink-900">
-                  <Icon className="h-5 w-5" aria-hidden />
+                <div className="grid h-11 w-11 place-items-center">
+                  <IdentityIcon name={iconName} size={36} className="h-9 w-9 object-contain" />
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
