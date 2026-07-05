@@ -1,260 +1,211 @@
 import Image from "next/image";
 import Link from "next/link";
-import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
-import { ArrowRight } from "@/components/icons";
-import LocalizedPageHeader from "@/components/LocalizedPageHeader";
-import LocalizedLabel from "@/components/LocalizedLabel";
 
 export const metadata = { title: "Comunidad" };
 
+const signals = [
+  ["Privada", "Fase actual"],
+  ["Builders", "Primer circulo"],
+  ["Mexico", "Origen"],
+];
+
 const channels = [
   {
-    iconName: "identity",
     title: "Conversaciones de producto",
-    desc: "Un canal directo para entender estados, roadmap, integraciones y oportunidades de validacion temprana.",
-    signal: "Respuesta humana",
+    body: "Un espacio para revisar necesidades reales, validar prioridades y entender que debe existir antes de abrir comunidad publica.",
+    meta: "Producto",
   },
   {
-    iconName: "config",
-    title: "Mesa tecnica",
-    desc: "Espacio para revisar arquitectura, APIs, eventos, sesiones, seguridad y decisiones de integracion.",
-    signal: "Builders first",
+    title: "Revision tecnica",
+    body: "Sesiones enfocadas en arquitectura, integraciones, seguridad, eventos, auditoria y criterios operativos para equipos que construyen.",
+    meta: "Arquitectura",
   },
   {
-    iconName: "organization",
     title: "Aliados iniciales",
-    desc: "Relaciones con equipos, negocios y operadores que quieran probar Opendex con contexto real.",
-    signal: "Privado",
+    body: "Relaciones con negocios, operadores y equipos SaaS que quieran probar Opendex con contexto real y acompanamiento cuidadoso.",
+    meta: "Acceso privado",
   },
-] satisfies Array<{ iconName: IdentityIconName; title: string; desc: string; signal: string }>;
+];
 
 const programs = [
   {
-    iconName: "operations",
-    name: "Early Circle",
-    copy: "Grupo pequeño de personas y empresas que quieren seguir el avance de Opendex desde la etapa temprana.",
-    items: ["Actualizaciones de producto", "Contexto del roadmap", "Invitaciones privadas"],
+    title: "Early Circle",
+    body: "Grupo reducido para recibir contexto de producto, revisar avances y participar antes de que la comunidad sea abierta.",
+    rows: ["Actualizaciones concretas", "Conversaciones privadas", "Validacion de roadmap"],
   },
   {
-    iconName: "document",
-    name: "Architecture Notes",
-    copy: "Notas sobre identidad, facturacion, POS, auditoria y criterios tecnicos que guian la plataforma.",
-    items: ["Decisiones de diseño", "Diagramas de sistema", "Lecciones del producto"],
+    title: "Architecture Notes",
+    body: "Notas editoriales sobre identidad, facturacion, operacion, trazabilidad y decisiones tecnicas que afectan al producto.",
+    rows: ["Criterios de diseno", "Lecciones de integracion", "Estandares internos"],
   },
   {
-    iconName: "shield",
-    name: "Trust Sessions",
-    copy: "Conversaciones enfocadas en seguridad, privacidad, acceso, trazabilidad y preparacion empresarial.",
-    items: ["Riesgo y sesiones", "Auditoria y webhooks", "Privacidad desde Mexico"],
+    title: "Trust Sessions",
+    body: "Revisiones enfocadas en privacidad, acceso, seguridad, evidencia y preparacion empresarial.",
+    rows: ["Riesgo operativo", "Auditoria y eventos", "Privacidad desde Mexico"],
   },
-] satisfies Array<{ iconName: IdentityIconName; name: string; copy: string; items: string[] }>;
+];
 
-const timeline = [
-  ["Fase 01", "Escucha privada", "Reunir señales de equipos mexicanos, negocios digitales y operadores que viven problemas reales."],
-  ["Fase 02", "Comunidad curada", "Abrir un grupo pequeño con actualizaciones, sesiones tecnicas y validacion por producto."],
-  ["Fase 03", "Centro publico", "Publicar guias, ejemplos, notas de arquitectura y canales permanentes cuando la plataforma madure."],
+const roadmap = [
+  ["Escucha privada", "Reunir senales de equipos que enfrentan problemas reales de identidad, documentos y operacion."],
+  ["Circulo curado", "Abrir espacios pequenos con seguimiento tecnico, notas de avance y validacion de casos concretos."],
+  ["Centro publico", "Publicar guias, ejemplos y conversaciones cuando exista suficiente claridad para sostenerlo bien."],
 ];
 
 const principles = [
-  "Sin ruido artificial ni promesas vacias.",
-  "Contenido tecnico con contexto real.",
-  "Comunidad primero pequeña, despues publica.",
-  "Respeto por empresas que estan construyendo desde Mexico.",
-  "Conversaciones honestas sobre lo que esta listo y lo que no.",
+  "Sin promesas vacias ni ruido artificial.",
+  "Contenido tecnico explicado con contexto.",
+  "Privacidad y respeto por el tiempo de cada equipo.",
+  "Comunidad pequena antes de escala publica.",
+  "Conversaciones honestas sobre lo listo y lo pendiente.",
 ];
 
 export default function Comunidad() {
   return (
-    <>
-      <LocalizedPageHeader pageKey="community">
-        <Link href="/contacto" className="btn btn-primary">
-          <LocalizedLabel labelKey="joinEarlyCircle" /> <ArrowRight className="h-4 w-4" aria-hidden />
-        </Link>
-        <Link href="/blog" className="btn btn-ghost">
-          <LocalizedLabel labelKey="readNotes" />
-        </Link>
-      </LocalizedPageHeader>
-
-      <section className="border-b border-ink-200 bg-ink-50/40">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1fr)] lg:px-8 lg:py-24">
-          <div>
-            <span className="eyebrow">Entorno Opendex</span>
-            <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight text-ink-950 sm:text-[42px]">
-              No queremos abrir un grupo vacio. Queremos construir una red con intencion.
-            </h2>
-            <p className="mt-5 text-[15px] leading-7 text-ink-600">
-              La comunidad de Opendex no empieza como un foro gigante. Empieza
-              con conversaciones bien cuidadas: fundadores, desarrolladores,
-              operadores, comercios, equipos SaaS y personas que quieran ayudar
-              a definir una plataforma mexicana con estandares globales.
+    <div className="opx-community-page">
+      <section className="opx-community-hero">
+        <div className="opx-community-shell opx-community-hero-grid">
+          <div className="opx-community-copy">
+            <p className="opx-community-kicker">Comunidad Opendex</p>
+            <h1>Un entorno privado para construir con contexto.</h1>
+            <p>
+              La comunidad no inicia como un foro abierto. Inicia como una red pequena de equipos,
+              operadores y builders que quieren validar producto, arquitectura y confianza con una
+              conversacion seria.
             </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {[
-                ["MX", "origen"],
-                ["Privado", "fase actual"],
-                ["Builders", "primer circulo"],
-              ].map(([value, label]) => (
-                <div key={label} className="border border-ink-200 bg-white px-4 py-4">
-                  <div className="text-[22px] font-semibold tracking-tight text-ink-950">{value}</div>
-                  <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-500">{label}</div>
-                </div>
-              ))}
+            <div className="opx-community-actions">
+              <Link href="/contacto" className="opx-community-button opx-community-button-primary">
+                Solicitar acceso
+              </Link>
+              <Link href="/blog" className="opx-community-button opx-community-button-secondary">
+                Leer notas
+              </Link>
             </div>
           </div>
 
-          <div className="community-hologram" aria-label="Holograma del entorno Opendex">
-            <div className="community-hologram-grid" aria-hidden />
-            <div className="community-hologram-orbit community-hologram-orbit-a" aria-hidden />
-            <div className="community-hologram-orbit community-hologram-orbit-b" aria-hidden />
-            <div className="community-hologram-core">
-              <Image src="/logo.png" alt="" width={88} height={88} className="h-16 w-16 object-contain" aria-hidden />
-              <span>Opendex</span>
-            </div>
-            {[
-              ["Identity", "left-[9%] top-[18%]"],
-              ["Invoice", "right-[8%] top-[24%]"],
-              ["Kiosko", "left-[13%] bottom-[20%]"],
-              ["Builders", "right-[11%] bottom-[17%]"],
-              ["Mexico", "left-1/2 top-[6%] -translate-x-1/2"],
-            ].map(([label, position]) => (
-              <div key={label} className={`community-hologram-node ${position}`}>
-                <span>{label}</span>
-              </div>
-            ))}
-            <div className="community-hologram-console">
-              <span>community_env</span>
-              <strong>forming</strong>
-            </div>
+          <div className="opx-community-visual" aria-label="Equipo tecnico revisando operacion e infraestructura">
+            <Image
+              src="/images/blog/opendex-blog-featured-infrastructure.png"
+              alt="Equipo tecnico revisando operacion e infraestructura"
+              fill
+              priority
+              sizes="(min-width: 1024px) 520px, 100vw"
+              className="opx-community-visual-image"
+            />
           </div>
         </div>
       </section>
 
-      <section className="border-b border-ink-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <div className="max-w-2xl">
-              <span className="eyebrow">Canales</span>
-              <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight text-ink-950 sm:text-[42px]">
-                Tres formas de participar antes de que exista una comunidad publica.
-              </h2>
-            </div>
-            <Link href="/contacto" className="btn btn-ghost self-start lg:self-auto">
-              Solicitar acceso <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </div>
-
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {channels.map(({ iconName, title, desc, signal }) => (
-              <article key={title} className="card group min-h-[260px] p-6">
-                <div className="relative h-24 overflow-hidden border border-ink-200 bg-ink-50">
-                  <div className="community-card-image" aria-hidden />
-                  <IdentityIcon name={iconName} size={36} className="absolute left-5 top-5 h-9 w-9 object-contain" />
-                  <span className="absolute bottom-4 left-5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                    {signal}
-                  </span>
-                </div>
-                <h3 className="mt-6 text-[21px] font-semibold tracking-tight text-ink-950">{title}</h3>
-                <p className="mt-3 text-[14px] leading-6 text-ink-600">{desc}</p>
+      <section className="opx-community-section">
+        <div className="opx-community-shell">
+          <div className="opx-community-signal-grid">
+            {signals.map(([value, label]) => (
+              <article key={label}>
+                <strong>{value}</strong>
+                <span>{label}</span>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-b border-ink-200 bg-ink-50/40">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-[330px_minmax(0,1fr)]">
-            <div>
-              <span className="eyebrow">Programas</span>
-              <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight text-ink-950 sm:text-[42px]">
-                La comunidad se construira por capas.
-              </h2>
-              <p className="mt-5 text-[15px] leading-7 text-ink-600">
-                En vez de abrir todo de golpe, Opendex prepara espacios con
-                objetivos distintos: seguimiento temprano, arquitectura y
-                confianza tecnica.
-              </p>
-            </div>
-            <div className="grid gap-5">
-              {programs.map(({ iconName, name, copy, items }) => (
-                <article key={name} className="card grid gap-6 p-6 md:grid-cols-[220px_minmax(0,1fr)]">
-                  <div>
-                    <IdentityIcon name={iconName} size={40} className="h-10 w-10 object-contain" />
-                    <h3 className="mt-5 text-[20px] font-semibold tracking-tight text-ink-950">{name}</h3>
-                    <p className="mt-2 text-[13.5px] leading-6 text-ink-600">{copy}</p>
-                  </div>
-                  <ul className="grid content-start gap-3">
-                    {items.map((item) => (
-                      <li key={item} className="flex items-center gap-3 border-b border-ink-200 pb-3 text-[13.5px] text-ink-700 last:border-b-0">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#5B21B6]" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
+      <section className="opx-community-section">
+        <div className="opx-community-shell opx-community-section-grid">
+          <div className="opx-community-copy">
+            <p className="opx-community-kicker">Canales</p>
+            <h2>Tres entradas, una misma regla: participar con contexto.</h2>
+            <p>
+              Cada canal existe para ordenar una conversacion distinta. No buscamos volumen; buscamos
+              claridad, aprendizaje y decisiones utiles para el producto.
+            </p>
+          </div>
+          <div className="opx-community-card-grid">
+            {channels.map((channel) => (
+              <article key={channel.title}>
+                <span>{channel.meta}</span>
+                <h3>{channel.title}</h3>
+                <p>{channel.body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="border-b border-ink-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px]">
-            <div>
-              <span className="eyebrow">Roadmap comunitario</span>
-              <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight text-ink-950 sm:text-[42px]">
-                Primero confianza. Despues escala.
-              </h2>
-              <div className="mt-10 grid gap-4">
-                {timeline.map(([phase, title, desc]) => (
-                  <article key={phase} className="grid gap-4 border-t border-ink-200 pt-5 sm:grid-cols-[120px_minmax(0,1fr)]">
-                    <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-iris-700">{phase}</div>
-                    <div>
-                      <h3 className="text-[18px] font-semibold text-ink-950">{title}</h3>
-                      <p className="mt-1.5 text-[14px] leading-6 text-ink-600">{desc}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-            <div className="card p-6">
-              <div className="flex items-center gap-3">
-                <IdentityIcon name="workspace" size={40} className="h-10 w-10 object-contain" />
+      <section className="opx-community-section opx-community-section-muted">
+        <div className="opx-community-shell opx-community-section-grid">
+          <div className="opx-community-copy">
+            <p className="opx-community-kicker">Programas</p>
+            <h2>La comunidad se abre por capas, no por improvisacion.</h2>
+            <p>
+              El orden importa: primero conversaciones privadas, luego notas tecnicas, despues un
+              espacio publico cuando el producto tenga suficiente madurez.
+            </p>
+          </div>
+          <div className="opx-community-program-list">
+            {programs.map((program) => (
+              <article key={program.title}>
                 <div>
-                  <h3 className="text-[17px] font-semibold text-ink-950">Principios de comunidad</h3>
-                  <p className="text-[12.5px] text-ink-500">Como se va a moderar el entorno inicial.</p>
+                  <h3>{program.title}</h3>
+                  <p>{program.body}</p>
                 </div>
-              </div>
-              <ul className="mt-6 space-y-3">
-                {principles.map((item) => (
-                  <li key={item} className="flex gap-3 text-[13.5px] leading-6 text-ink-700">
-                    <IdentityIcon name="shield" size={18} className="mt-1 h-[18px] w-[18px] shrink-0 object-contain" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                <ul>
+                  {program.rows.map((row) => (
+                    <li key={row}>{row}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-ink-950 text-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:px-8">
-          <div>
-            <div className="inline-flex items-center gap-2 border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/60">
-              <IdentityIcon name="workspace" size={18} className="h-[18px] w-[18px] object-contain" />
-              Comunidad privada en preparacion
-            </div>
-            <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-              Si estas construyendo desde Mexico y quieres seguir el camino de Opendex, podemos hablar.
-            </h2>
+      <section className="opx-community-section">
+        <div className="opx-community-shell opx-community-roadmap-grid">
+          <div className="opx-community-copy">
+            <p className="opx-community-kicker">Roadmap comunitario</p>
+            <h2>Primero confianza. Despues escala.</h2>
+            <p>
+              La comunidad publica solo tiene sentido si antes existe criterio editorial,
+              aprendizaje tecnico y un marco claro para moderar la conversacion.
+            </p>
           </div>
-          <Link href="/contacto" className="btn btn-primary bg-white text-ink-950 hover:bg-white/90">
-            Contactar <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
+          <div className="opx-community-roadmap-list">
+            {roadmap.map(([title, body]) => (
+              <article key={title}>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
-    </>
+
+      <section className="opx-community-section opx-community-section-muted">
+        <div className="opx-community-shell opx-community-final-grid">
+          <article>
+            <p className="opx-community-kicker">Principios</p>
+            <h2>Un espacio pequeno tambien necesita reglas claras.</h2>
+            <ul>
+              {principles.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <div className="opx-community-copy">
+            <h2>Si estas construyendo desde Mexico y quieres seguir el camino de Opendex, hablemos.</h2>
+            <p>
+              Comparte que estas construyendo, que problema quieres resolver y que tipo de
+              conversacion necesitas tener con nuestro equipo.
+            </p>
+            <div className="opx-community-actions">
+              <Link href="/contacto" className="opx-community-button opx-community-button-primary">
+                Contactar
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -15,10 +15,8 @@ export default function Section({ children, className, dark = false, id, reveal 
     <section
       id={id}
       className={cn(
-        'relative overflow-hidden',
-        dark
-          ? 'bg-[var(--corp-navy,#0F1923)] text-white'
-          : 'bg-[var(--corp-bg,#FFFFFF)] text-[var(--corp-fg,#0F1923)]',
+        'opx-json-section',
+        dark && 'opx-json-section',
         className
       )}
     >

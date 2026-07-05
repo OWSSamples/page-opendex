@@ -42,58 +42,54 @@ const layers = [
 
 export default function Features() {
   return (
-    <section className="relative bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <div className="text-[12px] font-semibold uppercase text-ink-500">
+    <section className="opx-json-section">
+      <div className="opx-json-shell">
+        <div className="opx-json-split">
+          <div className="opx-json-copy">
+            <div className="opx-json-eyebrow">
               Seguridad
             </div>
-            <h2 className="mt-4 max-w-xl font-heading text-[34px] font-semibold leading-[1.08] text-ink-950 sm:text-[46px]">
+            <h2 className="opx-json-section-title">
               Controles de identidad pensados para operar, no para decorar.
             </h2>
-            <p className="mt-5 max-w-xl text-[15.5px] leading-7 text-ink-600">
+            <p className="opx-json-text">
               La interfaz comunica lo mismo que la plataforma: control,
               trazabilidad y decisiones claras. Cada bloque muestra una pieza
               del sistema, sin repetir la misma card seis veces.
             </p>
           </div>
 
-          <div className="border border-ink-200 bg-[#f7f8fb] p-5">
-            <div className="border border-ink-200 bg-white">
+          <div className="opx-json-card">
+            <div className="opx-json-card opx-json-card-plain">
               {layers.map(([layer, primary, secondary], index) => (
                 <div
                   key={layer}
-                  className={`grid grid-cols-[92px_1fr_1fr] items-center gap-4 px-4 py-4 text-[13px] ${
-                    index > 0 ? "border-t border-ink-200" : ""
-                  }`}
+                  className="opx-json-card-header"
                 >
-                  <span className="font-mono text-[11px] uppercase text-ink-400">
+                  <span className="opx-json-label">
                     {layer}
                   </span>
-                  <span className="font-medium text-ink-950">{primary}</span>
-                  <span className="text-ink-500">{secondary}</span>
+                  <span>{primary}</span>
+                  <span className="opx-json-label">{secondary}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="mt-10 grid border border-ink-200 bg-white md:grid-cols-2 lg:grid-cols-3">
-          {controls.map(({ iconName, title, copy }, index) => (
+        <div className="opx-json-control-grid">
+          {controls.map(({ iconName, title, copy }) => (
             <article
               key={title}
-              className={`p-6 ${index > 0 ? "border-t border-ink-200 md:border-t-0" : ""} ${
-                index % 2 === 1 ? "md:border-l" : ""
-              } ${index > 2 ? "lg:border-t" : ""} ${index % 3 !== 0 ? "lg:border-l" : "lg:border-l-0"} border-ink-200`}
+              className="opx-json-card"
             >
-              <div className="flex items-center gap-3">
-                <IdentityIcon name={iconName} size={34} className="h-[34px] w-[34px] object-contain" />
-                <h3 className="font-heading text-[17px] font-semibold text-ink-950">
+              <div className="opx-json-card-row">
+                <IdentityIcon name={iconName} size={34} />
+                <h3 className="opx-json-card-title">
                   {title}
                 </h3>
               </div>
-              <p className="mt-4 text-[13.5px] leading-6 text-ink-600">{copy}</p>
+              <p className="opx-json-text">{copy}</p>
             </article>
           ))}
         </div>

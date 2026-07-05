@@ -76,9 +76,9 @@
       "200": { "$type": "color", "$value": "#e9d5ff" },
       "300": { "$type": "color", "$value": "#d8b4fe" },
       "400": { "$type": "color", "$value": "#c084fc" },
-      "500": { "$type": "color", "$value": "#a855f7" },
-      "600": { "$type": "color", "$value": "#9333ea" },
-      "700": { "$type": "color", "$value": "#7e22ce" },
+      "500": { "$type": "color", "$value": "#7c5cff" },
+      "600": { "$type": "color", "$value": "#6c47ff" },
+      "700": { "$type": "color", "$value": "#5a35e5" },
       "800": { "$type": "color", "$value": "#6b21a8" },
       "900": { "$type": "color", "$value": "#581c87" },
       "950": { "$type": "color", "$value": "#3b0764" }
@@ -91,11 +91,11 @@
     "$description": "Purpose-based tokens — use these in designs and layouts",
 
     "action": {
-      "primary":           { "$type": "color", "$value": "{primitive.blue.600}" },
-      "primary-hover":     { "$type": "color", "$value": "{primitive.blue.700}" },
-      "primary-active":    { "$type": "color", "$value": "{primitive.blue.800}" },
-      "secondary":         { "$type": "color", "$value": "{primitive.gray.100}" },
-      "secondary-hover":   { "$type": "color", "$value": "{primitive.gray.200}" },
+      "primary":           { "$type": "color", "$value": "{primitive.purple.600}" },
+      "primary-hover":     { "$type": "color", "$value": "{primitive.purple.700}" },
+      "primary-active":    { "$type": "color", "$value": "{primitive.purple.800}" },
+      "secondary":         { "$type": "color", "$value": "{primitive.white}" },
+      "secondary-hover":   { "$type": "color", "$value": "{primitive.gray.50}" },
       "secondary-active":  { "$type": "color", "$value": "{primitive.gray.300}" },
       "destructive":       { "$type": "color", "$value": "{primitive.red.600}" },
       "destructive-hover": { "$type": "color", "$value": "{primitive.red.700}" }
@@ -121,29 +121,29 @@
     },
 
     "text": {
-      "primary":     { "$type": "color", "$value": "{primitive.gray.900}", "$description": "Main body text — 15.4:1 on white" },
+      "primary":     { "$type": "color", "$value": "#131316", "$description": "Main body text from the Clerk-style Opendex reference" },
       "secondary":   { "$type": "color", "$value": "{primitive.gray.600}", "$description": "Supporting text — 5.7:1 on white" },
       "tertiary":    { "$type": "color", "$value": "{primitive.gray.400}", "$description": "Placeholder text — use only as hint, not essential info" },
       "disabled":    { "$type": "color", "$value": "{primitive.gray.300}" },
-      "on-action":   { "$type": "color", "$value": "{primitive.white}", "$description": "Text on primary action bg — 8.6:1 on blue-600" },
+      "on-action":   { "$type": "color", "$value": "{primitive.white}", "$description": "Text on primary action background" },
       "on-dark":     { "$type": "color", "$value": "{primitive.gray.50}" },
-      "link":        { "$type": "color", "$value": "{primitive.blue.600}" },
-      "link-hover":  { "$type": "color", "$value": "{primitive.blue.800}" }
+      "link":        { "$type": "color", "$value": "{primitive.purple.600}" },
+      "link-hover":  { "$type": "color", "$value": "{primitive.purple.700}" }
     },
 
     "surface": {
-      "page":        { "$type": "color", "$value": "{primitive.white}" },
+      "page":        { "$type": "color", "$value": "#f7f7f8" },
       "card":        { "$type": "color", "$value": "{primitive.white}" },
       "raised":      { "$type": "color", "$value": "{primitive.white}" },
-      "sunken":      { "$type": "color", "$value": "{primitive.gray.50}" },
+      "sunken":      { "$type": "color", "$value": "#f7f7f8" },
       "overlay":     { "$type": "color", "$value": "rgba(0, 0, 0, 0.5)", "$description": "Modal/drawer backdrop" },
       "disabled":    { "$type": "color", "$value": "{primitive.gray.100}" }
     },
 
     "border": {
-      "default":     { "$type": "color", "$value": "{primitive.gray.200}", "$description": "Decorative dividers/card edges (sub-3:1 by design)" },
+      "default":     { "$type": "color", "$value": "#d9d9de", "$description": "Decorative dividers/card edges from the Clerk-style reference" },
       "strong":      { "$type": "color", "$value": "{primitive.gray.500}", "$description": "Essential control boundary — 4.8:1 on page, meets WCAG 1.4.11 (3:1)" },
-      "focus":       { "$type": "color", "$value": "{primitive.blue.500}" },
+      "focus":       { "$type": "color", "$value": "{primitive.purple.600}" },
       "error":       { "$type": "color", "$value": "{primitive.red.500}" },
       "disabled":    { "$type": "color", "$value": "{primitive.gray.200}" }
     },
@@ -151,9 +151,9 @@
     "interactive": {
       "hover-overlay":  { "$type": "color", "$value": "rgba(0, 0, 0, 0.04)" },
       "active-overlay": { "$type": "color", "$value": "rgba(0, 0, 0, 0.08)" },
-      "selected-bg":    { "$type": "color", "$value": "{primitive.blue.50}" },
-      "selected-border":{ "$type": "color", "$value": "{primitive.blue.200}" },
-      "focus-ring":     { "$type": "color", "$value": "{primitive.blue.500}", "$description": "2px outline offset 2px" }
+      "selected-bg":    { "$type": "color", "$value": "{primitive.purple.50}" },
+      "selected-border":{ "$type": "color", "$value": "{primitive.purple.200}" },
+      "focus-ring":     { "$type": "color", "$value": "{primitive.purple.600}", "$description": "2px outline offset 2px" }
     }
   },
 

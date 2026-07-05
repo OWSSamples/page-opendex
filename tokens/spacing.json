@@ -30,6 +30,14 @@
   "semantic": {
     "$description": "Purpose-based spacing aliases",
 
+    "clerk": {
+      "xs": { "$type": "dimension", "$value": "6px", "$description": "Reference xs spacing from the supplied Clerk-style guide" },
+      "sm": { "$type": "dimension", "$value": "16px", "$description": "Reference sm spacing from the supplied Clerk-style guide" },
+      "md": { "$type": "dimension", "$value": "24px", "$description": "Reference md spacing from the supplied Clerk-style guide" },
+      "lg": { "$type": "dimension", "$value": "36px", "$description": "Reference lg spacing from the supplied Clerk-style guide" },
+      "xl": { "$type": "dimension", "$value": "82px", "$description": "Reference xl spacing from the supplied Clerk-style guide" }
+    },
+
     "page": {
       "inline-padding":  { "$type": "dimension", "$value": "{scale.4}", "$description": "16px — page horizontal padding (mobile)" },
       "inline-padding-lg": { "$type": "dimension", "$value": "{scale.8}", "$description": "32px — page horizontal padding (desktop)" },

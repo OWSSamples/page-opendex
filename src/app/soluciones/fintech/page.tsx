@@ -4,7 +4,7 @@ import T from "@/components/LocalizedText";
 export const metadata = { title: "Soluciones Fintech" };
 
 type FintechItem = {
-  label: string;
+  label?: string;
   title: string;
   description: string;
 };
@@ -17,17 +17,14 @@ type FintechCapability = {
 
 const priorities: FintechItem[] = [
   {
-    label: "01",
     title: "Proyección",
     description: "Diseñar productos financieros preparados para nuevos mercados, más canales y revisiones internas más exigentes.",
   },
   {
-    label: "02",
     title: "Innovación",
     description: "Convertir identidad, permisos y evidencia en una base flexible para experiencias digitales más inteligentes.",
   },
   {
-    label: "03",
     title: "Avance",
     description: "Mover equipos de operación, riesgo y producto con una lectura compartida antes de escalar cada decisión.",
   },
@@ -158,7 +155,6 @@ export default function Fintech() {
           <div className="opx-fintech-priority-strip" aria-label="Prioridades fintech">
             {priorities.map((item, index) => (
               <article key={item.title} className="opx-fintech-priority">
-                <span>{item.label}</span>
                 <h2>
                   <T id={`fintech.priorities.${index}.title`} fallback={item.title} />
                 </h2>

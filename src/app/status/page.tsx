@@ -15,21 +15,21 @@ export default function Status() {
     <>
       <LocalizedPageHeader pageKey="status" />
 
-      <section className="bg-white">
-        <div className="mx-auto max-w-[900px] px-5 py-20 md:px-8">
-          <div className="border border-[#e7e4dc]">
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-table-wrap">
             {rows.map(([name, state, note], index) => (
-              <div key={name} className={`grid gap-4 p-5 sm:grid-cols-[1fr_180px_1fr] ${index > 0 ? "border-t border-[#e7e4dc]" : ""}`}>
-                <div className="flex items-center gap-3 text-[15px] font-semibold text-[#1d1d1b]">
+              <div key={name} className={index > 0 ? "opx-status-row opx-status-row-divided" : "opx-status-row"}>
+                <div className="opx-status-name">
                   <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden />
                   {name}
                 </div>
-                <div className="text-[14px] text-[#5B21B6]">{state}</div>
-                <div className="text-[14px] text-[#4a4a47]">{note}</div>
+                <div className="opx-json-status-accent">{state}</div>
+                <div className="opx-json-text">{note}</div>
               </div>
             ))}
           </div>
-          <Link href="/contacto" className="btn btn-primary mt-8">
+          <Link href="/contacto" className="opx-json-button opx-json-button-primary">
             Solicitar actualizacion <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Select } from "@cloudflare/kumo/components/select";
-import CorporateButton from "@/components/ui/corporate/Button";
 import { useI18n } from "@/i18n/LanguageProvider";
 import type { Locale } from "@/i18n/config";
 
@@ -39,7 +38,7 @@ type ContactCopy = {
   channels: ContactChannel[];
   imageTitle: string;
   imageBody: string;
-  imageStats: Array<[string, string]>;
+  imageStats: string[];
   formEyebrow: string;
   formTitle: string;
   formBody: string;
@@ -113,9 +112,9 @@ const contactCopy: Record<Locale, ContactCopy> = {
     imageBody:
       "El objetivo del contacto no es venderte una promesa rápida. Queremos entender si necesitas identidad, documentos, operación, rediseño web o contexto técnico antes de proponer una ruta.",
     imageStats: [
-      ["01", "Producto o servicio de interés"],
-      ["02", "Etapa actual del proyecto"],
-      ["03", "Urgencia, volumen y responsables"],
+      "Producto o servicio de interés",
+      "Etapa actual del proyecto",
+      "Urgencia, volumen y responsables",
     ],
     formEyebrow: "Solicitud profesional",
     formTitle: "Envía el contexto correcto desde el inicio.",
@@ -179,9 +178,9 @@ const contactCopy: Record<Locale, ContactCopy> = {
     imageBody:
       "The goal is not to sell a quick promise. We need to understand whether you need identity, documents, operations, web redesign or technical context.",
     imageStats: [
-      ["01", "Product or service of interest"],
-      ["02", "Current project stage"],
-      ["03", "Urgency, volume and owners"],
+      "Product or service of interest",
+      "Current project stage",
+      "Urgency, volume and owners",
     ],
     formEyebrow: "Professional request",
     formTitle: "Send the right context from the start.",
@@ -240,7 +239,7 @@ const contactCopy: Record<Locale, ContactCopy> = {
     channels: defaultChannels,
     imageTitle: "Uma primeira conversa deve esclarecer escopo, risco e próximo passo.",
     imageBody: "Queremos entender se você precisa de identidade, documentos, operação, redesign web ou contexto técnico antes de propor uma rota.",
-    imageStats: [["01", "Produto de interesse"], ["02", "Etapa do projeto"], ["03", "Urgência e responsáveis"]],
+    imageStats: ["Produto de interesse", "Etapa do projeto", "Urgência e responsáveis"],
     formEyebrow: "Solicitação profissional",
     formTitle: "Envie o contexto correto desde o início.",
     formBody: "Quanto mais precisa for a solicitação, melhor poderemos responder.",
@@ -288,7 +287,7 @@ const contactCopy: Record<Locale, ContactCopy> = {
     channels: defaultChannels,
     imageTitle: "Une première conversation doit clarifier la portée, le risque et l'étape suivante.",
     imageBody: "Nous voulons comprendre si vous avez besoin d'identité, documents, opérations, refonte web ou contexte technique.",
-    imageStats: [["01", "Produit concerné"], ["02", "Étape du projet"], ["03", "Urgence et responsables"]],
+    imageStats: ["Produit concerné", "Étape du projet", "Urgence et responsables"],
     formEyebrow: "Demande professionnelle",
     formTitle: "Envoyez le bon contexte dès le début.",
     formBody: "Plus la demande est précise, meilleure sera notre réponse.",
@@ -335,7 +334,7 @@ const contactCopy: Record<Locale, ContactCopy> = {
     channels: defaultChannels,
     imageTitle: "第一次沟通应该明确范围、风险和下一步。",
     imageBody: "我们需要理解你需要身份、文档、运营、网站改版还是技术背景。",
-    imageStats: [["01", "感兴趣的产品"], ["02", "项目阶段"], ["03", "紧急程度和负责人"]],
+    imageStats: ["感兴趣的产品", "项目阶段", "紧急程度和负责人"],
     formEyebrow: "专业请求",
     formTitle: "从第一条消息开始提供正确上下文。",
     formBody: "请求越具体，我们越能准确回复。",
@@ -416,21 +415,21 @@ export default function ContactClient() {
 
   return (
     <div className="opx-contact-page">
-      <section className="border-b border-[#ded8cc]">
-        <div className="opx-layout-shell grid gap-12 py-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(420px,1fr)] lg:py-24">
-          <div className="flex flex-col justify-center">
+      <section className="opx-contact-section">
+        <div className="opx-contact-shell opx-contact-hero-grid">
+          <div className="opx-contact-copy">
             <p className="opx-contact-kicker">{copy.eyebrow}</p>
-            <h1 className="mt-5 max-w-[720px] text-balance text-[44px] font-semibold leading-[0.96] tracking-[-0.055em] text-[#101012] md:text-[64px]">
+            <h1>
               {copy.title}
             </h1>
-            <p className="mt-6 max-w-[620px] text-[17px] leading-8 text-[#4c4a45]">{copy.subtitle}</p>
-            <div className="mt-8 inline-flex w-fit rounded-full border border-[#d6d0c3] bg-white/70 px-4 py-2 text-[13px] font-medium text-[#34322e] shadow-sm">
+            <p>{copy.subtitle}</p>
+            <div className="opx-contact-status">
               {copy.responseLabel}
             </div>
           </div>
 
-          <aside className="overflow-hidden rounded-[28px] border border-[#ded8cc] bg-white shadow-[0_28px_90px_-62px_rgba(15,23,42,0.42)]">
-            <div className="relative min-h-[280px]">
+          <aside className="opx-contact-card opx-contact-media-card">
+            <div className="opx-contact-media">
               <Image
                 src="/images/assets/03.jpg"
                 alt="Espacio visual para representar la conversación inicial con Opendex"
@@ -439,20 +438,19 @@ export default function ContactClient() {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/68 via-[#111111]/12 to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <h2 className="max-w-[460px] text-[24px] font-semibold leading-tight tracking-[-0.035em]">
+              <div className="opx-contact-media-scrim" />
+              <div className="opx-contact-media-copy">
+                <h2>
                   {copy.imageTitle}
                 </h2>
               </div>
             </div>
-            <div className="p-6 md:p-7">
-              <p className="text-[14.5px] leading-7 text-[#57534b]">{copy.imageBody}</p>
-              <div className="mt-6 grid gap-px overflow-hidden rounded-[18px] border border-[#e2ddd3] bg-[#e2ddd3]">
-                {copy.imageStats.map(([step, label]) => (
-                  <div key={step} className="grid grid-cols-[52px_minmax(0,1fr)] bg-[#fbfaf7] px-4 py-3">
-                    <span className="font-mono text-[12px] font-semibold text-[#6d4df1]">{step}</span>
-                    <span className="text-[13px] font-medium text-[#34322e]">{label}</span>
+            <div className="opx-contact-card-body">
+              <p>{copy.imageBody}</p>
+              <div className="opx-contact-steps">
+                {copy.imageStats.map((label) => (
+                  <div key={label}>
+                    <strong>{label}</strong>
                   </div>
                 ))}
               </div>
@@ -461,47 +459,47 @@ export default function ContactClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#ded8cc] bg-white">
-        <div className="opx-layout-shell grid gap-10 py-16 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <div>
-            <h2 className="text-[30px] font-semibold tracking-[-0.045em] text-[#101012]">{copy.channelsTitle}</h2>
-            <p className="mt-4 text-[15px] leading-7 text-[#5f5a52]">{copy.channelsBody}</p>
+      <section className="opx-contact-section opx-contact-section-raised">
+        <div className="opx-contact-shell opx-contact-channel-grid">
+          <div className="opx-contact-section-copy">
+            <h2>{copy.channelsTitle}</h2>
+            <p>{copy.channelsBody}</p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="opx-contact-channel-list">
             {copy.channels.map((channel) => (
               <a
                 key={channel.label}
                 href={channel.href}
-                className="group rounded-[22px] border border-[#e2ddd3] bg-[#fbfaf7] p-5 text-left transition hover:-translate-y-0.5 hover:border-[#cfc6b7] hover:bg-white hover:shadow-[0_24px_60px_-50px_rgba(15,23,42,0.55)]"
+                className="opx-contact-card opx-contact-channel-card"
               >
                 <span className="opx-contact-card-label">{channel.label}</span>
-                <strong className="mt-3 block break-words text-[18px] font-semibold tracking-[-0.025em] text-[#151515]">
+                <strong>
                   {channel.value}
                 </strong>
-                <span className="mt-3 block text-[13px] leading-6 text-[#625d55]">{channel.detail}</span>
+                <span>{channel.detail}</span>
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="contact-form" className="bg-[#f7f5ef]">
-        <div className="opx-layout-shell grid gap-10 py-16 lg:grid-cols-[minmax(0,0.78fr)_minmax(520px,1fr)] lg:py-20">
-          <div className="lg:pt-8">
+      <section id="contact-form" className="opx-contact-section">
+        <div className="opx-contact-shell opx-contact-form-grid">
+          <div className="opx-contact-section-copy">
             <p className="opx-contact-kicker">{copy.formEyebrow}</p>
-            <h2 className="mt-4 max-w-[520px] text-[36px] font-semibold leading-[1.02] tracking-[-0.052em] text-[#101012]">
+            <h2>
               {copy.formTitle}
             </h2>
-            <p className="mt-5 max-w-[520px] text-[15px] leading-7 text-[#5f5a52]">{copy.formBody}</p>
-            <p className="mt-7 max-w-[520px] rounded-[18px] border border-[#ded8cc] bg-white/72 p-4 text-[13px] leading-6 text-[#5f5a52]">
+            <p>{copy.formBody}</p>
+            <p className="opx-contact-note">
               {copy.note}
             </p>
           </div>
 
           <form
             onSubmit={handleSubmit}
-            className="rounded-[28px] border border-[#ded8cc] bg-white p-5 shadow-[0_28px_90px_-64px_rgba(15,23,42,0.45)] md:p-7"
+            className="opx-contact-card opx-contact-form"
           >
             <div className="grid gap-4">
               <Field label={copy.fields.email} htmlFor="contact-email">
@@ -522,7 +520,7 @@ export default function ContactClient() {
                 value={formData.countryRegion}
                 onValueChange={(value) => updateField("countryRegion", String(value))}
                 placeholder={copy.fields.countryRegion}
-                className="w-full"
+                className="opx-contact-select w-full"
                 required
                 size="lg"
               >
@@ -589,7 +587,7 @@ export default function ContactClient() {
                 value={formData.jobFunction}
                 onValueChange={(value) => updateField("jobFunction", String(value))}
                 placeholder={copy.fields.jobFunction}
-                className="w-full"
+                className="opx-contact-select w-full"
                 required
                 size="lg"
               >
@@ -605,7 +603,7 @@ export default function ContactClient() {
                 value={formData.jobLevel}
                 onValueChange={(value) => updateField("jobLevel", String(value))}
                 placeholder={copy.fields.jobLevel}
-                className="w-full"
+                className="opx-contact-select w-full"
                 required
                 size="lg"
               >
@@ -621,7 +619,7 @@ export default function ContactClient() {
                 value={formData.companyType}
                 onValueChange={(value) => updateField("companyType", String(value))}
                 placeholder={copy.fields.companyType}
-                className="w-full"
+                className="opx-contact-select w-full"
                 required
                 size="lg"
               >
@@ -639,7 +637,7 @@ export default function ContactClient() {
                 value={formData.requestType}
                 onValueChange={(value) => updateRequestType(String(value))}
                 placeholder={copy.fields.requestType}
-                className="w-full"
+                className="opx-contact-select w-full"
                 required
                 size="lg"
               >
@@ -677,18 +675,18 @@ export default function ContactClient() {
               />
             </Field>
 
-            <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <CorporateButton type="submit" variant="primary" size="lg" className="min-h-[42px] rounded-[12px] px-6 text-[13px]">
+            <div className="opx-contact-form-actions">
+              <button type="submit" className="opx-contact-submit">
                 {copy.submit}
-              </CorporateButton>
+              </button>
               {sent ? (
-                <p className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-[13px] font-medium text-emerald-700" role="status">
+                <p className="opx-contact-success" role="status">
                   {copy.sentTitle}
                 </p>
               ) : null}
             </div>
 
-            {sent ? <p className="mt-4 text-[13px] leading-6 text-[#5f5a52]">{copy.sentBody}</p> : null}
+            {sent ? <p className="opx-contact-sent-body">{copy.sentBody}</p> : null}
           </form>
         </div>
       </section>
@@ -711,10 +709,10 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label htmlFor={htmlFor} className="mb-2 block text-[13px] font-semibold text-[#26231f]">
+      <label htmlFor={htmlFor} className="opx-contact-label">
         {label}
         {optionalLabel ? (
-          <span className="ml-2 rounded-md bg-[#eeece8] px-1.5 py-0.5 text-[11px] font-medium text-[#6b665f]">
+          <span>
             {optionalLabel}
           </span>
         ) : null}

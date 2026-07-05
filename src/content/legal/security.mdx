@@ -1,0 +1,97 @@
+---
+title: "Politica de seguridad"
+eyebrow: "Legal / Seguridad"
+updatedAt: "Ultima actualizacion: 4 de julio de 2026"
+description: "Controles de seguridad, acceso, proteccion de informacion, reporte responsable, incidentes y responsabilidades."
+order: 50
+---
+
+## Objetivo
+
+Esta politica resume los principios de seguridad aplicables a sitios publicos, procesos de evaluacion, comunicaciones operativas, servicios digitales y relaciones comerciales de Opendex.
+
+La seguridad debe proteger datos, disponibilidad, identidades, documentos, integraciones y decisiones operativas sin exponer secretos ni debilitar controles internos.
+
+Esta politica no revela configuraciones internas completas, arquitecturas sensibles ni procedimientos explotables. La informacion publica se mantiene en un nivel que permite transparencia sin aumentar riesgo.
+
+<LegalCallout title="Reporte responsable" description="Si detectas una vulnerabilidad, reportala con contexto suficiente y evita divulgar detalles explotables antes de la revision." />
+
+## Modelo de seguridad
+
+Opendex aplica un enfoque de defensa por capas: controles preventivos, monitoreo, respuesta a incidentes, minimizacion de acceso, revision de proveedores y mejora continua.
+
+Los controles pueden variar segun producto, entorno, region, contrato, madurez del servicio y riesgo operativo.
+
+| Capa | Proposito | Ejemplos |
+| --- | --- | --- |
+| Identidad | Reducir acceso indebido | Roles, permisos, revocacion |
+| Aplicacion | Proteger flujos y entradas | Validaciones, errores seguros |
+| Infraestructura | Mantener disponibilidad y aislamiento | Configuracion, monitoreo |
+| Datos | Reducir exposicion | Minimizacion, retencion, acceso limitado |
+| Operacion | Detectar y responder | Eventos, soporte, incidentes |
+
+## Control de acceso
+
+Los accesos deben asignarse por necesidad, contexto, responsabilidad y alcance autorizado. Las credenciales y sesiones deben manejarse con criterios de minimo privilegio.
+
+Las organizaciones son responsables de administrar usuarios, dispositivos, permisos internos, bajas, revocaciones y aprobaciones bajo su control.
+
+Opendex puede revisar, limitar o revocar accesos cuando detecte riesgo de abuso, credenciales comprometidas, actividad sospechosa, incumplimiento de politica o solicitud autorizada de una organizacion.
+
+## Proteccion de informacion
+
+La informacion sensible debe compartirse solo por canales adecuados y con el alcance minimo necesario. No deben enviarse contrasenas, tokens, claves privadas, secretos de API o datos de pago completos por formularios publicos.
+
+Cuando exista un acuerdo comercial, los anexos aplicables pueden definir obligaciones adicionales sobre confidencialidad, tratamiento de datos, subprocesadores y seguridad.
+
+| Control | Proposito | Responsable |
+| --- | --- | --- |
+| Minimo privilegio | Reducir exposicion de acceso | Opendex y cliente |
+| Registro de eventos | Apoyar auditoria y soporte | Opendex |
+| Gestion de incidentes | Coordinar respuesta y comunicacion | Opendex |
+| Revocacion | Reducir riesgo por acceso indebido | Cliente y Opendex |
+| Clasificacion | Ajustar controles al tipo de informacion | Opendex y cliente |
+
+## Seguridad en formularios y comunicaciones
+
+Los formularios publicos son canales para contexto operativo, comercial o tecnico general. No son el canal adecuado para secretos, datos altamente sensibles, credenciales o informacion que requiera cifrado o manejo especializado.
+
+Cuando una solicitud requiera informacion sensible, Opendex puede indicar un proceso alternativo, pedir reduccion del alcance, rechazar datos excesivos o recomendar un canal contractual.
+
+## Vulnerabilidades
+
+Si detectas una vulnerabilidad o debilidad de seguridad, reportala por canales de contacto y evita publicar detalles explotables antes de que podamos revisarlos.
+
+No realices pruebas destructivas, exfiltracion, escalamiento no autorizado, denegacion de servicio, persistencia, acceso a datos ajenos, ingenieria social o pruebas que afecten disponibilidad.
+
+Un reporte util debe incluir descripcion, pasos de reproduccion seguros, impacto potencial, URL o componente afectado, evidencia no sensible y datos de contacto.
+
+<LegalButton label="Reportar contexto de seguridad" href="/contacto" />
+
+## Incidentes
+
+Los incidentes se revisan segun severidad, impacto, alcance, evidencia disponible, datos afectados, clientes impactados y obligaciones aplicables.
+
+Cuando corresponda, Opendex coordinara contencion, investigacion, mitigacion, comunicacion y acciones correctivas.
+
+La politica de respuesta a incidentes describe criterios adicionales sobre clasificacion, fases de respuesta y comunicacion.
+
+## Proveedores y terceros
+
+Los proveedores pueden apoyar infraestructura, comunicacion, seguridad, observabilidad, soporte o almacenamiento. Deben operar bajo alcance definido, necesidad de acceso y controles razonables.
+
+Opendex puede cambiar proveedores por razones de seguridad, disponibilidad, rendimiento, continuidad o cumplimiento. Cuando exista obligacion contractual de notificacion, se seguira el proceso aplicable.
+
+## Responsabilidades compartidas
+
+- Opendex protege la plataforma, controles propios, comunicacion operativa y mejoras de seguridad.
+- Los clientes protegen usuarios, dispositivos, configuraciones, datos cargados y decisiones internas.
+- Los proveedores deben operar bajo alcance definido y controles razonables.
+- Los usuarios deben evitar compartir secretos y reportar actividad sospechosa.
+- Los equipos comerciales deben manejar informacion bajo necesidad y confidencialidad.
+
+## Limites de divulgacion
+
+Por seguridad, Opendex no publica detalles que puedan facilitar ataques, como configuraciones internas completas, reglas exactas de deteccion, arquitectura sensible, credenciales, rutas administrativas o procedimientos de respuesta explotables.
+
+La transparencia debe equilibrarse con proteccion operativa y seguridad de usuarios, clientes y sistemas.

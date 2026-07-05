@@ -16,17 +16,17 @@ export default function Retail() {
   return (
     <>
       <LocalizedPageHeader pageKey="solutionRetail">
-        <Link href="/productos/kiosko" className="btn btn-primary">
+        <Link href="/productos/kiosko" className="opx-json-button opx-json-button-primary">
           <LocalizedLabel labelKey="viewKiosko" /> <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </LocalizedPageHeader>
-      <section className="bg-[#faf8f4]">
-        <div className="mx-auto grid max-w-[1100px] gap-px border-x border-[#e7e4dc] bg-[#e7e4dc] md:grid-cols-3">
+      <section className="opx-json-section">
+        <div className="opx-json-shell opx-json-control-grid">
           {points.map(([title, desc, iconName]) => (
-            <article key={title} className="bg-white p-7">
-              <IdentityIcon name={iconName} size={32} className="h-8 w-8 object-contain" />
-              <h2 className="mt-5 text-[20px] font-semibold text-[#1d1d1b]">{title}</h2>
-              <p className="mt-2 text-[14px] leading-6 text-[#4a4a47]">{desc}</p>
+            <article key={title} className="opx-json-card opx-json-copy">
+              <IdentityIcon name={iconName} size={32} className="opx-json-identity-icon" />
+              <h2 className="opx-json-card-title">{title}</h2>
+              <p className="opx-json-text">{desc}</p>
             </article>
           ))}
         </div>

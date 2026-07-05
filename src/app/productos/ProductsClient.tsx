@@ -7,16 +7,13 @@ import { Button } from "@cloudflare/kumo/components/button";
 import { Input } from "@cloudflare/kumo/components/input";
 import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { useMemo, useRef, useState, type CSSProperties } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ButtonLink } from "@/components/Button";
-import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { useI18n } from "@/i18n/LanguageProvider";
 import type { Locale } from "@/i18n/config";
 
 type ProductMeta = {
   slug: string;
-  accent: string;
-  accentSoft: string;
   code: string;
   domain: string;
 };
@@ -24,22 +21,16 @@ type ProductMeta = {
 const productMeta: ProductMeta[] = [
   {
     slug: "auth",
-    accent: "#f6821f",
-    accentSoft: "#fff3e7",
     code: "ID",
     domain: "identity",
   },
   {
     slug: "invoice",
-    accent: "#6d4df1",
-    accentSoft: "#f2efff",
     code: "DOC",
     domain: "documents",
   },
   {
     slug: "kiosko",
-    accent: "#0f8f7f",
-    accentSoft: "#edf8f5",
     code: "OPS",
     domain: "operations",
   },
@@ -56,12 +47,6 @@ const getStatusBadgeVariant = (slug: string): BadgeVariant => {
   }
 };
 
-const getStatusBadgeClassName = (slug: string, className = "") =>
-  slug === "kiosko"
-    ? `border border-dashed border-kumo-brand bg-transparent text-kumo-link ${className}`
-    : className;
-
-
 const uiCopy: Record<
   Locale,
   {
@@ -74,6 +59,7 @@ const uiCopy: Record<
     secondaryCta: string;
     systemTitle: string;
     systemDescription: string;
+    heroStats: [string, string, string];
     catalogEyebrow: string;
     catalogTitle: string;
     catalogDescription: string;
@@ -107,6 +93,7 @@ const uiCopy: Record<
     systemTitle: "Una base común para decisiones operativas.",
     systemDescription:
       "Cada producto conserva una responsabilidad distinta, pero comparte una lectura común: contexto, evidencia, permisos, continuidad y trazabilidad.",
+    heroStats: ["líneas disponibles", "estados visibles", "frentes operativos"],
     catalogEyebrow: "Catálogo operativo",
     catalogTitle: "Explora las líneas disponibles",
     catalogDescription: "Filtra por estado o busca por capacidad, producto o contexto operativo.",
@@ -168,6 +155,7 @@ const uiCopy: Record<
     systemTitle: "A shared base for operational decisions.",
     systemDescription:
       "Each product keeps a distinct responsibility while sharing one operating lens: context, evidence, permissions, continuity and traceability.",
+    heroStats: ["available lines", "visible states", "operational fronts"],
     catalogEyebrow: "Operational catalog",
     catalogTitle: "Explore available lines",
     catalogDescription: "Filter by status or search by capability, product or operational context.",
@@ -213,6 +201,7 @@ const uiCopy: Record<
     systemTitle: "Uma base comum para decisões operacionais.",
     systemDescription:
       "Cada produto mantém uma responsabilidade distinta, mas compartilha uma leitura comum: contexto, evidência, permissões, continuidade e rastreabilidade.",
+    heroStats: ["linhas disponíveis", "estados visíveis", "frentes operacionais"],
     catalogEyebrow: "Catálogo operacional",
     catalogTitle: "Explore as linhas disponíveis",
     catalogDescription: "Filtre por status ou busque por capacidade, produto ou contexto operacional.",
@@ -257,6 +246,7 @@ const uiCopy: Record<
     systemTitle: "Une base commune pour les décisions opérationnelles.",
     systemDescription:
       "Chaque produit garde une responsabilité distincte tout en partageant une même lecture : contexte, preuve, permissions, continuité et traçabilité.",
+    heroStats: ["lignes disponibles", "états visibles", "fronts opérationnels"],
     catalogEyebrow: "Catalogue opérationnel",
     catalogTitle: "Explorer les lignes disponibles",
     catalogDescription: "Filtrez par statut ou cherchez par capacité, produit ou contexte opérationnel.",
@@ -301,6 +291,7 @@ const uiCopy: Record<
     secondaryCta: "查看状态",
     systemTitle: "运营决策的共同基础。",
     systemDescription: "每个产品保持独立职责，同时共享同一套运营视角：上下文、证据、权限、连续性和可追踪性。",
+    heroStats: ["可用产品线", "可见状态", "运营方向"],
     catalogEyebrow: "运营目录",
     catalogTitle: "浏览可用产品线",
     catalogDescription: "按状态筛选，或按能力、产品和运营场景搜索。",
@@ -347,7 +338,6 @@ export default function ProductsClient() {
       copy.products.map((product, index) => ({
         ...product,
         meta: productMeta[index] ?? productMeta[0],
-        number: String(index + 1).padStart(2, "0"),
       })),
     [copy.products]
   );
@@ -405,31 +395,19 @@ export default function ProductsClient() {
 
   return (
     <main className="opx-products-page">
-      <section
-        aria-labelledby="products-heading"
-        className="relative overflow-hidden border-b border-[#e2e8f0] bg-[#f8fafc]"
-      >
-        <div aria-hidden className="absolute inset-0">
-          <div className="absolute left-1/2 top-[-180px] h-[520px] w-[760px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(91,33,182,0.14),transparent_68%)] blur-3xl" />
-          <div className="absolute right-[-180px] top-20 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(246,130,31,0.12),transparent_68%)] blur-3xl" />
-        </div>
-
-        <div className="opx-layout-shell relative pb-16 pt-24 lg:pb-20 lg:pt-32">
-          <div className="max-w-[900px]">
-            <h1
-              id="products-heading"
-              className="max-w-[850px] text-balance text-[44px] font-semibold leading-[0.96] tracking-[-0.045em] text-[#0f172a] sm:text-[64px] lg:text-[78px]"
-            >
+      <section aria-labelledby="products-heading" className="opx-json-section opx-products-hero-section">
+        <div className="opx-json-shell opx-products-hero-shell">
+          <div className="opx-json-copy opx-products-hero-copy">
+            <p className="opx-json-eyebrow">{ui.heroKicker}</p>
+            <h1 id="products-heading" className="opx-json-title">
               {ui.heroTitle}
             </h1>
-            <p className="mt-7 max-w-[720px] text-[17px] leading-8 text-[#475569] sm:text-[18px]">
-              {ui.heroDescription}
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <p className="opx-json-lead">{ui.heroDescription}</p>
+            <div className="opx-json-actions">
               <ButtonLink href="/contacto" size="lg" variant="primary">
                 {ui.heroCta}
               </ButtonLink>
-              <ButtonLink href="/status" size="lg" variant="inverse">
+              <ButtonLink href="/status" size="lg" variant="secondary">
                 {ui.secondaryCta}
               </ButtonLink>
             </div>
@@ -437,184 +415,151 @@ export default function ProductsClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#e2e8f0] bg-white">
-        <div className="opx-layout-shell py-12">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.42fr)] lg:items-end">
-            <div>
-              <h2 className="text-balance text-[34px] font-semibold leading-[1.02] tracking-[-0.035em] text-[#0f172a] sm:text-[48px]">
-                {ui.catalogTitle}
-              </h2>
-              <p className="mt-4 max-w-[760px] text-[16px] leading-7 text-[#64748b]">{ui.catalogDescription}</p>
+      <section className="opx-json-section opx-products-catalog-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-card opx-products-catalog-panel">
+            <div className="opx-json-toolbar opx-products-toolbar">
+              <div className="opx-json-copy">
+                <p className="opx-json-eyebrow">{ui.catalogEyebrow}</p>
+                <h2 className="opx-json-section-title">{ui.catalogTitle}</h2>
+                <p className="opx-json-text">{ui.catalogDescription}</p>
+              </div>
+              <Input
+                label={ui.searchLabel}
+                aria-label={ui.searchLabel}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={ui.searchPlaceholder}
+                className="opx-json-search-control"
+                type="search"
+                size="lg"
+              />
             </div>
 
-            <Input
-              label={ui.searchLabel}
-              aria-label={ui.searchLabel}
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={ui.searchPlaceholder}
-              className="w-full"
-              type="search"
-              size="lg"
-            />
-          </div>
-
-          <div className="mt-7 flex flex-wrap items-center gap-2" role="group" aria-label={ui.filterLabel}>
-            <span className="mr-1 text-[13px] font-semibold text-[#64748b]">
-              {ui.filterLabel}
-            </span>
-            <Button
-              type="button"
-              onClick={() => setStatusFilter("all")}
-              aria-pressed={statusFilter === "all"}
-              size="lg"
-              variant={statusFilter === "all" ? "primary" : "secondary"}
-            >
-              {ui.filterAll}
-            </Button>
-            {statuses.map((status) => (
+            <div className="opx-json-tab-list opx-products-filter-list" role="group" aria-label={ui.filterLabel}>
+              <span className="opx-json-label">{ui.filterLabel}</span>
               <Button
-                key={status}
                 type="button"
-                onClick={() => setStatusFilter(status)}
-                aria-pressed={statusFilter === status}
+                onClick={() => setStatusFilter("all")}
+                aria-pressed={statusFilter === "all"}
                 size="lg"
-                variant={statusFilter === status ? "primary" : "secondary"}
+                variant={statusFilter === "all" ? "primary" : "secondary"}
               >
-                {status}
+                {ui.filterAll}
               </Button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#f8fafc]">
-        <div className="opx-layout-shell py-14 lg:py-20">
-          <div className="mb-5 flex items-center justify-between gap-4">
-            <p className="text-[13px] font-semibold text-[#64748b]">
-              {ui.resultsPrefix} {filteredProducts.length} / {copy.products.length}
-            </p>
-          </div>
-
-          {filteredProducts.length > 0 ? (
-            <div ref={catalogRef} className="grid gap-5 lg:grid-cols-3">
-              {filteredProducts.map((product) => (
-                <article
-                  key={product.name}
-                  data-product-card
-                  className="group relative flex min-h-[500px] flex-col overflow-hidden rounded-[15px] bg-kumo-elevated text-base ring ring-kumo-hairline transition hover:-translate-y-0.5"
-                  style={
-                    {
-                      "--product-accent": product.meta.accent,
-                      "--product-soft": product.meta.accentSoft,
-                    } as CSSProperties
-                  }
+              {statuses.map((status) => (
+                <Button
+                  key={status}
+                  type="button"
+                  onClick={() => setStatusFilter(status)}
+                  aria-pressed={statusFilter === status}
+                  size="lg"
+                  variant={statusFilter === status ? "primary" : "secondary"}
                 >
-                  <GlowingEffect
-                    blur={0}
-                    borderWidth={2}
-                    spread={72}
-                    glow
-                    proximity={64}
-                    inactiveZone={0.01}
-                    disabled={false}
-                  />
-                  <div className="-my-2 relative isolate flex flex-col gap-6 overflow-hidden bg-kumo-elevated p-4 text-base font-medium text-kumo-subtle">
-                    <img
-                      src="/images/opendex-card-outline-logo.png"
-                      alt=""
-                      aria-hidden="true"
-                      className="pointer-events-none absolute right-[-22px] top-[-24px] z-[-1] h-[180px] w-[180px] object-contain opacity-[0.18] mix-blend-multiply"
-                    />
-                    <div className="flex items-start justify-end gap-4">
-                      <Badge
-                        variant={getStatusBadgeVariant(product.meta.slug)}
-                        className={getStatusBadgeClassName(product.meta.slug)}
-                      >
-                        {product.status}
-                      </Badge>
-                    </div>
-                    <h3 className="mt-7 max-w-[320px] text-[30px] font-semibold leading-[1.02] tracking-[-0.04em] text-[#0f172a]">
-                      {product.name}
-                    </h3>
-                    <p className="mt-3 text-[14px] font-medium text-[#64748b]">{product.tagline}</p>
-                  </div>
-
-                  <div className="relative flex flex-1 flex-col gap-2 overflow-hidden rounded-[13px] bg-kumo-base p-4 pr-3 text-inherit no-underline ring ring-kumo-fill">
-                    <p className="text-[15px] leading-7 text-[#475569]">{product.desc}</p>
-
-                    <dl className="mt-7 grid gap-4 border-y border-[#e2e8f0] py-5">
-                      <div>
-                        <dt className="text-[12px] font-semibold text-[#64748b]">{copy.labels.signal}</dt>
-                        <dd className="mt-1 text-[14px] font-semibold leading-6 text-[#0f172a]">{product.signal}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-[12px] font-semibold text-[#64748b]">{copy.labels.scope}</dt>
-                        <dd className="mt-1 text-[14px] leading-6 text-[#475569]">{product.scope}</dd>
-                      </div>
-                    </dl>
-
-                    <div className="mt-6 grid gap-2">
-                      {product.features.slice(0, 4).map((feature) => (
-                        <p key={feature} className="text-[13px] leading-5 text-[#475569]">
-                          {feature}
-                        </p>
-                      ))}
-                    </div>
-
-                    <div className="mt-auto grid grid-cols-2 gap-2 pt-8">
-                      <Link href={`/productos/${product.meta.slug}`} className="btn btn-primary min-h-[40px] px-3 text-[12px]">
-                        {copy.labels.detail}
-                      </Link>
-                      <Link href="/contacto" className="btn btn-ghost min-h-[40px] px-3 text-[12px]">
-                        {copy.labels.request}
-                      </Link>
-                    </div>
-                  </div>
-                </article>
+                  {status}
+                </Button>
               ))}
             </div>
-          ) : (
-            <div className="rounded-[28px] border border-[#e2e8f0] bg-white p-8">
-              <h3 className="text-[22px] font-semibold tracking-[-0.02em] text-[#0f172a]">{ui.emptyTitle}</h3>
-              <p className="mt-2 text-[15px] leading-7 text-[#64748b]">{ui.emptyDescription}</p>
+
+            <div className="opx-products-results-row">
+              <p className="opx-json-label">
+                {ui.resultsPrefix} {filteredProducts.length} / {copy.products.length}
+              </p>
             </div>
-          )}
+
+            {filteredProducts.length > 0 ? (
+              <div ref={catalogRef} className="opx-json-control-grid opx-products-grid">
+                {filteredProducts.map((product) => (
+                  <article
+                    key={product.name}
+                    data-product-card
+                    className="opx-json-card opx-products-card"
+                  >
+                    <div className="opx-json-card-body opx-products-card-body">
+                      <img
+                        src="/images/opendex-card-outline-logo.png"
+                        alt=""
+                        aria-hidden="true"
+                        className="opx-products-card-mark"
+                      />
+                      <div className="opx-json-card-header opx-products-card-header">
+                        <Badge variant={getStatusBadgeVariant(product.meta.slug)}>
+                          {product.meta.code}
+                        </Badge>
+                        <Badge variant={getStatusBadgeVariant(product.meta.slug)}>
+                          {product.status}
+                        </Badge>
+                      </div>
+                      <div className="opx-products-card-copy">
+                        <h3 className="opx-json-card-title">{product.name}</h3>
+                        <p className="opx-json-label">{product.tagline}</p>
+                        <p className="opx-json-text">{product.desc}</p>
+                      </div>
+
+                      <dl className="opx-json-list opx-products-card-list">
+                        <div>
+                          <dt className="opx-json-label">{copy.labels.signal}</dt>
+                          <dd className="opx-json-text">{product.signal}</dd>
+                        </div>
+                        <div>
+                          <dt className="opx-json-label">{copy.labels.scope}</dt>
+                          <dd className="opx-json-text">{product.scope}</dd>
+                        </div>
+                      </dl>
+
+                      <div className="opx-json-check-list opx-products-feature-list">
+                        {product.features.slice(0, 4).map((feature) => (
+                          <p key={feature} className="opx-json-check">
+                            {feature}
+                          </p>
+                        ))}
+                      </div>
+
+                      <div className="opx-json-actions opx-products-card-actions">
+                        <Link href={`/productos/${product.meta.slug}`} className="opx-json-button opx-json-button-primary">
+                          {copy.labels.detail}
+                        </Link>
+                        <Link href="/contacto" className="opx-json-button opx-json-button-secondary">
+                          {copy.labels.request}
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="opx-json-card opx-products-empty-card">
+                <h3 className="opx-json-card-title">{ui.emptyTitle}</h3>
+                <p className="opx-json-text">{ui.emptyDescription}</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-[#e2e8f0] bg-white">
-        <div className="opx-layout-shell py-16">
-          <div className="grid gap-6 lg:grid-cols-[0.44fr_0.76fr] lg:items-end">
-            <h2 className="text-balance text-[34px] font-semibold leading-[1.03] tracking-[-0.035em] text-[#0f172a] sm:text-[52px]">
-              {ui.comparisonTitle}
-            </h2>
-            <p className="max-w-[690px] text-[16px] leading-7 text-[#64748b]">{ui.comparisonDescription}</p>
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-split">
+            <h2 className="opx-json-section-title">{ui.comparisonTitle}</h2>
+            <p className="opx-json-text">{ui.comparisonDescription}</p>
           </div>
 
-          <div className="mt-9 overflow-hidden rounded-[30px] border border-[#e2e8f0] bg-white shadow-[0_24px_80px_-66px_rgba(15,23,42,0.48)]">
-            <div className="hidden grid-cols-[0.7fr_0.82fr_1.12fr_0.42fr] border-b border-[#e2e8f0] bg-[#f8fafc] text-[13px] font-semibold text-[#64748b] lg:grid">
+          <div className="opx-json-table-wrap">
+            <div className="opx-products-table-head">
               {ui.tableHeaders.map((header) => (
-                <div key={header} className="border-r border-[#e2e8f0] px-5 py-4 last:border-r-0">
-                  {header}
-                </div>
+                <div key={header}>{header}</div>
               ))}
             </div>
             {products.map((product) => (
-              <div key={product.name} className="grid gap-4 border-b border-[#e2e8f0] bg-white p-5 last:border-b-0 lg:grid-cols-[0.7fr_0.82fr_1.12fr_0.42fr] lg:gap-0 lg:p-0">
-                <div className="lg:border-r lg:border-[#e2e8f0] lg:p-5">
-                  <p className="text-[15px] font-semibold text-[#0f172a]">{product.name}</p>
-                  <p className="mt-1 text-[12px] font-semibold text-[var(--product-accent)]" style={{ "--product-accent": product.meta.accent } as CSSProperties}>
-                    {product.meta.domain}
-                  </p>
+              <div key={product.name} className="opx-products-table-row">
+                <div>
+                  <p className="opx-json-label">{product.name}</p>
+                  <p className="opx-json-text">{product.meta.domain}</p>
                 </div>
-                <div className="text-[14px] leading-6 text-[#475569] lg:border-r lg:border-[#e2e8f0] lg:p-5">{product.signal}</div>
-                <div className="text-[14px] leading-6 text-[#475569] lg:border-r lg:border-[#e2e8f0] lg:p-5">{product.scope}</div>
-                <div className="lg:p-5">
-                  <Badge
-                    variant={getStatusBadgeVariant(product.meta.slug)}
-                    className={getStatusBadgeClassName(product.meta.slug)}
-                  >
+                <div className="opx-json-text">{product.signal}</div>
+                <div className="opx-json-text">{product.scope}</div>
+                <div>
+                  <Badge variant={getStatusBadgeVariant(product.meta.slug)}>
                     {product.status}
                   </Badge>
                 </div>
@@ -624,24 +569,19 @@ export default function ProductsClient() {
         </div>
       </section>
 
-      <section className="bg-[#f8fafc]">
-        <div className="opx-layout-shell py-16 lg:py-20">
-          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-            <div>
-              <h2 className="text-balance text-[34px] font-semibold leading-[1.03] tracking-[-0.035em] text-[#0f172a] sm:text-[54px]">
-                {ui.adoptionTitle}
-              </h2>
-              <p className="mt-4 max-w-[590px] text-[16px] leading-7 text-[#64748b]">{ui.adoptionDescription}</p>
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-split">
+            <div className="opx-json-copy">
+              <h2 className="opx-json-section-title">{ui.adoptionTitle}</h2>
+              <p className="opx-json-text">{ui.adoptionDescription}</p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {ui.processSteps.map((step, index) => (
-                <article key={step.title} className="rounded-[28px] border border-[#e2e8f0] bg-white p-6 shadow-[0_20px_70px_-60px_rgba(15,23,42,0.48)]">
-                  <p className="text-[13px] font-semibold text-[#64748b]">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-7 text-[22px] font-semibold tracking-[-0.025em] text-[#0f172a]">{step.title}</h3>
-                  <p className="mt-3 text-[14px] leading-6 text-[#64748b]">{step.description}</p>
+            <div className="opx-json-control-grid">
+              {ui.processSteps.map((step) => (
+                <article key={step.title} className="opx-json-card">
+                  <h3 className="opx-json-card-title">{step.title}</h3>
+                  <p className="opx-json-text">{step.description}</p>
                 </article>
               ))}
             </div>
@@ -649,16 +589,14 @@ export default function ProductsClient() {
         </div>
       </section>
 
-      <section className="bg-white">
-        <div className="opx-layout-shell py-14">
-          <div className="grid gap-8 rounded-[34px] border border-[#e2e8f0] bg-[#f8fafc] p-7 shadow-[0_24px_90px_-68px_rgba(15,23,42,0.52)] sm:p-9 lg:grid-cols-[minmax(0,0.9fr)_auto] lg:items-center">
-            <div>
-              <h2 className="max-w-[800px] text-balance text-[32px] font-semibold leading-[1.04] tracking-[-0.035em] text-[#0f172a] sm:text-[46px]">
-                {ui.finalTitle}
-              </h2>
-              <p className="mt-4 max-w-[700px] text-[16px] leading-7 text-[#64748b]">{ui.finalDescription}</p>
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-card opx-json-footer-row">
+            <div className="opx-json-copy">
+              <h2 className="opx-json-section-title">{ui.finalTitle}</h2>
+              <p className="opx-json-text">{ui.finalDescription}</p>
             </div>
-            <div className="flex flex-wrap gap-3 lg:justify-end">
+            <div className="opx-json-actions">
               <ButtonLink href="/contacto" size="lg" variant="primary">
                 {ui.heroCta}
               </ButtonLink>

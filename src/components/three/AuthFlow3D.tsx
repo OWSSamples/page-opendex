@@ -5,6 +5,9 @@ import { Float } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
+const OPX_ACCENT = 0x6c47ff;
+const OPX_TEXT = 0x131316;
+
 /** Visualiza el flujo de autenticación: dispositivo -> passkey challenge -> token JWT -> sesión */
 function FlowStage({
   position,
@@ -13,7 +16,7 @@ function FlowStage({
   phase,
 }: {
   position: [number, number, number];
-  color: string;
+  color: number;
   shape: "device" | "key" | "token" | "session";
   phase: number;
 }) {
@@ -65,7 +68,7 @@ function FlowPacket({
 }: {
   from: [number, number, number];
   to: [number, number, number];
-  color: string;
+  color: number;
   delay: number;
 }) {
   const ref = useRef<THREE.Mesh>(null);
@@ -90,22 +93,22 @@ function FlowPacket({
 export default function AuthFlow3D({ height = 320 }: { height?: number }) {
   const stages: Array<{
     pos: [number, number, number];
-    color: string;
+    color: number;
     shape: "device" | "key" | "token" | "session";
     phase: number;
   }> = [
-    { pos: [-3, 0, 0], color: "#a78bfa", shape: "device", phase: 0 },
-    { pos: [-1, 0, 0], color: "#7c3aed", shape: "key", phase: 0.5 },
-    { pos: [1, 0, 0], color: "#06b6d4", shape: "token", phase: 1 },
-    { pos: [3, 0, 0], color: "#10b981", shape: "session", phase: 1.5 },
+    { pos: [-3, 0, 0], color: OPX_ACCENT, shape: "device", phase: 0 },
+    { pos: [-1, 0, 0], color: OPX_ACCENT, shape: "key", phase: 0.5 },
+    { pos: [1, 0, 0], color: OPX_ACCENT, shape: "token", phase: 1 },
+    { pos: [3, 0, 0], color: OPX_TEXT, shape: "session", phase: 1.5 },
   ];
 
   return (
-    <div style={{ height }} className="w-full">
+    <div style={{ height }} className="opx-json-3d-stage">
       <Canvas camera={{ position: [0, 1, 5], fov: 50 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
         <ambientLight intensity={0.5} />
-        <pointLight position={[3, 5, 5]} intensity={1} color="#a78bfa" />
-        <pointLight position={[-3, -2, 3]} intensity={0.6} color="#06b6d4" />
+        <pointLight position={[3, 5, 5]} intensity={1} color={OPX_ACCENT} />
+        <pointLight position={[-3, -2, 3]} intensity={0.6} color={OPX_ACCENT} />
         <Float floatIntensity={0.3} rotationIntensity={0.1} speed={1.2}>
           {stages.map((s, i) => (
             <FlowStage key={i} position={s.pos} color={s.color} shape={s.shape} phase={s.phase} />

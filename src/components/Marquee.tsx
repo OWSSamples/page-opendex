@@ -7,14 +7,16 @@ const capabilities = [
 
 export default function Marquee() {
   return (
-    <section className="relative border-y border-ink-200 bg-white">
-      <div className="mx-auto grid max-w-7xl divide-y divide-ink-200 px-6 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4 lg:px-8">
+    <section className="opx-json-section">
+      <div className="opx-json-shell">
+        <div className="opx-json-metrics">
         {capabilities.map(([label, value]) => (
-          <div key={label} className="py-5 sm:px-5 first:sm:pl-0 last:sm:pr-0">
-            <div className="text-[11px] font-semibold uppercase text-ink-400">{label}</div>
-            <div className="mt-1 text-[14px] font-medium text-ink-900">{value}</div>
+          <div key={label} className="opx-json-metric">
+            <div className="opx-json-label">{label}</div>
+            <div className="opx-json-card-title">{value}</div>
           </div>
         ))}
+        </div>
       </div>
     </section>
   );

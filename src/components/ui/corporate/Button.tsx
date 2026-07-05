@@ -20,16 +20,16 @@ interface ButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-[#6d4df1] text-white hover:bg-[#7456f4] border border-[rgba(91,66,255,0.28)] shadow-sm hover:shadow transition-all duration-200',
-  secondary: 'bg-[#6d4df1] text-white hover:bg-[#7456f4] border border-[rgba(91,66,255,0.28)] shadow-sm hover:shadow transition-all duration-200',
-  outline: 'bg-transparent text-[#5f3df5] hover:bg-[rgba(109,77,241,0.06)] hover:text-[#4f2ee9] border border-[rgba(91,66,255,0.28)] transition-all duration-200',
-  ghost: 'bg-transparent text-[#5f3df5] hover:bg-[rgba(109,77,241,0.06)] hover:text-[#4f2ee9] border border-[rgba(91,66,255,0.28)] transition-all duration-200',
+  primary: 'opx-json-button-primary',
+  secondary: 'opx-json-button-secondary',
+  outline: 'opx-json-button-secondary',
+  ghost: 'opx-json-button-secondary',
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-[14px] py-0 text-xs min-h-[30px] rounded-[7px]',
-  md: 'px-[14px] py-0 text-xs min-h-[30px] rounded-[7px]',
-  lg: 'px-[14px] py-0 text-xs min-h-[30px] rounded-[7px]',
+  sm: '',
+  md: '',
+  lg: '',
 }
 
 const iconSizeMap = {
@@ -52,8 +52,7 @@ export default function CorporateButton({
 }: ButtonProps) {
   const isDisabled = disabled
   const base = cn(
-    'opx-corporate-button inline-flex items-center justify-center gap-2 font-semibold disabled:opacity-50 disabled:pointer-events-none',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B21B6]',
+    'opx-json-button opx-corporate-button disabled:opacity-50 disabled:pointer-events-none',
     variantStyles[variant],
     sizeStyles[size],
     isDisabled && 'pointer-events-none opacity-50',

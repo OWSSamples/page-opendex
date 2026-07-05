@@ -130,13 +130,10 @@ export default function Empresa() {
               </h2>
             </div>
             <div className="grid gap-5">
-              {chapters.map((chapter, index) => (
-                <article key={chapter.title} className="card grid gap-5 p-6 sm:grid-cols-[88px_minmax(0,1fr)]">
+              {chapters.map((chapter) => (
+                <article key={chapter.title} className="card grid gap-5 p-6 sm:grid-cols-[minmax(0,1fr)]">
                   <div>
-                    <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-iris-700">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-                    <div className="mt-2 text-[12px] font-semibold uppercase tracking-wider text-ink-400">
+                    <div className="text-[12px] font-semibold uppercase tracking-wider text-ink-400">
                       {chapter.eyebrow}
                     </div>
                   </div>
@@ -262,7 +259,7 @@ export default function Empresa() {
           <div className="grid gap-6 md:grid-cols-3">
             {[
               { id: "terminos", title: "Criterios de uso", desc: "Se publicaran cuando exista una oferta activa.", href: "/contacto" },
-              { id: "privacidad", title: "Privacidad", desc: "Resumen de datos, cookies y contacto de privacidad.", href: "/legal/privacidad" },
+              { id: "privacidad", title: "Privacidad", desc: "Resumen de datos, derechos y contacto de privacidad.", href: "/legal/privacy" },
               { id: "dpa", title: "Acuerdos enterprise", desc: "Disponibles solo cuando el alcance comercial este definido.", href: "/contacto" },
             ].map((d) => (
               <div key={d.id} id={d.id} className="card p-6">

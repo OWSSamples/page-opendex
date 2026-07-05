@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import googleIcon from "thesvg/google";
 import {
   ArrowRight,
-  Building2,
 } from "@/components/icons";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
 import T from "@/components/LocalizedText";
+import SecurityEnterprise3D from "@/components/three/SecurityEnterprise3DClient";
+import SecurityMotion from "./SecurityMotion";
 
 export const metadata = { title: "Seguridad" };
 
@@ -28,7 +28,7 @@ const controls = [
     "Confidencialidad de datos",
     "Conozca cómo Opendex protege la privacidad cumpliendo con estándares globales.",
     "Obtenga más información sobre la protección de datos y la privacidad",
-    "/legal/privacidad",
+    "/legal/privacy",
   ],
   [
     "Estado del servicio en la nube",
@@ -64,7 +64,7 @@ const trustResources = [
   [
     "Acuerdo de tratamiento de datos",
     "Base para revisar responsabilidades, tratamiento de informacion y controles de privacidad.",
-    "/legal/privacidad",
+    "/legal/privacy",
   ],
   [
     "Lista de subprocesadores",
@@ -84,7 +84,7 @@ const trustResources = [
   [
     "Politica de privacidad",
     "Como Opendex recopila, usa y protege informacion personal en productos y sitios.",
-    "/legal/privacidad",
+    "/legal/privacy",
   ],
 ];
 
@@ -108,7 +108,7 @@ const assuranceDocuments = [
     description: "Tratamiento de información, retención, confidencialidad y compromisos de privacidad.",
     audience: "Legal y compras",
     route: "Privacidad y DPA",
-    href: "/legal/privacidad",
+    href: "/legal/privacy",
   },
   {
     title: "Estado del servicio",
@@ -156,7 +156,7 @@ const operatingChecks = [
 
 export default function Seguridad() {
   return (
-    <>
+    <SecurityMotion>
       <LocalizedPageHeader pageKey="security">
         <Link href="/status" className="btn btn-primary">
           <LocalizedLabel labelKey="publicStatus" /> <ArrowRight className="h-4 w-4" aria-hidden />
@@ -173,8 +173,8 @@ export default function Seguridad() {
             <figure className="opx-security-proof-media">
               <div className="opx-security-proof-media-frame">
                 <Image
-                  src="/opendex-blueprint-control-plane.png"
-                  alt="Panel visual de Opendex para seguridad, cumplimiento y control operativo"
+                  src="/images/assets/tech-data-center.png"
+                  alt="Especialista revisando infraestructura en un centro de datos empresarial"
                   fill
                   sizes="(min-width: 1024px) 540px, 100vw"
                   className="opx-security-proof-media-image"
@@ -207,7 +207,6 @@ export default function Seguridad() {
               <div className="opx-security-proof-signal-grid" aria-label="Señales clave de seguridad">
                 {securitySignals.map((signal, index) => (
                   <article key={signal} className="opx-security-proof-signal">
-                    <span>{String(index + 1).padStart(2, "0")}</span>
                     <strong>
                       <T id={`security.signals.${index}.label`} fallback={signal} />
                     </strong>
@@ -246,151 +245,128 @@ export default function Seguridad() {
         <div className="opx-security-enterprise-shell">
           <div className="opx-security-enterprise-grid" aria-hidden />
 
-          <div className="opx-security-enterprise-head">
-            <div className="opx-security-enterprise-kicker">
-              <span>07.</span>
-              <span>
-                <T id="security.enterprise.kicker" fallback="Enterprise-ready" />
-              </span>
+          <div className="opx-security-enterprise-copy-block">
+            <div className="opx-security-enterprise-head">
+              <div className="opx-security-enterprise-kicker">
+                <span>
+                  <T id="security.enterprise.kicker" fallback="Enterprise-ready" />
+                </span>
+              </div>
+              <h2 id="enterprise-docs-title">
+                <T id="security.enterprise.titleA" fallback="Enterprise-ready" />
+                <br />
+                <T id="security.enterprise.titleB" fallback="docs," />{" "}
+                <em>
+                  <T id="security.enterprise.titleEm" fallback="out of the box" />
+                </em>
+              </h2>
             </div>
-            <h2 id="enterprise-docs-title">
-              <T id="security.enterprise.titleA" fallback="Enterprise-ready" />
-              <br />
-              <T id="security.enterprise.titleB" fallback="docs," />{" "}
-              <em>
-                <T id="security.enterprise.titleEm" fallback="out of the box" />
-              </em>
-            </h2>
+
+            <p className="opx-security-enterprise-copy">
+              <T
+                id="security.enterprise.copy"
+                fallback="Everything your team needs to ship trust at scale. Granular permissions, SSO, audit trails, migrations, and multilingual support built in."
+              />
+            </p>
+
+            <div className="opx-security-enterprise-action">
+              <Link href="/contacto" className="opx-security-enterprise-button">
+                <T id="security.enterprise.cta" fallback="Book a demo" />
+              </Link>
+            </div>
           </div>
 
-          <div className="opx-security-enterprise-action">
-            <Link href="/contacto" className="opx-security-enterprise-button">
-              <T id="security.enterprise.cta" fallback="Book a demo" />
-            </Link>
-          </div>
-
-          <p className="opx-security-enterprise-copy">
-            <T
-              id="security.enterprise.copy"
-              fallback="Everything your team needs to ship trust at scale. Granular permissions, SSO, audit trails, migrations, and multilingual support built in."
-            />
-          </p>
-
-          <div className="opx-security-enterprise-cards">
-            <article className="opx-security-enterprise-card">
-              <div className="opx-security-enterprise-card-visual opx-security-enterprise-roles" aria-hidden>
-                <div className="opx-security-role-row">
-                  <span className="opx-security-role-avatar">
-                    <Image
-                      src="/security-enterprise-avatar.jpg"
-                      alt=""
-                      width={24}
-                      height={24}
-                      className="opx-security-role-avatar-image"
-                    />
-                  </span>
-                  <span>Grace Hopper</span>
-                  <span className="opx-security-role-pill">2FA</span>
-                </div>
-                <div className="opx-security-role-option active">
-                  <span>
-                    <T id="security.enterprise.roles.custom" fallback="Custom" />
-                  </span>
-                  <span className="opx-security-role-status">
-                    <T id="security.enterprise.roles.allowed" fallback="Allowed" />
-                  </span>
-                </div>
-                <div className="opx-security-role-option">
-                  <span>
-                    <T id="security.enterprise.roles.viewer" fallback="Viewer" />
-                  </span>
-                </div>
-              </div>
-              <div className="opx-security-enterprise-card-title">
-                <h3>
-                  <T id="security.enterprise.roles.titleA" fallback="Role-based" />
-                  <br />
-                  <em>
-                    <T id="security.enterprise.roles.titleB" fallback="access controls" />
-                  </em>
-                </h3>
-              </div>
-              <p>
-                <T
-                  id="security.enterprise.roles.body"
-                  fallback="Control who can view, edit, and publish with granular permissions."
+          <div className="opx-security-enterprise-visual-suite">
+            <div className="opx-security-enterprise-stage">
+              <div className="opx-security-enterprise-stage-brand" aria-label="Opendex security architecture">
+                <Image
+                  src="/assets-for-opendex/lgoo-opendex-white.svg"
+                  alt="Opendex"
+                  width={54}
+                  height={30}
                 />
-              </p>
-            </article>
-
-            <article className="opx-security-enterprise-card">
-              <div className="opx-security-enterprise-card-visual opx-security-enterprise-compliance" aria-hidden>
-                <span className="opx-security-badge-a" aria-label="SOC 2">
+                <span>Security architecture</span>
+              </div>
+              <SecurityEnterprise3D height={460} />
+              <div className="opx-security-enterprise-stage-proof" aria-hidden>
+                <span>RBAC</span>
+                <span>SOC2</span>
+                <span>SSO</span>
+              </div>
+            </div>
+            <div className="opx-security-enterprise-capabilities" aria-label="Capacidades enterprise">
+              <div>
+                <span className="opx-security-enterprise-capability-head">
+                  <Image
+                    src="/images/icons-for-identity/approved-unlock.svg"
+                    alt=""
+                    width={26}
+                    height={26}
+                    aria-hidden
+                  />
+                  <strong>
+                    <T id="security.enterprise.roles.titleA" fallback="Role-based" />{" "}
+                    <T id="security.enterprise.roles.titleB" fallback="access controls" />
+                  </strong>
+                </span>
+                <span>
+                  <T
+                    id="security.enterprise.roles.body"
+                    fallback="Control who can view, edit, and publish with granular permissions."
+                  />
+                </span>
+              </div>
+              <div>
+                <span className="opx-security-enterprise-capability-head opx-security-enterprise-cert-logos">
                   <Image
                     src="/security-compliance-soc.png"
-                    alt=""
-                    width={112}
-                    height={112}
-                    className="opx-security-compliance-logo"
+                    alt="SOC 2"
+                    width={34}
+                    height={34}
                   />
-                </span>
-                <span className="opx-security-badge-b" aria-label="GDPR">
                   <Image
                     src="/security-compliance-gdpr.svg"
+                    alt="GDPR"
+                    width={34}
+                    height={34}
+                  />
+                  <strong>SOC2 &amp; GDPR</strong>
+                </span>
+                <span>
+                  <T
+                    id="security.enterprise.compliance.body"
+                    fallback="Audited, organized, and ready for review. Compliance your security team can trust."
+                  />
+                </span>
+              </div>
+              <div>
+                <span className="opx-security-enterprise-capability-head">
+                  <Image
+                    src="/images/icons-for-identity/iris-scan.svg"
                     alt=""
-                    width={112}
-                    height={112}
-                    className="opx-security-compliance-logo"
+                    width={26}
+                    height={26}
+                    aria-hidden
                   />
-                </span>
-              </div>
-              <div className="opx-security-enterprise-card-title">
-                <h3>
-                  SOC2
-                  <br />
-                  &amp; GDPR
-                </h3>
-              </div>
-              <p>
-                <T
-                  id="security.enterprise.compliance.body"
-                  fallback="Audited, organized, and ready for review. Compliance your security team can trust."
-                />
-              </p>
-            </article>
-
-            <article className="opx-security-enterprise-card">
-              <div className="opx-security-enterprise-card-visual opx-security-enterprise-sso" aria-hidden>
-                <span className="opx-security-sso-icon">
-                  <Building2 className="opx-security-sso-fluent-icon" aria-hidden />
-                </span>
-                <span className="opx-security-sso-label">
-                  <T id="security.enterprise.sso.signIn" fallback="Sign in" />
-                </span>
-                <span className="opx-security-sso-provider">
-                  <strong
-                    className="opx-security-sso-brand-icon"
-                    dangerouslySetInnerHTML={{ __html: googleIcon.svg }}
-                  />
-                  <T id="security.enterprise.sso.provider" fallback="Google Workspace" />
-                </span>
-              </div>
-              <div className="opx-security-enterprise-card-title">
-                <h3>
-                  SSO
-                  <br />
-                  <em>
+                  <strong>
+                    SSO{" "}
                     <T id="security.enterprise.sso.titleB" fallback="integration" />
-                  </em>
-                </h3>
+                  </strong>
+                </span>
+                <span>
+                  <T
+                    id="security.enterprise.sso.body"
+                    fallback="Connect your existing identity provider for seamless single sign-on."
+                  />
+                </span>
+                <span className="opx-security-enterprise-sso-providers" aria-label="Proveedores sociales compatibles">
+                  <span className="opx-security-social-mark opx-security-social-google" aria-label="Google" />
+                  <span className="opx-security-social-mark opx-security-social-microsoft" aria-label="Microsoft" />
+                  <span className="opx-security-social-mark opx-security-social-github" aria-label="GitHub" />
+                  <span className="opx-security-social-mark opx-security-social-linkedin" aria-label="LinkedIn" />
+                </span>
               </div>
-              <p>
-                <T
-                  id="security.enterprise.sso.body"
-                  fallback="Connect your existing identity provider for seamless single sign-on."
-                />
-              </p>
-            </article>
+            </div>
           </div>
         </div>
         <div className="opx-security-enterprise-fade" aria-hidden />
@@ -556,7 +532,6 @@ export default function Seguridad() {
               <div className="opx-trust-docs-list">
                 {assuranceDocuments.map(({ title, description, audience, route, href }, index) => (
                   <Link key={title} href={href} className="opx-trust-doc-row">
-                    <span className="opx-trust-doc-row-index">{String(index + 1).padStart(2, "0")}</span>
                     <div className="opx-trust-doc-row-main">
                       <div className="opx-trust-doc-row-meta">
                         <span>
@@ -575,7 +550,9 @@ export default function Seguridad() {
                         </p>
                       </div>
                     </div>
-                    <ArrowRight className="h-4 w-4" aria-hidden />
+                    <span className="opx-trust-doc-row-cta">
+                      <T id="security.documents.cta" fallback="Ver documento" />
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -611,6 +588,6 @@ export default function Seguridad() {
           </div>
         </div>
       </section>
-    </>
+    </SecurityMotion>
   );
 }

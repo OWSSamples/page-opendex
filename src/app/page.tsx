@@ -1,11 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import {
-  ArrowRight,
-} from "@/components/icons";
-import { ButtonLink } from "@/components/Button";
-import Card from "@/components/Card";
+import { ArrowRight } from "@/components/icons";
 import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import JsonLd from "@/components/JsonLd";
 import T from "@/components/LocalizedText";
@@ -152,6 +148,20 @@ const architectureFeatures: Capability[] = [
   },
 ];
 
+const homeRootClass = "opx-cf-home bg-opx-page font-opx text-opx-text";
+const sectionClass = "opx-cf-section py-opx-xl";
+const containerClass = "opx-cf-container mx-auto w-full max-w-7xl px-6 lg:px-8";
+const primaryButtonClass =
+  "inline-flex min-h-[30px] min-w-[152px] items-center justify-center gap-2 rounded-opx-control bg-opx-accent px-3 text-opx-control text-white shadow-opx-button-primary transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-opx-accent/35";
+const secondaryButtonClass =
+  "inline-flex min-h-[30px] min-w-[152px] items-center justify-center gap-2 rounded-opx-control bg-opx-surface px-3 text-opx-control text-opx-text shadow-opx-button-secondary transition hover:bg-opx-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-opx-accent/25";
+const productCardClass =
+  "opx-cf-product-card relative overflow-hidden rounded-opx-card bg-opx-surface p-opx-md shadow-opx-card transition";
+const productMediaClass =
+  "opx-cf-product-media relative min-h-[220px] border-b border-opx-border bg-opx-bg";
+const productMetaClass =
+  "opx-cf-product-meta flex items-center justify-between gap-opx-sm text-opx-control text-opx-text/60";
+
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -164,8 +174,8 @@ function Section({
   className?: string;
 }) {
   return (
-    <section className={cx("opx-cf-section", className)}>
-      <div className="opx-cf-container">{children}</div>
+    <section className={cx(sectionClass, className)}>
+      <div className={containerClass}>{children}</div>
     </section>
   );
 }
@@ -174,20 +184,21 @@ function ProductCardView({ product }: { product: ProductCard }) {
   const { asset, assetAlt, body, href, iconName, label, title } = product;
 
   return (
-    <Card density="none" className="opx-cf-product-card">
-      <div className="opx-cf-product-media relative">
+    <article className={productCardClass}>
+      <div className={productMediaClass}>
         <Image src={asset} alt={assetAlt} fill sizes="(min-width: 1024px) 28vw, 100vw" className="object-contain" />
       </div>
-      <div className="opx-cf-product-meta">
+      <div className={productMetaClass}>
         <span>{label}</span>
         <IdentityIcon name={iconName} size={24} className="h-6 w-6 object-contain" />
       </div>
       <h3>{title}</h3>
       <p>{body}</p>
-      <ButtonLink href={href} variant="secondary" size="md" icon={<ArrowRight className="h-4 w-4" aria-hidden />}>
+      <Link href={href} className={secondaryButtonClass}>
         Ver detalle
-      </ButtonLink>
-    </Card>
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </Link>
+    </article>
   );
 }
 
@@ -307,17 +318,17 @@ export default function Home() {
   ]);
 
   return (
-    <div className="opx-cf-home">
+    <div className={homeRootClass}>
       <JsonLd data={breadcrumbJsonLd([{ name: "Inicio", path: "/" }])} />
-      <section className="opx-cf-hero">
+      <section className="opx-cf-hero relative overflow-hidden">
         <div className="opx-cf-hero-ribbons" aria-hidden>
           {Array.from({ length: 8 }).map((_, index) => (
             <span key={index} style={{ "--i": index } as CSSProperties} />
           ))}
         </div>
 
-        <div className="opx-cf-container opx-cf-hero-grid">
-          <div className="opx-cf-hero-copy">
+        <div className={cx(containerClass, "opx-cf-hero-grid")}>
+          <div className="opx-cf-hero-copy max-w-3xl">
             <div className="opx-cf-hero-marks" aria-hidden>
               <span className="opx-cf-hero-mark opx-cf-hero-mark-logo">
                 <Image src="/logo.png" alt="" width={34} height={34} />
@@ -326,11 +337,11 @@ export default function Home() {
               <span className="opx-cf-hero-mark opx-cf-hero-mark-builder">B</span>
             </div>
 
-            <h1><T id="home.hero.title" fallback="Opendex prepara la operación para equipos que crecen" /></h1>
-            <p>
+            <h1 className="font-opx text-opx-h1 text-opx-text"><T id="home.hero.title" fallback="Opendex prepara la operación para equipos que crecen" /></h1>
+            <p className="font-opx text-opx-body text-opx-text/70">
               <T id="home.hero.description" fallback="Una base empresarial para conectar identidad, documentos y continuidad operativa sin convertir cada decisión en una revisión manual." />
             </p>
-            <Link href="/contacto" className="opx-cf-hero-claim">
+            <Link href="/contacto" className="opx-cf-hero-claim inline-flex min-h-[30px] items-center justify-center rounded-opx-control bg-opx-accent px-3 text-opx-control text-white shadow-opx-button-primary">
               <T id="home.hero.cta" fallback="Solicitar acceso" />
             </Link>
           </div>
@@ -367,7 +378,7 @@ export default function Home() {
                 <p>
                   <T id="home.context.body" fallback="Mantén identidad, documentos y trabajo diario cerca del usuario, equipo y dato que sostienen cada decisión." />
                 </p>
-                <Link href="/status" className="opx-context-defense-link">
+                <Link href="/status" className="opx-context-defense-link text-opx-control text-opx-accent">
                   <T id="home.context.cta" fallback="Ver más" />
                 </Link>
               </div>
@@ -439,7 +450,7 @@ export default function Home() {
             <p>
               <T id="home.trust.banner" fallback="Opendex proporciona visibilidad, gobierno y control operativo en identidades, documentos, workspaces y operaciones comerciales." />
             </p>
-            <Link href="/productos" className="opx-trust-platform-action">
+            <Link href="/productos" className={cx("opx-trust-platform-action", primaryButtonClass)}>
               <T id="home.trust.cta" fallback="Opendex en acción" />
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
@@ -461,7 +472,7 @@ export default function Home() {
               <p>
                 <T id="home.identifier.body" fallback="Claridad operativa persistente entre usuarios, documentos y eventos, incluso cuando los equipos cambian entre sucursales, dispositivos y flujos de trabajo." />
               </p>
-              <Link href="/status" className="opx-identifier-button">
+              <Link href="/status" className={cx("opx-identifier-button", secondaryButtonClass)}>
                 <T id="home.identifier.cta" fallback="Ver más" />
               </Link>
 
@@ -643,9 +654,9 @@ export default function Home() {
       <MultiTenancySection />
 
       <Section>
-        <div className="opx-cf-section-heading opx-cf-section-heading-wide">
-          <h2><T id="home.mosaic.title" fallback="Impulsado por la plataforma Opendex" /></h2>
-          <p>
+        <div className="opx-cf-section-heading opx-cf-section-heading-wide mx-auto max-w-4xl text-center">
+          <h2 className="font-opx text-opx-h2 text-opx-text"><T id="home.mosaic.title" fallback="Impulsado por la plataforma Opendex" /></h2>
+          <p className="font-opx text-opx-body text-opx-text/70">
             <T id="home.mosaic.body" fallback="Capas claras para sostener decisiones críticas, conectar sistemas y operar con control sin perder ritmo." />
           </p>
         </div>
@@ -708,11 +719,11 @@ export default function Home() {
               <T id="home.final.body" fallback="Revisa las líneas de producto o agenda una conversación para evaluar qué parte del flujo debe conectarse primero." />
             </p>
             <div className="opx-final-actions">
-              <Link href="/contacto" className="opx-final-button opx-final-button-primary">
+              <Link href="/contacto" className={cx("opx-final-button opx-final-button-primary", primaryButtonClass)}>
                 <T id="home.final.primary" fallback="Empezar ahora" />
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/productos" className="opx-final-button opx-final-button-secondary">
+              <Link href="/productos" className={cx("opx-final-button opx-final-button-secondary", secondaryButtonClass)}>
                 <T id="home.final.secondary" fallback="Comunícate con ventas" />
               </Link>
             </div>

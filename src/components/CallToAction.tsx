@@ -1,49 +1,40 @@
 import { ArrowRight } from "@/components/icons";
-import { ButtonLink } from "@/components/Button";
 
 const proof = ["Sin tarjeta", "10K MAU incluidos", "Setup asistido", "SLA enterprise"];
 
 export default function CallToAction() {
   return (
-    <section id="cta" className="opx-enterprise-cta-section relative">
-      <div className="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
-        <div className="opx-enterprise-cta grid lg:grid-cols-[1fr_360px]">
-          <div className="p-8 sm:p-10 lg:p-12">
-            <div className="opx-enterprise-kicker text-[12px] font-semibold uppercase">
+    <section id="cta" className="opx-json-section">
+      <div className="opx-json-shell">
+        <div className="opx-json-card opx-json-card-plain">
+          <div className="opx-json-card-body">
+            <div className="opx-json-eyebrow">
               Siguiente paso
             </div>
-            <h2 className="mt-4 max-w-3xl font-heading text-[34px] font-semibold leading-[1.08] text-ink-950 sm:text-[46px]">
+            <h2 className="opx-json-section-title">
               Empieza con un proyecto de autenticacion y valida el flujo con tu
               primera aplicacion.
             </h2>
-            <p className="mt-5 max-w-2xl text-[15.5px] leading-7 text-ink-600">
+            <p className="opx-json-text">
               Crea un workspace, conecta una app y prueba passkeys, SSO y MFA
               con datos de desarrollo antes de moverlo a produccion.
             </p>
           </div>
 
-          <div className="border-t border-ink-200 bg-ink-950 p-8 text-white lg:border-l lg:border-t-0">
-            <div className="grid gap-3">
-              <ButtonLink
-                href="/contacto"
-                variant="accent"
-                size="md"
-                icon={<ArrowRight className="h-4 w-4" aria-hidden />}
-              >
+          <div className="opx-json-card-body">
+            <div className="opx-json-actions">
+              <a href="/contacto" className="opx-json-button opx-json-button-primary">
                 Crear cuenta
-              </ButtonLink>
-              <ButtonLink
-                href="/contacto"
-                variant="inverse"
-                size="md"
-              >
+                <ArrowRight aria-hidden />
+              </a>
+              <a href="/contacto" className="opx-json-button opx-json-button-secondary">
                 Hablar con ventas
-              </ButtonLink>
+              </a>
             </div>
 
-            <div className="mt-7 grid gap-0 border border-white/10">
+            <div className="opx-json-metrics">
               {proof.map((item) => (
-                <div key={item} className="border-b border-white/10 px-4 py-3 text-[12.5px] text-white/62 last:border-b-0">
+                <div key={item} className="opx-json-metric">
                   {item}
                 </div>
               ))}

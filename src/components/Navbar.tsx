@@ -35,7 +35,6 @@ type MenuItem = {
   desc?: string;
   Icon?: typeof Fingerprint;
   badge?: string;
-  color?: string;
 };
 
 type MenuSection = { title: string; items: MenuItem[] };
@@ -63,6 +62,14 @@ const navLabelMap: Record<string, CommonLabelKey> = {
   Precios: "navPricing",
 };
 
+const headerLogoVariants = [
+  "/assets-for-opendex/logo-opendex-floral.png",
+  "/assets-for-opendex/logo-opendex-nube.png",
+  "/assets-for-opendex/logo-opendex-sakura-full.png",
+  "/assets-for-opendex/logo-opendex-verde.png",
+  "/assets-for-opendex/logo-for-opendex-blue.png",
+];
+
 const menus: Record<string, MenuSection[]> = {
   Desarrolladores: [
     {
@@ -87,9 +94,9 @@ const menus: Record<string, MenuSection[]> = {
     {
       title: "Plataforma Opendex",
       items: [
-        { label: "Opendex Identity Platform", href: "/productos/auth", desc: "Identidad en prelanzamiento, sin fecha pública", Icon: Fingerprint, badge: "Pre", color: "#f6821f" },
-        { label: "Factur Workspaces", href: "/productos/invoice", desc: "Workspace fiscal preparado, aún no disponible", Icon: Receipt, badge: "No disponible", color: "#ff500a" },
-        { label: "Opendex Kiosko Workspaces", href: "/productos/kiosko", desc: "Operación retail en beta aislada", Icon: Store, badge: "Beta", color: "#ff9910" },
+        { label: "Opendex Identity Platform", href: "/productos/auth", desc: "Identidad en prelanzamiento, sin fecha pública", Icon: Fingerprint, badge: "Pre" },
+        { label: "Factur Workspaces", href: "/productos/invoice", desc: "Workspace fiscal preparado, aún no disponible", Icon: Receipt, badge: "No disponible" },
+        { label: "Opendex Kiosko Workspaces", href: "/productos/kiosko", desc: "Operación retail en beta aislada", Icon: Store, badge: "Beta" },
       ],
     },
     {
@@ -278,8 +285,23 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [menuVersion, setMenuVersion] = useState(0);
+  const [headerLogoIndex, setHeaderLogoIndex] = useState(0);
   const previousMenu = useRef<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const storageKey = "opx-header-logo-index";
+    const savedIndex = Number(window.sessionStorage.getItem(storageKey));
+
+    if (Number.isInteger(savedIndex) && savedIndex >= 0 && savedIndex < headerLogoVariants.length) {
+      setHeaderLogoIndex(savedIndex);
+      return;
+    }
+
+    const nextIndex = Math.floor(Math.random() * headerLogoVariants.length);
+    window.sessionStorage.setItem(storageKey, String(nextIndex));
+    setHeaderLogoIndex(nextIndex);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -340,13 +362,17 @@ export default function Navbar() {
             aria-label={text("navbar.home", "Ir al inicio")}
             className="opx-brand-frame opx-brand-frame-nav"
           >
-            <Image
-              src="/logo.png"
-              alt="Opendex"
-              width={40}
-              height={40}
-              className="opx-brand-frame-logo"
-            />
+            <span className="opx-brand-frame-logo-stack" aria-hidden>
+              {headerLogoVariants.map((logo, index) => (
+                <img
+                  key={logo}
+                  src={logo}
+                  alt=""
+                  className={`opx-brand-frame-logo ${index === headerLogoIndex ? "opx-brand-frame-logo-active" : ""}`}
+                />
+              ))}
+            </span>
+            <span className="sr-only">Opendex</span>
           </Link>
 
           {/* Desktop nav */}
@@ -427,7 +453,7 @@ export default function Navbar() {
               type="button"
               aria-label={text("navbar.mobile.menu", "Menú")}
               onClick={() => setOpen((value) => !value)}
-              className="grid h-10 w-10 place-items-center rounded-md border border-[#e7e4dc] bg-white text-[#1d1d1b] transition hover:bg-[#faf8f4] md:hidden"
+              className="opx-json-tab md:hidden"
             >
               {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -467,9 +493,13 @@ export default function Navbar() {
                             className="opx-mega-menu-quick-links"
                             aria-label={text("navbar.promo.quickAria", "Quick links")}
                           >
-                            {megaMenuQuickLinks.slice(0, 4).map(({ href, labelKey, fallback, iconName }) => (
-                              <Link key={href} href={href} className="opx-mega-menu-quick-link">
-                                <IdentityIcon name={iconName} size={18} className="h-[18px] w-[18px] object-contain" />
+                            {megaMenuQuickLinks.slice(0, 4).map(({ href, labelKey, fallback, iconName }, quickIndex) => (
+                              <Link
+                                key={`${activeNavItem.label}-quick-${quickIndex}-${href}`}
+                                href={href}
+                                className="opx-mega-menu-quick-link"
+                              >
+                                <IdentityIcon name={iconName} size={18} />
                                 <span>{text(labelKey, fallback)}</span>
                               </Link>
                             ))}
@@ -484,7 +514,11 @@ export default function Navbar() {
                               </div>
                               <div className="space-y-1">
                                 {section.items.map((sub, itemIndex) => (
-                                  <Link key={sub.href} href={sub.href} className="opx-mega-menu-item">
+                                  <Link
+                                    key={`${activeNavItem.label}-${sectionIndex}-${itemIndex}-${sub.href}`}
+                                    href={sub.href}
+                                    className="opx-mega-menu-item"
+                                  >
                                     <span className="opx-mega-menu-item-label">
                                       {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
                                     </span>
@@ -533,9 +567,13 @@ export default function Navbar() {
                             className="opx-mega-menu-quick-links"
                             aria-label={text("navbar.promo.quickAria", "Quick links")}
                           >
-                            {megaMenuQuickLinks.slice(0, 4).map(({ href, labelKey, fallback, iconName }) => (
-                              <Link key={href} href={href} className="opx-mega-menu-quick-link">
-                                <IdentityIcon name={iconName} size={18} className="h-[18px] w-[18px] object-contain" />
+                            {megaMenuQuickLinks.slice(0, 4).map(({ href, labelKey, fallback, iconName }, quickIndex) => (
+                              <Link
+                                key={`${activeNavItem.label}-quick-${quickIndex}-${href}`}
+                                href={href}
+                                className="opx-mega-menu-quick-link"
+                              >
+                                <IdentityIcon name={iconName} size={18} />
                                 <span>{text(labelKey, fallback)}</span>
                               </Link>
                             ))}
@@ -550,7 +588,11 @@ export default function Navbar() {
                               </div>
                               <div className="space-y-1">
                                 {section.items.map((sub, itemIndex) => (
-                                  <Link key={sub.href} href={sub.href} className="opx-mega-menu-item">
+                                  <Link
+                                    key={`${activeNavItem.label}-${sectionIndex}-${itemIndex}-${sub.href}`}
+                                    href={sub.href}
+                                    className="opx-mega-menu-item"
+                                  >
                                     <span className="opx-mega-menu-item-label">
                                       {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
                                     </span>
@@ -588,7 +630,7 @@ export default function Navbar() {
                           </p>
                           <nav className="opx-mega-menu-quick-links" aria-label={text("navbar.company.quickAria", "Company links")}>
                             <Link href="/contacto" className="opx-mega-menu-quick-link">
-                              <IdentityIcon name="identity" size={18} className="h-[18px] w-[18px] object-contain" />
+                              <IdentityIcon name="identity" size={18} />
                               <span>{text("navbar.company.contact", "Contact Us")}</span>
                             </Link>
                           </nav>
@@ -602,7 +644,11 @@ export default function Navbar() {
                               </div>
                               <div className="space-y-1">
                                 {section.items.map((sub, itemIndex) => (
-                                  <Link key={sub.href} href={sub.href} className="opx-mega-menu-item">
+                                  <Link
+                                    key={`${activeNavItem.label}-${sectionIndex}-${itemIndex}-${sub.href}`}
+                                    href={sub.href}
+                                    className="opx-mega-menu-item"
+                                  >
                                     <span className="opx-mega-menu-item-label">
                                       {text(`navbar.menu.${activeNavItem.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}
                                     </span>
@@ -641,9 +687,13 @@ export default function Navbar() {
                           className="opx-mega-menu-quick-links"
                           aria-label={text("navbar.promo.quickAria", "Quick links")}
                         >
-                          {megaMenuQuickLinks.map(({ href, labelKey, fallback, iconName }) => (
-                            <Link key={href} href={href} className="opx-mega-menu-quick-link">
-                              <IdentityIcon name={iconName} size={18} className="h-[18px] w-[18px] object-contain" />
+                          {megaMenuQuickLinks.map(({ href, labelKey, fallback, iconName }, quickIndex) => (
+                            <Link
+                              key={`${activeNavItem.label}-quick-${quickIndex}-${href}`}
+                              href={href}
+                              className="opx-mega-menu-quick-link"
+                            >
+                              <IdentityIcon name={iconName} size={18} />
                               <span>{text(labelKey, fallback)}</span>
                             </Link>
                           ))}
@@ -659,7 +709,7 @@ export default function Navbar() {
                             <div className="space-y-1">
                               {section.items.map((sub, itemIndex) => (
                                 <Link
-                                  key={sub.href}
+                                  key={`${activeNavItem.label}-${sectionIndex}-${itemIndex}-${sub.href}`}
                                   href={sub.href}
                                   className="opx-mega-menu-item group/sub"
                                 >
@@ -716,19 +766,19 @@ export default function Navbar() {
         <div className="opx-clerk-sub-row">
           <div className="opx-clerk-sub-left">
             <Link href="/productos/auth" className="opx-clerk-sub-link opx-clerk-sub-link-active">
-              <IdentityIcon name="identity" size={18} className="h-[18px] w-[18px] object-contain" />
+              <IdentityIcon name="identity" size={18} />
               {text("navbar.sub.auth", "Autenticación de usuarios")}
             </Link>
             <Link href="/productos/invoice" className="opx-clerk-sub-link">
-              <IdentityIcon name="organization" size={18} className="h-[18px] w-[18px] object-contain" />
+              <IdentityIcon name="organization" size={18} />
               {text("navbar.sub.b2b", "Autenticación B2B")}
             </Link>
             <Link href="/productos/kiosko" className="opx-clerk-sub-link">
-              <IdentityIcon name="document" size={18} className="h-[18px] w-[18px] object-contain" />
+              <IdentityIcon name="document" size={18} />
               {text("navbar.sub.billing", "Facturación")}
             </Link>
             <Link href="/status" className="opx-clerk-sub-link">
-              <IdentityIcon name="session" size={18} className="h-[18px] w-[18px] object-contain" />
+              <IdentityIcon name="session" size={18} />
               {text("navbar.sub.waitlist", "Lista de espera")}
             </Link>
           </div>
@@ -747,28 +797,28 @@ export default function Navbar() {
 
       {/* ============== MOBILE PANEL ============== */}
       {open && (
-        <div className="border-b border-[#e7e4dc] bg-[#faf8f4] md:hidden">
-          <nav className="mx-auto flex max-w-[1200px] flex-col gap-1 px-5 py-5">
+        <div className="opx-json-mobile-panel md:hidden">
+          <nav className="opx-json-mobile-nav">
             {flatNav.map((item) => {
               if ("hasMenu" in item) {
                 const sections = menus[item.label] ?? [];
                 return (
-                  <div key={item.label} className="rounded-lg border border-[#e7e4dc] bg-white/70 p-3">
-                    <div className="px-1 pb-2 text-[13px] font-semibold text-[#1d1d1b]">
+                  <div key={item.label} className="opx-json-card">
+                    <div className="opx-json-card-title">
                       {text(`navbar.nav.${item.label}`, item.displayLabel ?? item.label)}
                     </div>
-                    <div className="grid gap-1">
+                    <div className="opx-json-list">
                       {sections.flatMap((section, sectionIndex) =>
                         section.items.map((sub, itemIndex) => ({ sub, sectionIndex, itemIndex }))
                       ).slice(0, 6).map(({ sub, sectionIndex, itemIndex }) => (
                           <Link
                             key={`${item.label}-${sub.href}-${sub.label}`}
                             href={sub.href}
-                            className="flex items-center justify-between rounded-md px-2.5 py-2 text-[14px] text-[#4a4a47] hover:bg-[#faf8f4] hover:text-[#1d1d1b]"
+                            className="opx-json-menu-link"
                           >
                             <span>{text(`navbar.menu.${item.label}.${sectionIndex}.${itemIndex}.label`, sub.label)}</span>
                             {sub.badge ? (
-                              <span className="text-[10px] font-semibold uppercase text-[#f6821f]">
+                              <span className="opx-json-status-accent">
                                 {text(`navbar.menu.${item.label}.${sectionIndex}.${itemIndex}.badge`, sub.badge)}
                               </span>
                             ) : null}
@@ -783,32 +833,31 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className="rounded-lg px-3 py-2.5 text-[15px] font-medium text-[#3d3d3a] hover:bg-white hover:text-[#1d1d1b]"
+                  className="opx-json-menu-link"
                 >
                   {text(`navbar.nav.${item.label}`, item.displayLabel ?? item.label)}
                 </Link>
               );
             })}
-            <div className="my-3 h-px bg-[#e7e4dc]" />
-            <div className="flex gap-2">
+            <div className="opx-json-actions">
               <Link
                 href="/contacto"
-                className="flex h-11 flex-1 items-center justify-center rounded-md border border-[#1d1d1b] text-[14px] font-medium text-[#1d1d1b]"
+                className="opx-json-button opx-json-button-secondary"
               >
                 {text("navbar.mobile.register", t("register"))}
               </Link>
               <Link
                 href="/login"
-                className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-md bg-[#1d1d1b] text-[14px] font-medium text-white"
+                className="opx-json-button opx-json-button-primary"
               >
                 {text("navbar.mobile.connect", t("connect"))} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             </div>
             <Link
               href="/empresa"
-              className="mt-4 inline-flex items-center gap-2 px-3 text-[13px] text-[#6b6b66]"
+              className="opx-json-menu-link"
             >
-              <IdentityIcon name="workspace" size={18} className="h-[18px] w-[18px] object-contain" />
+              <IdentityIcon name="workspace" size={18} />
               {text("navbar.mobile.roadmap", "Roadmap de Opendex Web Services")}
             </Link>
           </nav>

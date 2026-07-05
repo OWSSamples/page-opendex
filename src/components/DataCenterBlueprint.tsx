@@ -199,7 +199,7 @@ export default function DataCenterBlueprint() {
         ctx.fillStyle = blue(0.52);
         ctx.font = "6px monospace";
         ctx.textAlign = "center";
-        ctx.fillText(`R${rowIndex + 1}-${String(index + 1).padStart(2, "0")}`, x + 35, y + h + 16);
+        ctx.fillText(rowIndex % 2 === 0 ? "CORE" : "EDGE", x + 35, y + h + 16);
       };
 
       // ─── Background grid ─────────────────────────────────────

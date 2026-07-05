@@ -1,0 +1,79 @@
+---
+title: "Politica de disponibilidad y SLA"
+eyebrow: "Legal / SLA"
+updatedAt: "Ultima actualizacion: 4 de julio de 2026"
+description: "Criterios de disponibilidad, mantenimiento, incidentes, exclusiones y compromisos sujetos a contrato."
+order: 100
+---
+
+## Alcance
+
+Esta politica explica criterios generales de disponibilidad, continuidad y mantenimiento. No constituye un SLA contractual por si sola.
+
+Los objetivos, porcentajes, creditos, exclusiones, ventanas de mantenimiento, obligaciones de notificacion y remedios finales deben definirse en el contrato o anexo aplicable.
+
+Cuando no exista un SLA firmado, Opendex puede operar bajo criterios razonables de disponibilidad y soporte, pero sin compromisos numericos publicos.
+
+## Disponibilidad
+
+La disponibilidad depende de infraestructura, red, proveedores, mantenimiento, incidentes, configuraciones del cliente, integraciones externas, abuso, fuerza mayor y alcance contratado.
+
+Opendex puede monitorear servicios, eventos y senales tecnicas para detectar degradaciones y priorizar mitigacion.
+
+| Elemento | Puede afectar disponibilidad | Responsable principal |
+| --- | --- | --- |
+| Infraestructura | Hosting, red, almacenamiento | Opendex y proveedor |
+| Configuracion cliente | DNS, credenciales, permisos | Cliente |
+| Integraciones | APIs, terceros, webhooks | Segun proveedor |
+| Seguridad | Abuso, ataques, bloqueo preventivo | Opendex y cliente |
+| Mantenimiento | Cambios planificados | Opendex |
+
+## Mantenimiento
+
+Podemos realizar mantenimiento para mejorar seguridad, estabilidad, rendimiento, compatibilidad o funcionalidad.
+
+Cuando sea posible y relevante, el mantenimiento planificado se comunicara por canales adecuados. Algunos cambios menores, mitigaciones urgentes o ajustes de seguridad pueden ejecutarse sin aviso previo para proteger la plataforma.
+
+| Evento | Descripcion | Tratamiento |
+| --- | --- | --- |
+| Mantenimiento | Cambio planificado | Comunicacion cuando aplique |
+| Degradacion | Funcion parcial afectada | Investigacion y mitigacion |
+| Interrupcion | Servicio no disponible | Priorizacion segun impacto |
+| Incidente externo | Proveedor o red afectada | Seguimiento dependiente del tercero |
+| Emergencia | Riesgo de seguridad o estabilidad | Accion prioritaria |
+
+## Clasificacion de eventos
+
+Los eventos pueden clasificarse por severidad, alcance, duracion, clientes afectados, datos impactados, funcion afectada y posibilidad de mitigacion.
+
+La clasificacion inicial puede cambiar conforme avance la investigacion o aparezca nueva evidencia.
+
+## Exclusiones
+
+Pueden excluirse fallas por configuraciones del cliente, abuso, fuerza mayor, proveedores externos, pruebas no autorizadas, integraciones de terceros, errores de credenciales, cambios no coordinados o eventos fuera del control razonable de Opendex.
+
+Tambien pueden excluirse entornos beta, evaluaciones, demos, previews, funciones experimentales, ambientes de desarrollo o servicios no contratados con SLA especifico.
+
+## Reporte de disponibilidad
+
+Cuando exista pagina de estado o comunicacion operacional, se usara para informar eventos relevantes segun severidad y alcance.
+
+Los reportes pueden incluir descripcion, impacto, componentes afectados, estado de mitigacion y cierre. No se publicaran detalles que incrementen riesgo de seguridad.
+
+## Continuidad
+
+La continuidad puede apoyarse en monitoreo, respaldos, redundancia, procesos de respuesta, proveedores confiables y practicas de recuperacion razonables.
+
+El nivel exacto de continuidad depende de arquitectura, producto, contrato, criticidad, region y recursos asignados.
+
+## Responsabilidades del cliente
+
+El cliente debe mantener configuraciones correctas, credenciales seguras, contactos actualizados, permisos apropiados, integraciones validas y canales de comunicacion disponibles.
+
+Los errores de configuracion, permisos internos, bloqueos externos o cambios no coordinados pueden afectar disponibilidad y tiempos de resolucion.
+
+## Remedios
+
+Cualquier credito, compensacion, remedio, excepcion o compromiso de respuesta debe estar definido por contrato. Esta politica publica no crea creditos automaticos.
+
+Si existe SLA contratado, se aplicaran los procedimientos, requisitos de reporte, exclusiones y remedios definidos en ese documento.

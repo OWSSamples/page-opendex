@@ -10,18 +10,13 @@
     },
     "sm": {
       "$type": "shadow",
-      "$value": [
-        { "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px", "color": "rgba(0, 0, 0, 0.05)" }
-      ],
-      "$description": "Level 1 — subtle lift (cards at rest)"
+      "$value": "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+      "$description": "Level 1 — Clerk-style subtle lift"
     },
     "md": {
       "$type": "shadow",
-      "$value": [
-        { "offsetX": "0px", "offsetY": "1px", "blur": "3px", "spread": "0px", "color": "rgba(0, 0, 0, 0.1)" },
-        { "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "-1px", "color": "rgba(0, 0, 0, 0.1)" }
-      ],
-      "$description": "Level 2 — default elevation (dropdowns, popovers)"
+      "$value": "rgba(0, 0, 0, 0.16) 0px 10px 19px 4px, rgba(255, 255, 255, 0.04) 0px -10px 16px -4px, rgba(255, 255, 255, 0.01) 0px 0px 0px 1px, rgba(255, 255, 255, 0.02) 0px 1px 0px 0px",
+      "$description": "Level 2 — Clerk-style stronger elevation"
     },
     "lg": {
       "$type": "shadow",
@@ -96,5 +91,23 @@
       { "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "4px", "color": "#3b82f6" }
     ],
     "$description": "Double-ring focus indicator — 2px white + 2px blue. Visible on both light and dark backgrounds. Meets WCAG 2.4.7."
+  },
+
+  "component": {
+    "card": {
+      "$type": "shadow",
+      "$value": "rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 0.82px 1.64px 0px, rgba(0, 0, 0, 0.08) 0px 0px 1.64px 0px",
+      "$description": "Card shadow from the supplied Clerk-style guide"
+    },
+    "button-primary": {
+      "$type": "shadow",
+      "$value": "rgb(108, 71, 255) 0px 0px 0px 0.5px, oklab(0.999994 0.0000455678 0.0000200868 / 0.07) 0px 1px 0px 0px inset, oklab(0.249859 0.00254738 -0.00901626 / 0.2) 0px 1px 3px 0px",
+      "$description": "Primary button shadow from the supplied Clerk-style guide"
+    },
+    "button-secondary": {
+      "$type": "shadow",
+      "$value": "oklab(0 0 0 / 0.08) 0px 2px 3px -1px, oklab(0.188081 0.0016512 -0.00579907 / 0.1) 0px 0px 0px 0.5px, oklab(0.999994 0.0000455678 0.0000200868 / 0.1) 0px 1px 0px 0px inset",
+      "$description": "Secondary button shadow from the supplied Clerk-style guide"
+    }
   }
 }

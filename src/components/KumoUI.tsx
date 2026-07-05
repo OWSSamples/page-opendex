@@ -12,21 +12,18 @@ type Variant = "primary" | "outline" | "secondary";
 type Size = "sm" | "base" | "lg";
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition select-none whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-iris-500/60 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  "opx-json-button select-none whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed";
 
 const sizeMap: Record<Size, string> = {
-  sm: "h-9 px-3.5 text-[13px]",
-  base: "h-10 px-4 text-[13.5px]",
-  lg: "h-12 px-6 text-[15px]",
+  sm: "",
+  base: "",
+  lg: "",
 };
 
 const variantMap: Record<Variant, string> = {
-  primary:
-    "bg-gradient-to-b from-iris-600 to-iris-700 text-white shadow-lg shadow-iris-600/25 hover:from-iris-500 hover:to-iris-600 hover:shadow-iris-600/40 ring-1 ring-iris-500/40",
-  outline:
-    "bg-white/90 text-ink-900 ring-1 ring-ink-200 hover:bg-white hover:ring-ink-300 backdrop-blur",
-  secondary:
-    "bg-ink-100 text-ink-800 hover:bg-ink-200 ring-1 ring-ink-200",
+  primary: "opx-json-button-primary",
+  outline: "opx-json-button-secondary",
+  secondary: "opx-json-button-secondary",
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -91,7 +88,7 @@ export function KumoBadge({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full bg-ink-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink-700 ring-1 ring-ink-200 ${className}`}
+      className={`opx-json-badge ${className}`}
     >
       {children}
     </span>
@@ -107,7 +104,7 @@ export function KumoCard({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-ink-200 bg-white p-6 shadow-sm ${className}`}
+      className={`opx-json-card ${className}`}
     >
       {children}
     </div>
@@ -115,7 +112,7 @@ export function KumoCard({
 }
 
 const inputBase =
-  "w-full rounded-xl border border-ink-200 bg-white px-3.5 py-2.5 text-[14px] text-ink-950 placeholder:text-ink-400 transition focus:border-iris-400 focus:outline-none focus:ring-4 focus:ring-iris-100";
+  "opx-json-input";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
@@ -133,7 +130,7 @@ export function KumoTextarea({ className = "", ...rest }: TextareaProps) {
   return (
     <textarea
       {...rest}
-      className={`${inputBase} min-h-[100px] resize-y ${className}`}
+      className={`${inputBase} opx-json-textarea ${className}`}
     />
   );
 }
@@ -148,9 +145,9 @@ export function KumoLabel({
   className?: string;
 }) {
   return (
-    <label className={`text-[12.5px] font-semibold text-ink-700 ${className}`}>
+    <label className={`opx-json-label ${className}`}>
       {children}
-      {required && <span className="ml-0.5 text-iris-600">*</span>}
+      {required && <span className="opx-json-status-accent">*</span>}
     </label>
   );
 }
@@ -169,11 +166,11 @@ export function KumoField({
   className?: string;
 }) {
   return (
-    <div className={`grid gap-1.5 ${className}`}>
+    <div className={`opx-json-field ${className}`}>
       {label && <KumoLabel required={required}>{label}</KumoLabel>}
       {children}
       {description && (
-        <span className="text-[11.5px] text-ink-500">{description}</span>
+        <span className="opx-json-label">{description}</span>
       )}
     </div>
   );

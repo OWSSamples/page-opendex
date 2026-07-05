@@ -40,10 +40,10 @@ const capabilityNodes = [
 ];
 
 const blueprintRows = [
-  ["01", "Protocolos", "SAML · OIDC · WebAuthn"],
-  ["02", "Region", "Mexico · US · EU"],
-  ["03", "Dominio fiscal", "CFDI 4.0 · PAC · SAT"],
-  ["04", "Operacion", "POS · inventario · reportes"],
+  ["Protocolos", "SAML · OIDC · WebAuthn"],
+  ["Region", "Mexico · US · EU"],
+  ["Dominio fiscal", "CFDI 4.0 · PAC · SAT"],
+  ["Operacion", "POS · inventario · reportes"],
 ];
 
 export default function BlueprintCapabilityMap() {
@@ -94,9 +94,8 @@ export default function BlueprintCapabilityMap() {
         </div>
 
         <div className="opx-capability-specs">
-          {blueprintRows.map(([num, label, value]) => (
+          {blueprintRows.map(([label, value]) => (
             <div key={label} className="opx-capability-spec-row">
-              <span>{num}</span>
               <strong>{label}</strong>
               <p>{value}</p>
             </div>

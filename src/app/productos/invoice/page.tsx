@@ -6,7 +6,6 @@ import {
 import IdentityIcon, { type IdentityIconName } from "@/components/IdentityIcon";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LocalizedLabel from "@/components/LocalizedLabel";
-import { Reveal } from "@/components/Motion";
 import InvoiceFlow3D from "@/components/three/InvoiceFlow3DClient";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
@@ -48,152 +47,99 @@ export default function Invoice() {
         ]}
       />
       <LocalizedPageHeader pageKey="productInvoice">
-        <Badge variant="neutral" className="self-center">
+        <Badge variant="neutral">
           <LocalizedLabel labelKey="unavailableBadge" />
         </Badge>
-        <Link href="/contacto" className="btn btn-primary">
+        <Link href="/contacto" className="opx-json-button opx-json-button-primary">
           <LocalizedLabel labelKey="requestInfo" /> <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
-        <Link href="/status" className="btn btn-ghost">
+        <Link href="/status" className="opx-json-button opx-json-button-secondary">
           <LocalizedLabel labelKey="publicStatus" />
         </Link>
       </LocalizedPageHeader>
 
-      {/* FLOW 3D */}
-      <section className="border-b border-ink-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
-          <Reveal>
-            <div className="mx-auto max-w-2xl text-center">
-              <span className="eyebrow">Pipeline documental</span>
-              <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-ink-950 sm:text-4xl">
-                Captura, validacion, emision y seguimiento.
-              </h2>
-              <p className="mx-auto mt-3 max-w-lg text-[14.5px] leading-relaxed text-ink-600">
-                La experiencia se plantea como pipeline documental: captura,
-                validacion, emision, seguimiento, correccion y evidencia para
-                equipos administrativos.
-              </p>
+      <section className="opx-json-section">
+        <div className="opx-json-shell opx-json-split">
+          <div className="opx-json-copy">
+            <p className="opx-json-eyebrow">Pipeline documental</p>
+            <h2 className="opx-json-section-title">Captura, validación, emisión y seguimiento.</h2>
+            <p className="opx-json-text">
+              La experiencia se plantea como pipeline documental: captura, validación, emisión, seguimiento, corrección y evidencia para equipos administrativos.
+            </p>
+            <div className="opx-json-inline-list">
+              <span className="opx-json-badge">Documento preparado</span>
+              <span className="opx-json-badge">Validación interna</span>
+              <span className="opx-json-badge">Estado actualizado</span>
             </div>
-          </Reveal>
-          <Reveal delay={0.15} className="mt-10">
+          </div>
+          <div className="opx-json-card">
             <InvoiceFlow3D height={340} />
-          </Reveal>
-          <div className="mt-6 grid grid-cols-3 gap-3 text-center text-[11.5px] font-semibold uppercase tracking-wider text-ink-500">
-            <div>1 · Documento preparado</div>
-            <div>2 · Validacion interna</div>
-            <div>3 · Estado actualizado</div>
           </div>
         </div>
       </section>
 
-      {/* HIGHLIGHT */}
-      <section className="border-b border-ink-200 bg-ink-50/40">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-            <div>
-              <span className="eyebrow">Operacion fiscal</span>
-              <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight text-ink-950 sm:text-[42px]">
-                Diseñado por contadores. Construido para developers.
-              </h2>
-              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ink-600">
-                La prioridad es que cada documento tenga contexto: quien lo
-                preparo, que validaciones paso, que observaciones existen y que
-                accion sigue.
-              </p>
-              <ul className="mt-6 space-y-3">
+      <section className="opx-json-section">
+        <div className="opx-json-shell opx-json-split">
+          <div className="opx-json-copy">
+            <p className="opx-json-eyebrow">Operacion fiscal</p>
+            <h2 className="opx-json-section-title">Diseñado por contadores. Construido para developers.</h2>
+            <p className="opx-json-text">
+              La prioridad es que cada documento tenga contexto: quien lo preparo, que validaciones paso, que observaciones existen y que accion sigue.
+            </p>
+            <ul className="opx-json-check-list">
                 {[
                   "Estados claros por documento",
                   "Validaciones antes de publicar cambios",
                   "Bitacora para seguimiento administrativo",
                   "Separacion por empresa y usuario",
                 ].map((i) => (
-                  <li key={i} className="flex items-start gap-2 text-[14px] text-ink-700">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-iris-600" />
+                  <li key={i} className="opx-json-check">
                     {i}
                   </li>
                 ))}
               </ul>
-            </div>
+          </div>
 
-            {/* Mock CFDI preview */}
-            <div className="card overflow-hidden p-0">
-              <div className="flex items-center justify-between border-b border-ink-200 bg-ink-50/60 px-5 py-3 text-[12px]">
-                <span className="font-mono text-ink-500">documento-fiscal-042.xml</span>
-                <Badge variant="warning" className="!text-[10.5px]">
-                  validacion
-                </Badge>
-              </div>
-              <div className="p-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="text-[10.5px] font-semibold uppercase tracking-wider text-ink-500">Emisor</div>
-                    <div className="mt-1 text-[14px] font-semibold text-ink-950">Acme México SA de CV</div>
-                    <div className="text-[12px] text-ink-500">ACM240501ABC · Régimen 601</div>
-                  </div>
-                  <IdentityIcon name="document" size={32} className="h-8 w-8 object-contain" />
-                </div>
-                <div className="mt-5 grid grid-cols-2 gap-3 border-t border-ink-100 pt-5 text-[12.5px]">
-                  <div>
-                    <div className="text-ink-500">Referencia</div>
-                    <div className="mt-0.5 font-mono text-[11px] text-ink-700">DOC-042</div>
-                  </div>
-                  <div>
-                    <div className="text-ink-500">Estado</div>
-                    <div className="mt-0.5 font-mono text-[11px] text-ink-700">revision</div>
-                  </div>
-                  <div>
-                    <div className="text-ink-500">Total</div>
-                    <div className="mt-0.5 text-[14px] font-semibold text-ink-950">$ 24,360.00 MXN</div>
-                  </div>
-                  <div>
-                    <div className="text-ink-500">Uso CFDI</div>
-                    <div className="mt-0.5 text-[12.5px] text-ink-700">G03 · Gastos en general</div>
-                  </div>
-                </div>
-                <div className="mt-5 flex items-center justify-between rounded-lg bg-emerald-50 px-3 py-2 text-[12px] text-emerald-700">
-                  <span>Revision documental preparada</span>
-                  <span className="font-mono">beta</span>
-                </div>
-              </div>
+          <div className="opx-json-card opx-json-copy">
+            <div className="opx-json-card-header">
+              <p className="opx-json-label">documento-fiscal-042.xml</p>
+              <Badge variant="warning">validacion</Badge>
             </div>
+            <IdentityIcon name="document" size={32} className="opx-json-identity-icon" />
+            <h3 className="opx-json-card-title">Acme México SA de CV</h3>
+            <p className="opx-json-text">Referencia DOC-042 · Total $24,360.00 MXN · Uso CFDI G03</p>
           </div>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section className="border-b border-ink-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-          <div className="max-w-2xl">
-            <span className="eyebrow">Funciones</span>
-            <h2 className="mt-3 text-balance text-4xl font-semibold tracking-tight text-ink-950 sm:text-[44px]">
-              Todo lo que tu equipo fiscal necesita.
-            </h2>
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-copy">
+            <p className="opx-json-eyebrow">Funciones</p>
+            <h2 className="opx-json-section-title">Todo lo que tu equipo fiscal necesita.</h2>
           </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="opx-json-control-grid">
             {features.map(({ iconName, title, desc }) => (
-              <div key={title} className="card p-6">
-                <IdentityIcon name={iconName} size={36} className="h-9 w-9 object-contain" />
-                <h3 className="mt-5 text-[15.5px] font-semibold text-ink-950">{title}</h3>
-                <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-600">{desc}</p>
+              <div key={title} className="opx-json-card opx-json-copy">
+                <IdentityIcon name={iconName} size={36} className="opx-json-identity-icon" />
+                <h3 className="opx-json-card-title">{title}</h3>
+                <p className="opx-json-text">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-ink-50/40">
-        <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
-          <div className="card flex flex-col items-start justify-between gap-6 p-8 sm:flex-row sm:items-center sm:p-10">
-            <div>
-              <h2 className="text-[22px] font-semibold tracking-tight text-ink-950">
-                ¿Quieres acceso temprano?
-              </h2>
-              <p className="mt-1.5 text-[14px] text-ink-600">
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-card opx-json-footer-row">
+            <div className="opx-json-copy">
+              <h2 className="opx-json-section-title">¿Quieres acceso temprano?</h2>
+              <p className="opx-json-text">
                 Aún no está disponible públicamente. La base está lista, pero seguimos cerrando mejoras.
               </p>
             </div>
-            <Link href="/contacto" className="btn btn-primary">
+            <Link href="/contacto" className="opx-json-button opx-json-button-primary">
               Solicitar acceso <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>

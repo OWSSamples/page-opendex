@@ -5,10 +5,13 @@ import { Float, Line, OrbitControls } from "@react-three/drei";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
+const OPX_ACCENT = 0x6c47ff;
+const OPX_TEXT = 0x131316;
+
 const PRODUCTS = [
-  { name: "Auth", color: "#7c3aed", angle: 0 },
-  { name: "Invoice", color: "#06b6d4", angle: (Math.PI * 2) / 3 },
-  { name: "Kiosko", color: "#f59e0b", angle: (Math.PI * 4) / 3 },
+  { name: "Auth", color: OPX_ACCENT, angle: 0 },
+  { name: "Invoice", color: OPX_TEXT, angle: (Math.PI * 2) / 3 },
+  { name: "Kiosko", color: OPX_ACCENT, angle: (Math.PI * 4) / 3 },
 ];
 
 function Core() {
@@ -23,8 +26,8 @@ function Core() {
       <mesh ref={ref}>
         <icosahedronGeometry args={[1, 1]} />
         <meshStandardMaterial
-          color="#1e1b4b"
-          emissive="#7c3aed"
+          color={OPX_TEXT}
+          emissive={OPX_ACCENT}
           emissiveIntensity={0.6}
           wireframe
         />
@@ -32,8 +35,8 @@ function Core() {
       <mesh>
         <icosahedronGeometry args={[0.7, 0]} />
         <meshStandardMaterial
-          color="#7c3aed"
-          emissive="#a78bfa"
+          color={OPX_ACCENT}
+          emissive={OPX_ACCENT}
           emissiveIntensity={0.9}
           roughness={0.2}
           metalness={0.8}
@@ -43,7 +46,7 @@ function Core() {
   );
 }
 
-function OrbitingNode({ angle, color }: { angle: number; color: string }) {
+function OrbitingNode({ angle, color }: { angle: number; color: number }) {
   const ref = useRef<THREE.Group>(null);
   const dataRef = useRef<THREE.Mesh>(null);
   const radius = 3.2;
@@ -76,7 +79,7 @@ function OrbitingNode({ angle, color }: { angle: number; color: string }) {
   );
 }
 
-function Label({ color }: { color: string }) {
+function Label({ color }: { color: number }) {
   return (
     <mesh position={[0, -0.7, 0]}>
       <planeGeometry args={[1.2, 0.3]} />
@@ -177,15 +180,15 @@ function DataPackets() {
 
 export default function CoreScene3D({ height = 480 }: { height?: number }) {
   return (
-    <div style={{ height }} className="w-full">
+    <div style={{ height }} className="opx-json-3d-stage">
       <Canvas
         camera={{ position: [0, 1.5, 7], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
       >
         <ambientLight intensity={0.4} />
-        <pointLight position={[5, 5, 5]} intensity={1.2} color="#a78bfa" />
-        <pointLight position={[-5, -3, -3]} intensity={0.8} color="#22d3ee" />
+        <pointLight position={[5, 5, 5]} intensity={1.2} color={OPX_ACCENT} />
+        <pointLight position={[-5, -3, -3]} intensity={0.8} color={OPX_ACCENT} />
         <Core />
         <ConnectionLines />
         <DataPackets />

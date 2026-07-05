@@ -5,10 +5,15 @@ import { Float, Line, Text } from "@react-three/drei";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
+const OPX_ACCENT = 0x6c47ff;
+const OPX_PAGE = 0xf7f7f8;
+const OPX_TEXT = 0x131316;
+const OPX_SURFACE = 0xffffff;
+
 const nodes = [
-  { label: "IDENTITY", color: "#f6821f", angle: 0 },
-  { label: "FACTUR", color: "#ff500a", angle: (Math.PI * 2) / 3 },
-  { label: "KIOSKO", color: "#ff9910", angle: (Math.PI * 4) / 3 },
+  { label: "IDENTITY", color: OPX_ACCENT, angle: 0 },
+  { label: "FACTUR", color: OPX_ACCENT, angle: (Math.PI * 2) / 3 },
+  { label: "KIOSKO", color: OPX_ACCENT, angle: (Math.PI * 4) / 3 },
 ];
 
 function Core() {
@@ -26,8 +31,8 @@ function Core() {
         <mesh>
           <icosahedronGeometry args={[0.92, 2]} />
           <meshStandardMaterial
-            color="#fff3e0"
-            emissive="#f6821f"
+            color={OPX_PAGE}
+            emissive={OPX_ACCENT}
             emissiveIntensity={0.28}
             roughness={0.32}
             metalness={0.72}
@@ -37,22 +42,22 @@ function Core() {
         </mesh>
         <mesh>
           <icosahedronGeometry args={[1.18, 1]} />
-          <meshBasicMaterial color="#f6821f" wireframe transparent opacity={0.22} />
+          <meshBasicMaterial color={OPX_ACCENT} wireframe transparent opacity={0.22} />
         </mesh>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[1.44, 0.012, 8, 96]} />
-          <meshBasicMaterial color="#f6821f" transparent opacity={0.34} />
+          <meshBasicMaterial color={OPX_ACCENT} transparent opacity={0.34} />
         </mesh>
         <mesh rotation={[Math.PI / 2.25, 0, Math.PI / 6]}>
           <torusGeometry args={[1.86, 0.008, 8, 128]} />
-          <meshBasicMaterial color="#ff9910" transparent opacity={0.24} />
+          <meshBasicMaterial color={OPX_ACCENT} transparent opacity={0.24} />
         </mesh>
       </group>
     </Float>
   );
 }
 
-function ProductNode({ angle, color, label }: { angle: number; color: string; label: string }) {
+function ProductNode({ angle, color, label }: { angle: number; color: number; label: string }) {
   const group = useRef<THREE.Group>(null);
   const radius = 3.1;
 
@@ -67,7 +72,7 @@ function ProductNode({ angle, color, label }: { angle: number; color: string; la
     <group ref={group}>
       <mesh>
         <boxGeometry args={[0.74, 0.74, 0.74]} />
-        <meshStandardMaterial color="#fffaf3" emissive={color} emissiveIntensity={0.18} roughness={0.22} metalness={0.58} />
+        <meshStandardMaterial color={OPX_SURFACE} emissive={color} emissiveIntensity={0.18} roughness={0.22} metalness={0.58} />
       </mesh>
       <mesh>
         <boxGeometry args={[0.9, 0.9, 0.9]} />
@@ -81,7 +86,7 @@ function ProductNode({ angle, color, label }: { angle: number; color: string; la
         position={[0, -0.86, 0]}
         fontSize={0.18}
         letterSpacing={0.08}
-        color="#4a4a47"
+        color={OPX_TEXT}
         anchorX="center"
         anchorY="middle"
       >
@@ -155,7 +160,7 @@ function DataPackets() {
       {packets.map((packet, index) => (
         <mesh key={`${packet.label}-${index}`}>
           <sphereGeometry args={[1, 10, 10]} />
-          <meshBasicMaterial color={packet.color} transparent opacity={0.82} />
+        <meshBasicMaterial color={packet.color} transparent opacity={0.82} />
         </mesh>
       ))}
     </group>
@@ -167,11 +172,11 @@ function HologramBase() {
     <group position={[0, -1.32, 0]}>
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[1.6, 3.8, 128]} />
-        <meshBasicMaterial color="#f6821f" transparent opacity={0.08} side={THREE.DoubleSide} />
+        <meshBasicMaterial color={OPX_ACCENT} transparent opacity={0.08} side={THREE.DoubleSide} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[3.8, 128]} />
-        <meshBasicMaterial color="#fff3e0" transparent opacity={0.12} side={THREE.DoubleSide} />
+        <meshBasicMaterial color={OPX_PAGE} transparent opacity={0.12} side={THREE.DoubleSide} />
       </mesh>
     </group>
   );
@@ -181,8 +186,8 @@ function Scene() {
   return (
     <>
       <ambientLight intensity={0.72} />
-      <directionalLight position={[4, 6, 4]} intensity={1.1} color="#fff3e0" />
-      <pointLight position={[-4, 2.5, -3]} intensity={0.7} color="#ff9910" />
+      <directionalLight position={[4, 6, 4]} intensity={1.1} color={OPX_PAGE} />
+      <pointLight position={[-4, 2.5, -3]} intensity={0.7} color={OPX_ACCENT} />
       <HologramBase />
       <Core />
       <Connections />
@@ -196,7 +201,7 @@ function Scene() {
 
 export default function OpendexEcosystem3D({ height = 360 }: { height?: number }) {
   return (
-    <div style={{ height }} className="opx-ecosystem-3d relative w-full overflow-hidden">
+    <div style={{ height }} className="opx-ecosystem-3d opx-json-3d-stage">
       <div className="opx-ecosystem-3d-grid" aria-hidden />
       <Canvas
         camera={{ position: [0, 1.25, 6.5], fov: 45 }}

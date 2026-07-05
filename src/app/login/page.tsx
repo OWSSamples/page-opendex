@@ -10,16 +10,16 @@ export default function Login() {
   return (
     <>
       <LocalizedPageHeader pageKey="login">
-        <Link href="/contacto" className="btn btn-primary">
+        <Link href="/contacto" className="opx-json-button opx-json-button-primary">
           <LocalizedLabel labelKey="requestAccess" /> <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </LocalizedPageHeader>
-      <section className="bg-[#faf8f4]">
-        <div className="mx-auto max-w-[760px] px-5 py-20 md:px-8">
-          <div className="border border-[#e7e4dc] bg-white p-7">
-            <IdentityIcon name="lock" size={34} className="h-[34px] w-[34px] object-contain" />
-            <h2 className="mt-5 text-[22px] font-semibold text-[#1d1d1b]">Acceso controlado</h2>
-            <p className="mt-2 text-[14px] leading-6 text-[#4a4a47]">
+      <section className="opx-json-section">
+        <div className="opx-json-shell">
+          <div className="opx-json-card opx-json-copy">
+            <IdentityIcon name="lock" size={34} className="opx-json-identity-icon" />
+            <h2 className="opx-json-section-title">Acceso controlado</h2>
+            <p className="opx-json-text">
               Cuando exista disponibilidad publica, esta pagina cambiara a un flujo de autenticacion real.
             </p>
           </div>

@@ -1,6 +1,4 @@
 import "../styles/globals.css";
-import "./home.css";
-import "./enterprise-system.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";

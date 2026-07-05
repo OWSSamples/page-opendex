@@ -5,8 +5,11 @@ import { Float } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
+const OPX_ACCENT = 0x6c47ff;
+const OPX_TEXT = 0x131316;
+
 /** Stack de documentos XML/CFDI viajando hacia PAC y SAT */
-function DocumentStack({ position, color }: { position: [number, number, number]; color: string }) {
+function DocumentStack({ position, color }: { position: [number, number, number]; color: number }) {
   const ref = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (!ref.current) return;
@@ -42,15 +45,15 @@ function SealStamp({ position, active }: { position: [number, number, number]; a
     <group ref={ref} position={position}>
       <mesh>
         <torusGeometry args={[0.5, 0.06, 16, 48]} />
-        <meshStandardMaterial color="#f59e0b" emissive="#fbbf24" emissiveIntensity={0.8} metalness={0.9} roughness={0.2} />
+        <meshStandardMaterial color={OPX_ACCENT} emissive={OPX_ACCENT} emissiveIntensity={0.8} metalness={0.9} roughness={0.2} />
       </mesh>
       <mesh>
         <torusGeometry args={[0.32, 0.04, 16, 48]} />
-        <meshStandardMaterial color="#f59e0b" emissive="#fbbf24" emissiveIntensity={0.6} metalness={0.9} roughness={0.2} />
+        <meshStandardMaterial color={OPX_ACCENT} emissive={OPX_ACCENT} emissiveIntensity={0.6} metalness={0.9} roughness={0.2} />
       </mesh>
       <mesh>
         <sphereGeometry args={[0.08, 16, 16]} />
-        <meshStandardMaterial color="#fbbf24" emissive="#fde047" emissiveIntensity={1.5} />
+        <meshStandardMaterial color={OPX_ACCENT} emissive={OPX_ACCENT} emissiveIntensity={1.5} />
       </mesh>
     </group>
   );
@@ -59,7 +62,7 @@ function SealStamp({ position, active }: { position: [number, number, number]; a
 function FlyingPacket({ from, to, color, delay }: {
   from: [number, number, number];
   to: [number, number, number];
-  color: string;
+  color: number;
   delay: number;
 }) {
   const ref = useRef<THREE.Mesh>(null);
@@ -84,22 +87,22 @@ function FlyingPacket({ from, to, color, delay }: {
 
 export default function InvoiceFlow3D({ height = 320 }: { height?: number }) {
   return (
-    <div style={{ height }} className="w-full">
+    <div style={{ height }} className="opx-json-3d-stage">
       <Canvas camera={{ position: [0, 2, 5.5], fov: 50 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
         <ambientLight intensity={0.55} />
-        <pointLight position={[4, 5, 5]} intensity={1.2} color="#06b6d4" />
-        <pointLight position={[-4, -2, 3]} intensity={0.7} color="#f59e0b" />
+        <pointLight position={[4, 5, 5]} intensity={1.2} color={OPX_ACCENT} />
+        <pointLight position={[-4, -2, 3]} intensity={0.7} color={OPX_ACCENT} />
         <Float floatIntensity={0.4} rotationIntensity={0.15} speed={1.4}>
-          <DocumentStack position={[-2.5, 0, 0]} color="#06b6d4" />
+          <DocumentStack position={[-2.5, 0, 0]} color={OPX_ACCENT} />
           <SealStamp position={[0, 0.3, 0]} active={0.5} />
-          <DocumentStack position={[2.5, 0, 0]} color="#10b981" />
+          <DocumentStack position={[2.5, 0, 0]} color={OPX_TEXT} />
         </Float>
         {[0, 0.5, 1, 1.5].map((d) => (
           <FlyingPacket
             key={`a-${d}`}
             from={[-2.5, 0.4, 0]}
             to={[0, 0.3, 0]}
-            color="#06b6d4"
+            color={OPX_ACCENT}
             delay={d}
           />
         ))}
@@ -108,7 +111,7 @@ export default function InvoiceFlow3D({ height = 320 }: { height?: number }) {
             key={`b-${d}`}
             from={[0, 0.3, 0]}
             to={[2.5, 0.4, 0]}
-            color="#10b981"
+            color={OPX_TEXT}
             delay={d}
           />
         ))}

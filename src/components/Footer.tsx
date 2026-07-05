@@ -122,7 +122,7 @@ function CookieOptionsModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-3 py-6 backdrop-blur-sm"
+      className="opx-json-modal-backdrop"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
@@ -132,121 +132,131 @@ function CookieOptionsModal({
         aria-labelledby="cookie-options-title"
         aria-modal="true"
         role="dialog"
-        className="flex max-h-[90vh] w-full max-w-[680px] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#161719] text-[#b7b7ba] shadow-[0_28px_90px_rgba(0,0,0,0.55)]"
+        className="opx-json-modal opx-cookie-modal"
       >
-        <div className="relative overflow-y-auto px-7 pb-8 pt-20 sm:px-10">
+        <div className="opx-json-modal-body opx-cookie-modal-body">
           <button
             type="button"
             aria-label={copy.close}
             onClick={onClose}
-            className="absolute right-5 top-5 grid h-8 w-8 place-items-center rounded-md text-[#b7b7ba] transition hover:bg-white/5 hover:text-white"
+            className="opx-json-modal-close opx-cookie-modal-close"
           >
-            <span className="text-3xl leading-none">&times;</span>
+            <span aria-hidden>×</span>
           </button>
 
-          <h2 id="cookie-options-title" className="text-[20px] font-semibold leading-tight text-[#d5d5d7]">
-            {copy.title}
-          </h2>
-          <p className="mt-1 max-w-[540px] text-[13.5px] leading-6 text-[#8f8f94]">
-            {copy.description}
-          </p>
-          <Link
-            href="/legal/privacidad#cookies"
-            className="mt-1 inline-flex text-[13.5px] text-[#f0642f] underline underline-offset-2 transition hover:text-[#ff895d]"
-            onClick={onClose}
-          >
-            {copy.privacyLink}
-          </Link>
+          <div className="opx-cookie-modal-intro">
+            <h2 id="cookie-options-title" className="opx-json-card-title">
+              {copy.title}
+            </h2>
+            <p className="opx-json-text">
+              {copy.description}
+            </p>
+            <Link
+              href="/legal/cookies"
+              className="opx-json-menu-link opx-cookie-modal-link"
+              onClick={onClose}
+            >
+              {copy.privacyLink}
+            </Link>
+          </div>
 
-          <div className="mt-4">
+          <div className="opx-json-actions opx-cookie-modal-actions">
             <button
               type="button"
               onClick={() => saveAndClose({ functional: true, performance: true, targeting: true })}
-              className="rounded-full bg-[#df6a3a] px-5 py-2.5 text-[14px] font-medium text-white transition hover:bg-[#f07843]"
+              className="opx-json-button opx-json-button-primary"
             >
               {copy.acceptAll}
             </button>
           </div>
 
-          <h3 className="mt-6 text-[15px] font-semibold text-[#c9c9cc]">
-            {copy.preferencesTitle}
-          </h3>
+          <div className="opx-cookie-modal-heading-row">
+            <h3 className="opx-json-card-title">
+              {copy.preferencesTitle}
+            </h3>
+          </div>
 
-          <div className="mt-6 border-b border-white/10">
+          <div className="opx-json-list opx-cookie-list">
             {consentRows.map((row) => {
               const isNecessary = row.key === "necessary";
-              const isExpanded = expanded[row.key] ?? false;
               const consentKey: ConsentKey | null = isNecessary ? null : (row.key as ConsentKey);
               const enabled = consentKey ? consent[consentKey] : false;
+              const isExpanded = expanded[row.key] ?? false;
+              const detailId = `cookie-detail-${row.key}`;
 
               return (
-                <div key={row.key} className="border-t border-white/10">
-                  <div className="flex min-h-[54px] items-center gap-3 py-3">
+                <div key={row.key} className="opx-json-card opx-json-card-plain opx-cookie-row">
+                  <div className="opx-json-card-header">
+                    <div className="opx-cookie-row-copy">
+                      <span className="opx-json-label">
+                        {copy.rows[row.titleKey]}
+                      </span>
+                      {!isNecessary ? (
+                        <span className="opx-cookie-row-state">
+                          {enabled ? copy.enabled : copy.disabled}
+                        </span>
+                      ) : null}
+                    </div>
                     <button
                       type="button"
+                      className="opx-cookie-row-detail"
                       aria-expanded={isExpanded}
-                      aria-controls={`cookie-panel-${row.key}`}
-                      onClick={() =>
-                        setExpanded((current) => ({ ...current, [row.key]: !isExpanded }))
-                      }
-                      className="grid h-6 w-6 shrink-0 place-items-center rounded text-[20px] leading-none text-[#8f8f94] transition hover:bg-white/5 hover:text-white"
+                      aria-controls={detailId}
+                      onClick={() => {
+                        setExpanded((current) => ({
+                          ...current,
+                          [row.key]: !isExpanded,
+                        }));
+                      }}
                     >
-                      {isExpanded ? "-" : "+"}
+                      {isExpanded ? "Ocultar" : "Ver detalle"}
                     </button>
-                    <span className="flex-1 text-[13.5px] font-semibold text-[#bdbdc0]">
-                      {copy.rows[row.titleKey]}
-                    </span>
-                    {isNecessary ? (
-                      <span className="text-[12px] font-medium text-[#f0642f]">
-                        {copy.alwaysActive}
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        role="switch"
-                        aria-checked={enabled}
-                        aria-label={`${copy.rows[row.titleKey]} ${enabled ? copy.enabled : copy.disabled}`}
-                        onClick={() => {
-                          if (consentKey) toggleConsent(consentKey);
-                        }}
-                        className={`relative h-5 w-10 rounded-full transition ${
-                          enabled ? "bg-[#d56a43]" : "bg-[#3a3b3f]"
-                        }`}
-                      >
-                        <span
-                          className={`absolute top-0.5 h-4 w-4 rounded-full bg-[#cdd4d8] transition ${
-                            enabled ? "left-[22px]" : "left-0.5"
-                          }`}
-                        />
-                      </button>
-                    )}
+                    <div className="opx-cookie-row-control">
+                      {isNecessary ? (
+                        <span className="opx-json-status-accent">
+                          {copy.alwaysActive}
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          role="switch"
+                          aria-checked={enabled}
+                          aria-label={`${copy.rows[row.titleKey]} ${enabled ? copy.enabled : copy.disabled}`}
+                          onClick={() => {
+                            if (consentKey) toggleConsent(consentKey);
+                          }}
+                          className={enabled ? "opx-json-switch opx-json-switch-active" : "opx-json-switch"}
+                        >
+                          <span
+                            className="opx-json-switch-thumb"
+                          />
+                        </button>
+                      )}
+                    </div>
+                    {isExpanded ? (
+                      <p id={detailId} className="opx-cookie-row-description">
+                        {copy.rows[row.descriptionKey]}
+                      </p>
+                    ) : null}
                   </div>
-                  {isExpanded ? (
-                    <p
-                      id={`cookie-panel-${row.key}`}
-                      className="pb-4 pl-9 pr-2 text-[12.5px] leading-6 text-[#8f8f94]"
-                    >
-                      {copy.rows[row.descriptionKey]}
-                    </p>
-                  ) : null}
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="flex gap-2 border-t border-white/10 bg-[#171819] px-6 py-4 sm:px-9">
+        <div className="opx-json-footer-row opx-cookie-footer-row">
           <button
             type="button"
             onClick={() => saveAndClose({ functional: false, performance: false, targeting: false })}
-            className="h-10 rounded-full border border-white/10 px-5 text-[13.5px] font-semibold text-[#bdbdc0] transition hover:border-white/25 hover:text-white"
+            className="opx-json-button opx-json-button-secondary"
           >
             {copy.rejectAll}
           </button>
           <button
             type="button"
             onClick={() => saveAndClose(consent)}
-            className="h-10 flex-1 rounded-full border border-white/10 px-5 text-[13.5px] font-semibold text-[#f0642f] transition hover:border-[#f0642f]/60 hover:bg-[#f0642f]/10"
+            className="opx-json-button opx-json-button-primary"
           >
             {copy.confirm}
           </button>
@@ -262,35 +272,45 @@ export default function Footer() {
   const footerCopy = dictionary.footer;
   const primaryColumns = footerCopy.columns.slice(0, 4);
   const secondaryColumns = footerCopy.columns.slice(4);
+  const allColumns = [...primaryColumns, ...secondaryColumns];
 
   return (
     <>
-      <footer className="relative overflow-visible border-t border-[#22252b] bg-[#111213] text-[#e7e9ee]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#3f4652] to-transparent"
-        />
+      <footer className="opx-site-footer border-t border-opx-border bg-opx-page font-opx text-opx-text">
+        <div className="opx-site-footer-shell mx-auto w-full max-w-7xl px-6 py-12 lg:px-8 lg:py-14">
+          <div className="opx-site-footer-top grid gap-9 lg:grid-cols-[280px_1fr] lg:gap-16">
+            <section aria-labelledby="footer-brand-title" className="opx-site-footer-brand max-w-[360px]">
+              <Link href="/" className="opx-site-footer-logo inline-flex items-center gap-2.5 text-[15px] font-semibold leading-6 text-opx-text no-underline" aria-label="Opendex">
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={34}
+                  height={34}
+                  className="h-[34px] w-[34px] object-contain"
+                  aria-hidden
+                />
+                <span id="footer-brand-title">Opendex</span>
+              </Link>
+              <p className="mt-4 text-[13px] leading-5 text-opx-text/60">
+                Infraestructura empresarial para coordinar identidad, evidencia y operación con una base clara para equipos que crecen.
+              </p>
+            </section>
 
-        <div className="relative mx-auto max-w-[1060px] px-6 pb-7 pt-16 sm:px-8 lg:px-0">
-          <nav aria-label="Footer" className="grid gap-y-16">
-            <div className="grid gap-x-20 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-              {primaryColumns.map((column, index) => {
-                const headingId = `footer-primary-column-${index}`;
+            <nav aria-label="Footer" className="opx-site-footer-nav grid gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-11">
+              {allColumns.map((column, index) => {
+                const headingId = `footer-column-${index}`;
 
                 return (
-                  <section key={column.title} aria-labelledby={headingId}>
-                    <h2
-                      id={headingId}
-                      className="mb-3 text-[11px] font-semibold uppercase leading-none tracking-[0.12em] text-[#87909d]"
-                    >
+                  <section key={`${column.title}-${index}`} aria-labelledby={headingId} className="opx-site-footer-column">
+                    <h2 id={headingId} className="mb-3.5 text-[13px] font-medium leading-5 text-opx-text/65">
                       {column.title}
                     </h2>
-                    <ul className="space-y-2">
+                    <ul className="grid list-none gap-2 p-0">
                       {column.links.map(([label, href]) => (
                         <li key={label}>
                           <Link
                             href={href}
-                            className="text-[13px] font-semibold leading-[1.35] text-[#f5f7fb] transition-colors hover:text-[#8fb4ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#635bff]"
+                            className="opx-site-footer-link text-[13px] font-normal leading-5 text-opx-text no-underline transition hover:text-opx-accent focus:text-opx-accent focus:outline-none"
                           >
                             {label}
                           </Link>
@@ -300,69 +320,41 @@ export default function Footer() {
                   </section>
                 );
               })}
+            </nav>
+          </div>
+
+          <div className="opx-site-footer-bottom mt-11 grid gap-5 border-t border-opx-border pt-6">
+            <div className="opx-site-footer-copyright">
+              <p className="m-0 text-[13px] leading-5 text-opx-text/75">{footerCopy.legal.copyright}</p>
             </div>
 
-            <div className="grid gap-x-20 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-              {secondaryColumns.map((column, index) => {
-                const headingId = `footer-secondary-column-${index}`;
-
-                return (
-                  <section key={column.title} aria-labelledby={headingId}>
-                    <h2
-                      id={headingId}
-                      className="mb-3 text-[11px] font-semibold uppercase leading-none tracking-[0.12em] text-[#87909d]"
-                    >
-                      {column.title}
-                    </h2>
-                    <ul className="space-y-2">
-                      {column.links.map(([label, href]) => (
-                        <li key={label}>
-                          <Link
-                            href={href}
-                            className="text-[13px] font-semibold leading-[1.35] text-[#f5f7fb] transition-colors hover:text-[#8fb4ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#635bff]"
-                          >
-                            {label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                );
-              })}
-            </div>
-          </nav>
-
-          <div className="mt-16 border-t border-[#3a3f48] pt-5">
-            <div className="flex flex-col gap-4 text-[12px] leading-5 text-[#8b939f] lg:flex-row lg:items-center lg:justify-between">
-              <p>{footerCopy.legal.copyright}</p>
-
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-3 lg:justify-end">
-                <ul className="flex flex-wrap items-center gap-x-2 gap-y-2">
-                  <li>
+            <div className="opx-site-footer-legal flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <ul className="flex list-none flex-wrap gap-x-7 gap-y-2 p-0">
+                <li>
+                  <Link
+                    href="/contacto"
+                    className="opx-site-footer-link text-[13px] leading-5 text-opx-text no-underline transition hover:text-opx-accent focus:text-opx-accent focus:outline-none"
+                  >
+                    {footerCopy.legal.contact}
+                  </Link>
+                </li>
+                {footerCopy.legal.links.map(([label, href]) => (
+                  <li key={label}>
                     <Link
-                      href="/contacto"
-                      className="text-[#9aa3af] transition-colors hover:text-[#f5f7fb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#635bff]"
+                      href={href}
+                      className="opx-site-footer-link text-[13px] leading-5 text-opx-text no-underline transition hover:text-opx-accent focus:text-opx-accent focus:outline-none"
                     >
-                      {footerCopy.legal.contact}
+                      {label}
                     </Link>
                   </li>
-                  {footerCopy.legal.links.map(([label, href]) => (
-                    <li key={label} className="flex items-center gap-2">
-                      <span aria-hidden className="text-[#555c67]">|</span>
-                      <Link
-                        href={href}
-                        className="text-[#9aa3af] transition-colors hover:text-[#f5f7fb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#635bff]"
-                      >
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                ))}
+              </ul>
 
+              <div className="opx-site-footer-controls flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={() => setCookieOptionsOpen(true)}
-                  className="inline-flex items-center gap-2 text-left text-[#9aa3af] transition-colors hover:text-[#f5f7fb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#635bff]"
+                  className="opx-site-footer-privacy"
                 >
                   <Image
                     src="/cookies.svg"
@@ -370,7 +362,7 @@ export default function Footer() {
                     aria-hidden
                     width={28}
                     height={16}
-                    className="h-4 w-7 object-contain"
+                    className="opx-site-footer-privacy-icon"
                   />
                   {footerCopy.legal.privacyOptions}
                 </button>

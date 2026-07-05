@@ -18,10 +18,10 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "linear-gradient(135deg, #fffaf3 0%, #f2e7d8 48%, #141414 100%)",
-          color: "#141414",
+          background: "#f7f7f8",
+          color: "#131316",
           padding: "72px",
-          fontFamily: "Arial, sans-serif",
+          fontFamily: "geistNumbers, suisse, sans-serif",
         }}
       >
         <div
@@ -34,16 +34,16 @@ export default function Image() {
           }}
         >
           <span>{siteConfig.name}</span>
-          <span style={{ color: "#9f4e12" }}>Identity · Invoice · POS</span>
+          <span style={{ color: "#6c47ff" }}>Identity · Invoice · POS</span>
         </div>
         <div style={{ maxWidth: 900, display: "flex", flexDirection: "column" }}>
-          <div style={{ color: "#9f4e12", fontSize: 24, fontWeight: 700, marginBottom: 24 }}>
+          <div style={{ color: "#6c47ff", fontSize: 23, fontWeight: 400, marginBottom: 24, lineHeight: "28px" }}>
             Infraestructura SaaS para LATAM
           </div>
-          <h1 style={{ margin: 0, fontSize: 78, lineHeight: 0.94, letterSpacing: -3 }}>
+          <h1 style={{ margin: 0, fontSize: 48, fontWeight: 700, lineHeight: "56px", letterSpacing: "-1.2px" }}>
             Operar con acceso, evidencia y continuidad.
           </h1>
-          <p style={{ maxWidth: 760, margin: "28px 0 0", color: "#3d3d3a", fontSize: 30, lineHeight: 1.35 }}>
+          <p style={{ maxWidth: 760, margin: "28px 0 0", color: "#131316", fontSize: 18, fontWeight: 400, lineHeight: "28px" }}>
             {siteConfig.description}
           </p>
         </div>

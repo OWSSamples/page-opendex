@@ -4,9 +4,7 @@ import dynamic from "next/dynamic";
 
 const InvoiceFlow3D = dynamic(() => import("./InvoiceFlow3D"), {
   ssr: false,
-  loading: () => (
-    <div className="h-[420px] w-full animate-pulse rounded-2xl bg-iris-50" />
-  ),
+  loading: () => <div className="opx-json-card opx-json-3d-loader" />,
 });
 
 export default function InvoiceFlow3DClient({ height }: { height?: number }) {

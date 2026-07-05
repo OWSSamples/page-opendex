@@ -727,7 +727,7 @@ export default function BlogClient() {
           </div>
 
           <div className="opx-blog-resource-strip">
-            {resourceArticles.map(({ iconName, category, title }, index) => (
+            {resourceArticles.map(({ iconName, category, title }) => (
               <article key={title} className="opx-blog-resource-card">
                 <div>
                   <span>{category}</span>
@@ -735,7 +735,6 @@ export default function BlogClient() {
                 </div>
                 <div className="opx-blog-resource-visual" aria-hidden>
                   <IdentityIcon name={iconName} size={28} className="h-7 w-7 object-contain" />
-                  <small>{String(index + 1).padStart(2, "0")}</small>
                 </div>
               </article>
             ))}
@@ -783,11 +782,10 @@ export default function BlogClient() {
             <p>{labels.focusDescription}</p>
           </div>
           <div className="opx-blog-focus-grid">
-            {focusArticles.map(({ iconName, category, title, description }, index) => (
+            {focusArticles.map(({ iconName, category, title, description }) => (
               <article key={title} className="opx-blog-focus-card">
                 <div className="opx-blog-focus-visual" aria-hidden>
                   <IdentityIcon name={iconName} size={34} className="h-[34px] w-[34px] object-contain" />
-                  <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
                 <span>{category}</span>
                 <h3>{title}</h3>
