@@ -279,7 +279,7 @@ export default function Footer() {
       <footer className="opx-site-footer border-t border-opx-border bg-opx-page font-opx text-opx-text">
         <div className="opx-site-footer-shell mx-auto w-full max-w-7xl px-6 py-12 lg:px-8 lg:py-14">
           <div className="opx-site-footer-top grid gap-9 lg:grid-cols-[280px_1fr] lg:gap-16">
-            <section aria-labelledby="footer-brand-title" className="opx-site-footer-brand max-w-[360px]">
+            <section aria-label="Opendex" className="opx-site-footer-brand max-w-[360px]">
               <Link href="/" className="opx-site-footer-logo inline-flex items-center gap-2.5 text-[15px] font-semibold leading-6 text-opx-text no-underline" aria-label="Opendex">
                 <Image
                   src="/logo.png"
@@ -289,7 +289,6 @@ export default function Footer() {
                   className="h-[34px] w-[34px] object-contain"
                   aria-hidden
                 />
-                <span id="footer-brand-title">Opendex</span>
               </Link>
               <p className="mt-4 text-[13px] leading-5 text-opx-text/60">
                 Infraestructura empresarial para coordinar identidad, evidencia y operación con una base clara para equipos que crecen.

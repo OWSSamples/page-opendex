@@ -26,6 +26,11 @@ export function createMetadata({
     description,
     applicationName: siteConfig.name,
     metadataBase: new URL(siteConfig.url),
+    icons: {
+      icon: "/assets-for-opendex/favicon.ico",
+      shortcut: "/assets-for-opendex/favicon.ico",
+      apple: "/assets-for-opendex/favicon.ico",
+    },
     alternates: {
       canonical: url,
     },

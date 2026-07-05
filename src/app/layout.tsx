@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import {
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <main className="opx-app-main">{children}</main>
           <Footer />
           <SalesChatWidget />
+          <Analytics />
         </LanguageProvider>
       </body>
     </html>
