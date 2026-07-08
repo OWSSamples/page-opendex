@@ -17,6 +17,7 @@ import SalesChatWidget from "../components/SalesChatWidget";
 import JsonLd from "../components/JsonLd";
 import { LanguageProvider } from "../i18n/LanguageProvider";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = createMetadata({
   title: "Opendex Web Services - Auth, Invoice y POS para SaaS modernos",
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <SalesChatWidget />
           <Analytics />
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
